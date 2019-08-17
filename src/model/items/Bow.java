@@ -4,7 +4,7 @@ package model.items;
  * @author Ignacio Slater Muñoz
  * @since
  */
-public class Bow extends AbstractItem {
+public class Bow extends AbstractWeapon {
 
   /**
    * Creates a new bow.

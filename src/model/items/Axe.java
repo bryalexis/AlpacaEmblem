@@ -8,7 +8,7 @@ package model.items;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Axe extends AbstractItem {
+public class Axe extends AbstractWeapon {
 
   /**
    * Creates a new Axe item

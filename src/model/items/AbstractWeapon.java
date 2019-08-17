@@ -8,7 +8,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public abstract class AbstractItem implements IEquipableItem {
+public abstract class AbstractWeapon implements IEquipableItem {
 
   private final String name;
   private final int power;
@@ -28,7 +28,7 @@ public abstract class AbstractItem implements IEquipableItem {
    * @param maxRange
    *     the maximum range of the item
    */
-  public AbstractItem(final String name, final int power, final int minRange, final int maxRange) {
+  public AbstractWeapon(final String name, final int power, final int minRange, final int maxRange) {
     this.name = name;
     this.power = power;
     this.minRange = Math.max(minRange, 1);

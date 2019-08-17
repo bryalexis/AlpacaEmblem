@@ -8,19 +8,19 @@ package model.items;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Spear extends AbstractItem {
+public class Spear extends AbstractWeapon {
 
   /**
-   * Creates a new Axe item
+   * Creates a new Spear item
    *
    * @param name
-   *     the name of the Axe
+   *     the name of the Spear
    * @param power
-   *     the damage of the axe
+   *     the damage of the spear
    * @param minRange
-   *     the minimum range of the axe
+   *     the minimum range of the spear
    * @param maxRange
-   *     the maximum range of the axe
+   *     the maximum range of the spear
    */
   public Spear(final String name, final int power, final int minRange, final int maxRange) {
     super(name, power, minRange, maxRange);
