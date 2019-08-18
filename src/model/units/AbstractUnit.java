@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import model.items.IEquipableItem;
+import model.items.Staff;
 import model.map.Location;
 
 /**
@@ -21,7 +22,8 @@ import model.map.Location;
 public abstract class AbstractUnit implements IUnit {
 
   protected List<IEquipableItem> items = new ArrayList<>();
-  private final int currentHitPoints;
+  private int maxHitPoints;
+  private int currentHitPoints;
   private final int movement;
   private final int maxItems;
   protected IEquipableItem equippedItem;
@@ -42,6 +44,7 @@ public abstract class AbstractUnit implements IUnit {
   protected AbstractUnit(final int hitPoints, final int movement,
       final Location location, final int maxItems, final IEquipableItem... items) {
     this.currentHitPoints = hitPoints;
+    this.maxHitPoints = hitPoints;
     this.movement = movement;
     this.location = location;
     this.maxItems = maxItems;
@@ -51,6 +54,23 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public int getCurrentHitPoints() {
     return currentHitPoints;
+  }
+
+  @Override
+  public int getMaxHitPoints() {
+    return maxHitPoints;
+  }
+
+  @Override
+  public void modifyCurrentHitPoints(double value) {
+    if (currentHitPoints + value > maxHitPoints){
+      currentHitPoints = maxHitPoints;
+    } else if(currentHitPoints + value < 0){
+      currentHitPoints = 0;
+    } else{
+      currentHitPoints += value;
+    }
+    // Y si se muere?
   }
 
   @Override
@@ -115,16 +135,22 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void attack(IUnit target){
-    double distance = getLocation().distanceTo(target.getLocation());
-    int weaponMaxRange = getEquippedItem().getMaxRange();
-    int weaponMinRange = getEquippedItem().getMinRange();
-    if(distance <= weaponMaxRange && distance >= weaponMinRange){ //In Range
-      if (getEquippedItem().isStrongAgainst(target.getEquippedItem())){
-        //daño 1.5 veces
-      }else if(getEquippedItem().isWeakAgainst(target.getEquippedItem())){
-        //daño-=20
-      }else{
-        //daño normal
+    IEquipableItem equippedItem = getEquippedItem();
+    if (equippedItem != null) {
+      double distance = getLocation().distanceTo(target.getLocation());
+      int weaponMaxRange = equippedItem.getMaxRange();
+      int weaponMinRange = equippedItem.getMinRange();
+
+      if (distance <= weaponMaxRange && distance >= weaponMinRange) {
+        if (equippedItem instanceof Staff) { // Healing
+          target.modifyCurrentHitPoints(equippedItem.getPower());
+        } else if (equippedItem.isStrongAgainst(target.getEquippedItem())) { //x1.5 hit
+          target.modifyCurrentHitPoints(-equippedItem.getPower() * 1.5);
+        } else if (equippedItem.isWeakAgainst(target.getEquippedItem()) && -equippedItem.getPower() + 20 < 0) {
+          target.modifyCurrentHitPoints(-equippedItem.getPower() + 20); //-20 hit
+        } else {// Normal Damage
+          target.modifyCurrentHitPoints(-equippedItem.getPower());
+        }
       }
     }
   }

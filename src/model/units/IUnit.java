@@ -94,5 +94,16 @@ public interface IUnit {
    */
   void giveItem(IUnit receptor, IEquipableItem item);
 
+  /**
+   * The unit receives damage (-) or healing (+)
+   * @param value
+   */
+  void modifyCurrentHitPoints(double value);
+
+  /**
+   * @return the maximum hit points of the unit
+   */
+  int getMaxHitPoints();
+
   void attack(IUnit target);
 }
