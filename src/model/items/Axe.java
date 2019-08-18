@@ -33,6 +33,6 @@ public class Axe extends AbstractWeapon {
 
   @Override
   public boolean isWeakAgainst(IEquipableItem item){
-    return super.isStrongAgainst(item) || item instanceof Sword;
+    return item instanceof Sword;
   }
 }

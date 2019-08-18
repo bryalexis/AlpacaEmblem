@@ -36,6 +36,6 @@ public class Darkness extends AbstractBook {
 
     @Override
     public boolean isWeakAgainst(IEquipableItem item){
-        return super.isStrongAgainst(item) || item instanceof Light;
+        return item instanceof Light;
     }
 }

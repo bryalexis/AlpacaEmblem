@@ -118,8 +118,15 @@ public abstract class AbstractUnit implements IUnit {
     double distance = getLocation().distanceTo(target.getLocation());
     int weaponMaxRange = getEquippedItem().getMaxRange();
     int weaponMinRange = getEquippedItem().getMinRange();
-    if(distance <= weaponMaxRange && distance >= weaponMinRange){
-      //
+    if(distance <= weaponMaxRange && distance >= weaponMinRange){ //In Range
+      if (getEquippedItem().isStrongAgainst(target.getEquippedItem())){
+        //daño 1.5 veces
+      }else if(getEquippedItem().isWeakAgainst(target.getEquippedItem())){
+        //daño-=20
+      }else{
+        //daño normal
+      }
     }
   }
+
 }

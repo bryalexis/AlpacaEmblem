@@ -74,8 +74,4 @@ public abstract class AbstractBook implements IEquipableItem {
         return item instanceof AbstractWeapon;
     }
 
-    @Override
-    public boolean isWeakAgainst(IEquipableItem item){
-        return item instanceof AbstractWeapon;
-    }
 }
