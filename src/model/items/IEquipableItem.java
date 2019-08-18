@@ -45,4 +45,16 @@ public interface IEquipableItem {
    * @return the maximum range of the item
    */
   int getMaxRange();
+
+  /**
+   * @param item of the enemy
+   * @return if the weapon/book is strong against the enemy weapon/book
+   */
+  boolean isStrongAgainst(IEquipableItem item);
+
+  /**
+   * @param item of the enemy
+   * @return if the weapon/book is weak against the enemy weapon/book
+   */
+  boolean isWeakAgainst(IEquipableItem item);
 }

@@ -65,4 +65,34 @@ public interface IUnit {
    * If the other location is out of this unit's movement range, the unit doesn't move.
    */
   void moveTo(Location targetLocation);
+
+  //--
+
+  /**
+   * @return the maximum amount of items that the unit can carry.
+   */
+  int getMaxItems();
+
+  /**
+   * Adds an item to be carried by the unit
+   * @param item
+   */
+  void addItem(IEquipableItem item);
+
+  /**
+   * Removes an item from the inventory
+   * @param item
+   */
+  void removeItem(IEquipableItem item);
+
+  /**
+   * Transfers the item from player to receptor only if
+   * 1- The receptor didn't reach te maximum amount of items
+   * 2- The units are at 1 of distance
+   * @param receptor
+   * @param item
+   */
+  void giveItem(IUnit receptor, IEquipableItem item);
+
+  void attack(IUnit target);
 }

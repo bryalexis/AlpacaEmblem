@@ -20,9 +20,10 @@ import model.map.Location;
  */
 public abstract class AbstractUnit implements IUnit {
 
-  protected final List<IEquipableItem> items = new ArrayList<>();
+  protected List<IEquipableItem> items = new ArrayList<>();
   private final int currentHitPoints;
   private final int movement;
+  private final int maxItems;
   protected IEquipableItem equippedItem;
   private Location location;
 
@@ -43,6 +44,7 @@ public abstract class AbstractUnit implements IUnit {
     this.currentHitPoints = hitPoints;
     this.movement = movement;
     this.location = location;
+    this.maxItems = maxItems;
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
   }
 
@@ -86,6 +88,38 @@ public abstract class AbstractUnit implements IUnit {
     if (getLocation().distanceTo(targetLocation) <= getMovement()
         && targetLocation.getUnit() == null) {
       setLocation(targetLocation);
+    }
+  }
+
+  @Override
+  public int getMaxItems(){ return maxItems; }
+
+  @Override
+  public void addItem(IEquipableItem item){
+    items.add(item);
+  }
+
+  @Override
+  public void removeItem(IEquipableItem item){
+    items.remove(item);
+  }
+
+  @Override
+  public void giveItem(IUnit receptor, IEquipableItem item){
+    if (receptor.getItems().size() < receptor.getMaxItems() &&
+            getLocation().isNeighbour(receptor.getLocation())){
+      receptor.addItem(item);
+      removeItem(item);
+    }
+  }
+
+  @Override
+  public void attack(IUnit target){
+    double distance = getLocation().distanceTo(target.getLocation());
+    int weaponMaxRange = getEquippedItem().getMaxRange();
+    int weaponMinRange = getEquippedItem().getMinRange();
+    if(distance <= weaponMaxRange && distance >= weaponMinRange){
+      //
     }
   }
 }

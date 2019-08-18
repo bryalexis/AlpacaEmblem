@@ -1,5 +1,6 @@
 package model.items;
 
+import model.spellBooks.AbstractBook;
 import model.units.IUnit;
 
 /**
@@ -64,5 +65,15 @@ public abstract class AbstractWeapon implements IEquipableItem {
   @Override
   public int getMaxRange() {
     return maxRange;
+  }
+
+  @Override
+  public boolean isStrongAgainst(IEquipableItem item){
+    return item instanceof AbstractBook;
+  }
+
+  @Override
+  public boolean isWeakAgainst(IEquipableItem item){
+    return item instanceof AbstractWeapon;
   }
 }
