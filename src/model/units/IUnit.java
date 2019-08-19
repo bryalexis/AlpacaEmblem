@@ -105,5 +105,29 @@ public interface IUnit {
    */
   int getMaxHitPoints();
 
+  /**
+   * Attacks another unit with the equipped item
+   * @param target
+   */
   void attack(IUnit target);
+
+  /**
+   * The unit is not alive anymore and is out of combat
+   */
+  void die();
+
+  /**
+   * @return if the unit is alive
+   */
+  boolean isAlive();
+
+  /**
+   * The unit is now in combat
+   */
+  void startCombat();
+
+  /**
+   * The unit is not in combat
+   */
+  void endCombat();
 }

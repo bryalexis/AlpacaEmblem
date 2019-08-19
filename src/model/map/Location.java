@@ -151,8 +151,7 @@ public class Location {
     }
     visited.add(this);
     double distance = Double.POSITIVE_INFINITY;
-    for (Location node :
-        neighbours) {
+    for (Location node :neighbours) {
       if (!visited.contains(node)) {
         distance = Math.min(distance, 1 + node.shortestPathTo(otherNode, new HashSet<>(visited)));
       }
