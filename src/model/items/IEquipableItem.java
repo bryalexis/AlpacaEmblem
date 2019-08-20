@@ -57,4 +57,10 @@ public interface IEquipableItem {
    * @return if the weapon/book is weak against the enemy weapon/book
    */
   boolean isWeakAgainst(IEquipableItem item);
+
+  /**
+   * @param item that belongs to the target unit.
+   * @return the amount of damage against that item.
+   */
+  double getEffectAgainst(IEquipableItem item);
 }

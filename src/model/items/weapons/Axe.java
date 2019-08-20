@@ -1,4 +1,7 @@
-package model.items;
+package model.items.weapons;
+
+import model.items.AbstractItem;
+import model.items.IEquipableItem;
 
 /**
  * This class represents an Axe.

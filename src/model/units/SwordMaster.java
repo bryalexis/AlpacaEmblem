@@ -1,7 +1,7 @@
 package model.units;
 
 import model.items.IEquipableItem;
-import model.items.Sword;
+import model.items.weapons.Sword;
 import model.map.Location;
 
 /**

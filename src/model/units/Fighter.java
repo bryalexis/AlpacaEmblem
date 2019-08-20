@@ -1,6 +1,6 @@
 package model.units;
 
-import model.items.Axe;
+import model.items.weapons.Axe;
 import model.items.IEquipableItem;
 import model.map.Location;
 

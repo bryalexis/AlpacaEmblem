@@ -1,6 +1,9 @@
-package model.spellBooks;
+package model.items.spellbooks;
 
 import model.items.IEquipableItem;
+import model.items.spellbooks.AbstractBook;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
 
 /**
  * This class represents a <i>Spirit</i> item.
@@ -9,7 +12,7 @@ import model.items.IEquipableItem;
  * Spirit spells are strong against light and weak against darkness.
  *
  * @author Bryan Ortiz P
- * @since 1.0
+ * @since 1.1
  */
 public class Spirit extends AbstractBook {
 

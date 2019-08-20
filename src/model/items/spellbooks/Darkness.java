@@ -1,4 +1,4 @@
-package model.spellBooks;
+package model.items.spellbooks;
 
 import model.items.IEquipableItem;
 
@@ -9,7 +9,7 @@ import model.items.IEquipableItem;
  * Darkness spells are strong against spirit and weak against light.
  *
  * @author Bryan Ortiz P
- * @since 1.0
+ * @since 1.1
  */
 public class Darkness extends AbstractBook {
 

@@ -1,7 +1,7 @@
 package model.units;
 
 import model.items.IEquipableItem;
-import model.items.Staff;
+import model.items.healing.Staff;
 import model.map.Location;
 
 /**
@@ -37,5 +37,19 @@ public class Cleric extends AbstractUnit {
     if (item instanceof Staff) {
       equippedItem = item;
     }
+  }
+
+  @Override
+  public void attack(IUnit target){
+    endCombatWith(target);
+    // A cleric can't attack
+  }
+
+  /**
+   * Heal another Unit giving HitPoints
+   * @param target who will receive the healing
+   */
+  public void heal(IUnit target){
+    target.modifyCurrentHitPoints(equippedItem.getPower());
   }
 }

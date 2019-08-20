@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import model.items.IEquipableItem;
-import model.items.Staff;
 import model.map.Location;
 
 /**
@@ -22,14 +21,14 @@ import model.map.Location;
 public abstract class AbstractUnit implements IUnit {
 
   protected List<IEquipableItem> items = new ArrayList<>();
-  private final int maxHitPoints;
-  private int currentHitPoints;
+  private final double maxHitPoints;
+  private double currentHitPoints;
   private final int movement;
   private final int maxItems;
   protected IEquipableItem equippedItem;
   private Location location;
-  private boolean isAlive;
-  public boolean inCombat;
+  private boolean alive;
+  private boolean inCombat;
 
   /**
    * Creates a new Unit.
@@ -51,40 +50,55 @@ public abstract class AbstractUnit implements IUnit {
     this.location = location;
     this.maxItems = maxItems;
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
-    this.isAlive = true;
+    this.alive = true;
     this.inCombat = false;
   }
 
   @Override
-  public int getCurrentHitPoints() {
-    return currentHitPoints;
+  public double getCurrentHitPoints() {
+      return currentHitPoints;
   }
 
   @Override
-  public int getMaxHitPoints() {
-    return maxHitPoints;
+  public double getMaxHitPoints() {
+      return maxHitPoints;
+  }
+
+  @Override
+  public int getMaxItems() {
+      return maxItems;
+  }
+
+  @Override
+  public List<IEquipableItem> getItems() {
+      return List.copyOf(items);
+  }
+
+  @Override
+  public IEquipableItem getEquippedItem() {
+      return equippedItem;
+  }
+
+  @Override
+  public Location getLocation(){
+      return location;
+  }
+
+  @Override
+  public int getMovement() {
+    return movement;
   }
 
   @Override
   public void modifyCurrentHitPoints(double value) {
     if (currentHitPoints + value > maxHitPoints){
       currentHitPoints = maxHitPoints;
-    } else if(currentHitPoints + value < 0){
+    } else if (currentHitPoints + value < 0){
       currentHitPoints = 0;
       die();
-    } else{
+    } else {
       currentHitPoints += value;
     }
-  }
-
-  @Override
-  public List<IEquipableItem> getItems() {
-    return List.copyOf(items);
-  }
-
-  @Override
-  public IEquipableItem getEquippedItem() {
-    return equippedItem;
   }
 
   @Override
@@ -93,18 +107,8 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public Location getLocation() {
-    return location;
-  }
-
-  @Override
   public void setLocation(final Location location) {
     this.location = location;
-  }
-
-  @Override
-  public int getMovement() {
-    return movement;
   }
 
   @Override
@@ -116,16 +120,15 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public int getMaxItems(){ return maxItems; }
-
-  @Override
   public void addItem(IEquipableItem item){
-    items.add(item);
+      if (items.size() < maxItems) {
+          items.add(item);
+      }
   }
 
   @Override
   public void removeItem(IEquipableItem item){
-    items.remove(item);
+      items.remove(item);
   }
 
   @Override
@@ -139,36 +142,28 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void attack(IUnit target){
-    IEquipableItem equippedItem = getEquippedItem();
-    if (equippedItem != null && target.isAlive()) {
-      double distance = getLocation().distanceTo(target.getLocation());
-      if (distance <= equippedItem.getMaxRange() && distance >= equippedItem.getMinRange()) {
-        // Healing
-        if (equippedItem instanceof Staff) {
-          target.modifyCurrentHitPoints(equippedItem.getPower());
-          // Strong (x1.5 hit)
-        } else if (equippedItem.isStrongAgainst(target.getEquippedItem())) {
-          target.modifyCurrentHitPoints(-equippedItem.getPower() * 1.5);
-          // Weak (-20 hit)
-        } else if (equippedItem.isWeakAgainst(target.getEquippedItem()) && -equippedItem.getPower() + 20 < 0) {
-          target.modifyCurrentHitPoints(-equippedItem.getPower() + 20);
-          // Normal Damage
-        } else {
-          target.modifyCurrentHitPoints(-equippedItem.getPower());
-        }
+      if (isAbleToAttack(target)){
+          startCombatWith(target);
+          target.modifyCurrentHitPoints(getEquippedItem().getEffectAgainst(target.getEquippedItem()));
+          if (!target.isAlive()){
+              endCombat();
+          } else{
+              target.attack(this);
+          }
+      } else {
+          endCombatWith(target);
       }
-    }
   }
 
   @Override
   public void die(){
-    this.isAlive = false;
+    this.alive = false;
     endCombat();
   }
 
   @Override
   public boolean isAlive(){
-    return isAlive;
+    return alive;
   }
 
   @Override
@@ -177,7 +172,28 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
+  public void startCombatWith(IUnit enemy){
+      startCombat();
+      enemy.startCombat();
+  }
+
+  @Override
   public void endCombat(){
     inCombat = false;
+  }
+
+  @Override
+  public void endCombatWith(IUnit enemy){
+      startCombat();
+      enemy.startCombat();
+  }
+
+  @Override
+  public boolean isAbleToAttack(IUnit target){
+      double distance = getLocation().distanceTo(target.getLocation());
+      boolean inRange = distance <= getEquippedItem().getMaxRange() && distance >= getEquippedItem().getMinRange();
+      boolean hasItem = getEquippedItem() != null;
+      boolean isCleric = this instanceof Cleric;
+      return isAlive() && hasItem && target.isAlive() && inRange && !isCleric;
   }
 }

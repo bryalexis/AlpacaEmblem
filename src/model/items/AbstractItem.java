@@ -1,6 +1,5 @@
 package model.items;
 
-import model.spellBooks.AbstractBook;
 import model.units.IUnit;
 
 /**
@@ -9,7 +8,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public abstract class AbstractWeapon implements IEquipableItem {
+public abstract class AbstractItem implements IEquipableItem {
 
   private final String name;
   private final int power;
@@ -29,7 +28,7 @@ public abstract class AbstractWeapon implements IEquipableItem {
    * @param maxRange
    *     the maximum range of the item
    */
-  public AbstractWeapon(final String name, final int power, final int minRange, final int maxRange) {
+  public AbstractItem(final String name, final int power, final int minRange, final int maxRange) {
     this.name = name;
     this.power = power;
     this.minRange = Math.max(minRange, 1);
@@ -68,12 +67,23 @@ public abstract class AbstractWeapon implements IEquipableItem {
   }
 
   @Override
-  public boolean isStrongAgainst(IEquipableItem item){
-    return item instanceof AbstractBook;
+  public boolean isWeakAgainst(IEquipableItem item){
+    return false;
   }
 
   @Override
-  public boolean isWeakAgainst(IEquipableItem item){
-    return item instanceof AbstractWeapon;
+  public double getEffectAgainst(IEquipableItem item){
+    boolean strongerItem = isStrongAgainst(item);
+    boolean weakerItem = isWeakAgainst(item);
+    double damage = -getPower();
+
+    if(strongerItem){
+      damage = damage * 1.5;
+    } else if(weakerItem){
+      damage += 20;
+      if(damage>0) damage = 0;
+    }
+
+    return damage;
   }
 }

@@ -1,4 +1,6 @@
-package model.items;
+package model.items.weapons;
+
+import model.items.AbstractItem;
 
 /**
  * @author Ignacio Slater Muñoz

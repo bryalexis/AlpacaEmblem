@@ -26,7 +26,7 @@ public interface IUnit {
   /**
    * @return hit points of the unit
    */
-  int getCurrentHitPoints();
+  double getCurrentHitPoints();
 
   /**
    * @return the items carried by this unit
@@ -103,7 +103,7 @@ public interface IUnit {
   /**
    * @return the maximum hit points of the unit
    */
-  int getMaxHitPoints();
+  double getMaxHitPoints();
 
   /**
    * Attacks another unit with the equipped item
@@ -127,7 +127,26 @@ public interface IUnit {
   void startCombat();
 
   /**
+   * Both the Unit and the enemy are in combat together
+   * @param enemy the other fighter
+   */
+  void startCombatWith(IUnit enemy);
+
+  /**
    * The unit is not in combat
    */
   void endCombat();
+
+  /**
+   * The combat between the unit and the enemy has finished
+   * @param enemy the other fighter
+   */
+  void endCombatWith(IUnit enemy);
+
+  /**
+   * @param target who would receive the attack
+   * @return if the unit is able to attack the target considering its equipped item
+   * its distance, if its cleric, and if the fighters are alive.
+   */
+  boolean isAbleToAttack(IUnit target);
 }

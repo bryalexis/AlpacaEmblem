@@ -1,6 +1,6 @@
 package model.units;
 
-import model.spellBooks.AbstractBook;
+import model.items.spellbooks.AbstractBook;
 import model.items.IEquipableItem;
 import model.map.Location;
 
