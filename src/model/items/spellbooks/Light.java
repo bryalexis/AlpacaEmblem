@@ -1,6 +1,6 @@
 package model.items.spellbooks;
 
-import model.items.IEquipableItem;
+import model.items.AbstractItem;
 
 /**
  * This class represents a <i>Light</i> book item.
@@ -11,7 +11,7 @@ import model.items.IEquipableItem;
  * @author Bryan Ortiz P
  * @since 1.1
  */
-public class Light extends AbstractBook {
+public class Light extends AbstractItem {
 
     /**
      * Creates a new Light book item.
@@ -29,13 +29,4 @@ public class Light extends AbstractBook {
         super(name, power, minRange, maxRange);
     }
 
-    @Override
-    public boolean isStrongAgainst(IEquipableItem item){
-        return super.isStrongAgainst(item) || item instanceof Darkness;
-    }
-
-    @Override
-    public boolean isWeakAgainst(IEquipableItem item){
-        return item instanceof Spirit;
-    }
 }

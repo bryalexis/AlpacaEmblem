@@ -66,24 +66,4 @@ public abstract class AbstractItem implements IEquipableItem {
     return maxRange;
   }
 
-  @Override
-  public boolean isWeakAgainst(IEquipableItem item){
-    return false;
-  }
-
-  @Override
-  public double getEffectAgainst(IEquipableItem item){
-    boolean strongerItem = isStrongAgainst(item);
-    boolean weakerItem = isWeakAgainst(item);
-    double damage = -getPower();
-
-    if(strongerItem){
-      damage = damage * 1.5;
-    } else if(weakerItem){
-      damage += 20;
-      if(damage>0) damage = 0;
-    }
-
-    return damage;
-  }
 }

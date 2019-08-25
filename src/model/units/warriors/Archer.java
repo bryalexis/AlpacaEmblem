@@ -1,8 +1,11 @@
-package model.units;
+package model.units.warriors;
 
 import model.items.weapons.Bow;
 import model.items.IEquipableItem;
 import model.map.Location;
+import model.units.AbstractNonMagic;
+import model.units.AbstractUnit;
+import model.units.IUnit;
 
 /**
  * This class represents an <i>Archer</i> type unit.
@@ -12,7 +15,7 @@ import model.map.Location;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Archer extends AbstractUnit {
+public class Archer extends AbstractNonMagic {
 
   /**
    * Creates a new archer
@@ -45,4 +48,10 @@ public class Archer extends AbstractUnit {
       equippedItem = item;
     }
   }
+
+  @Override
+  public void attack(IUnit target) {
+    target.receivePhysicalAttack(this);
+  }
+
 }

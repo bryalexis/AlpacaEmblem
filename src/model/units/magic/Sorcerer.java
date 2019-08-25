@@ -1,16 +1,20 @@
-package model.units;
+package model.units.magic;
 
-import model.items.spellbooks.AbstractBook;
 import model.items.IEquipableItem;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
 import model.map.Location;
+import model.units.AbstractMagic;
+import model.units.IUnit;
 
 /**
  * This class represents a sorcerer type unit. A sorcerer can only use magic books.
  *
  * @author Bryan Ortiz P
- * @since 1.0
+ * @since 1.1
  */
-public class Sorcerer extends AbstractUnit {
+public class Sorcerer extends AbstractMagic {
 
     /**
      * Creates a new Sorcerer.
@@ -33,8 +37,15 @@ public class Sorcerer extends AbstractUnit {
      */
     @Override
     public void equipItem(final IEquipableItem item) {
-        if (item instanceof AbstractBook) {
+        if (item instanceof Darkness || item instanceof Light || item instanceof Spirit) {
             equippedItem = item;
         }
     }
+
+    @Override
+    public void attack(IUnit target) {
+        target.receiveMagicalAttack(this);
+    }
+
+
 }

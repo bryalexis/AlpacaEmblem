@@ -4,9 +4,9 @@ import model.items.AbstractItem;
 
 /**
  * @author Ignacio Slater Muñoz
- * @since
+ * @since 1.0
  */
-public class Bow extends AbstractWeapon {
+public class Bow extends AbstractItem {
 
   /**
    * Creates a new bow.

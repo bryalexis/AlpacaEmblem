@@ -1,7 +1,10 @@
-package model.units;
+package model.units.carriers;
 
 import model.items.IEquipableItem;
 import model.map.Location;
+import model.units.AbstractNonMagic;
+import model.units.AbstractUnit;
+import model.units.IUnit;
 
 /**
  * This class represents an <i>Alpaca</i> type unit.
@@ -12,7 +15,7 @@ import model.map.Location;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Alpaca extends AbstractUnit {
+public class Alpaca extends AbstractNonMagic {
 
   /**
    * Creates a new Alpaca.
@@ -37,6 +40,12 @@ public class Alpaca extends AbstractUnit {
   @Override
   public void equipItem(final IEquipableItem item) {
     // Method body intentionally left empty
+  }
+
+  @Override
+  public void attack(IUnit target) {
+    endCombatWith(target);
+    // Alpaca can't attack
   }
 
 }

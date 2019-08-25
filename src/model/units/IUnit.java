@@ -3,12 +3,18 @@ package model.units;
 import java.util.List;
 import model.items.IEquipableItem;
 import model.map.Location;
+import model.units.healers.Cleric;
+import model.units.magic.Sorcerer;
+import model.units.warriors.Fighter;
+import model.units.warriors.Hero;
+import model.units.warriors.SwordMaster;
 
 /**
  * This interface represents all units in the game.
  * <p>
- * The signature of all the common methods that a unit can execute are defined here. All units
- * except some special ones can carry at most 3 weapons.
+ * The signature of all the common methods that a unit can execute by itself are defined here. All units
+ * except some special ones can carry at most 3 weapons. The interaction methods are defined in the interface
+ * IUnitInteraction
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
@@ -75,28 +81,19 @@ public interface IUnit {
 
   /**
    * Adds an item to be carried by the unit
-   * @param item
+   * @param item to be added
    */
   void addItem(IEquipableItem item);
 
   /**
    * Removes an item from the inventory
-   * @param item
+   * @param item to be deleted
    */
   void removeItem(IEquipableItem item);
 
   /**
-   * Transfers the item from player to receptor only if
-   * 1- The receptor didn't reach te maximum amount of items
-   * 2- The units are at 1 of distance
-   * @param receptor
-   * @param item
-   */
-  void giveItem(IUnit receptor, IEquipableItem item);
-
-  /**
    * The unit receives damage (-) or healing (+)
-   * @param value
+   * @param value of the modification
    */
   void modifyCurrentHitPoints(double value);
 
@@ -104,12 +101,6 @@ public interface IUnit {
    * @return the maximum hit points of the unit
    */
   double getMaxHitPoints();
-
-  /**
-   * Attacks another unit with the equipped item
-   * @param target
-   */
-  void attack(IUnit target);
 
   /**
    * The unit is not alive anymore and is out of combat
@@ -127,15 +118,30 @@ public interface IUnit {
   void startCombat();
 
   /**
+   * The unit is not in combat
+   */
+  void endCombat();
+
+  /**
+   * Transfers the item from player to receptor only if
+   * 1- The receptor didn't reach te maximum amount of items
+   * 2- The units are at 1 of distance
+   * @param receptor
+   * @param item
+   */
+  void giveItem(IUnit receptor, IEquipableItem item);
+
+  /**
+   * Attacks another unit with the equipped item
+   * @param target
+   */
+  void attack(IUnit target);
+
+  /**
    * Both the Unit and the enemy are in combat together
    * @param enemy the other fighter
    */
   void startCombatWith(IUnit enemy);
-
-  /**
-   * The unit is not in combat
-   */
-  void endCombat();
 
   /**
    * The combat between the unit and the enemy has finished
@@ -149,4 +155,40 @@ public interface IUnit {
    * its distance, if its cleric, and if the fighters are alive.
    */
   boolean isAbleToAttack(IUnit target);
+
+  /**
+   * The unit receives extra Hit Points that depends of the power of the Sorcerer's staff.
+   * @param cleric who is healing the unit
+   */
+  void receiveHealing(Cleric cleric);
+
+  /**
+   * The unit receives physical attack
+   * @param unit who attacks
+   */
+  void receivePhysicalAttack(IUnit unit);
+
+  /**
+   * Receives the attack from a Hero
+   * @param hero who attacks
+   */
+  void receiveHeroAttack(Hero hero);
+
+  /**
+   * Receives the attack from a Fighter
+   * @param fighter who attacks
+   */
+  void receiveFighterAttack(Fighter fighter);
+
+  /**
+   * Receives the attack from a Sword Master
+   * @param swordMaster who attacks
+   */
+  void receiveSwordMasterAttack(SwordMaster swordMaster);
+
+  /**
+   * The unit receives magical attack
+   * @param unit who attacks
+   */
+  void receiveMagicalAttack(IUnit unit);
 }

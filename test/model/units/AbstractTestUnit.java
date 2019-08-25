@@ -9,6 +9,7 @@ import model.items.healing.Staff;
 import model.items.weapons.*;
 import model.map.Field;
 import model.map.Location;
+import model.units.carriers.Alpaca;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

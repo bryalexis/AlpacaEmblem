@@ -11,7 +11,7 @@ import model.items.IEquipableItem;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Axe extends AbstractWeapon {
+public class Axe extends AbstractItem {
 
   /**
    * Creates a new Axe item
@@ -29,13 +29,4 @@ public class Axe extends AbstractWeapon {
     super(name, power, minRange, maxRange);
   }
 
-  @Override
-  public boolean isStrongAgainst(IEquipableItem item){
-    return super.isStrongAgainst(item) || item instanceof Spear;
-  }
-
-  @Override
-  public boolean isWeakAgainst(IEquipableItem item){
-    return item instanceof Sword;
-  }
 }

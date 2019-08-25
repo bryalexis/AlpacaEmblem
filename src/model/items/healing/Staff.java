@@ -1,5 +1,7 @@
 package model.items.healing;
 
+import model.items.AbstractItem;
+
 /**
  * This class represents a <i>Staff</i> type item.
  * <p>
@@ -8,7 +10,7 @@ package model.items.healing;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Staff extends AbstractHealing {
+public class Staff extends AbstractItem {
 
   /**
    * Creates a new Staff item.

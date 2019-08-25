@@ -5,6 +5,7 @@ import model.items.*;
 import model.items.healing.Staff;
 import model.items.weapons.*;
 import model.map.Field;
+import model.units.carriers.Alpaca;
 import org.junit.jupiter.api.Test;
 
 /**

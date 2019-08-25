@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import model.items.weapons.Bow;
 import model.map.Location;
-import model.units.Archer;
+import model.units.warriors.Archer;
 import model.units.IUnit;
 import org.junit.jupiter.api.Test;
 

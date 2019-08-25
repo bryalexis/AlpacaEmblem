@@ -1,5 +1,7 @@
 package model.units;
 
+import model.units.carriers.Alpaca;
+
 /**
  * Test set for the alpaca unit
  *

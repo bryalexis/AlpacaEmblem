@@ -1,8 +1,10 @@
-package model.units;
+package model.units.healers;
 
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
 import model.map.Location;
+import model.units.AbstractNonMagic;
+import model.units.IUnit;
 
 /**
  * This class represents a cleric type unit. A cleric can only use staff type weapons, which means
@@ -11,7 +13,7 @@ import model.map.Location;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Cleric extends AbstractUnit {
+public class Cleric extends AbstractNonMagic implements IHealer {
 
   /**
    * Creates a new Unit.
@@ -50,6 +52,7 @@ public class Cleric extends AbstractUnit {
    * @param target who will receive the healing
    */
   public void heal(IUnit target){
-    target.modifyCurrentHitPoints(equippedItem.getPower());
+    target.receiveHealing(this);
   }
+
 }

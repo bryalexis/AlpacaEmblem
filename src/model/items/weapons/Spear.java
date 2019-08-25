@@ -1,8 +1,6 @@
 package model.items.weapons;
 
 import model.items.AbstractItem;
-import model.items.IEquipableItem;
-
 /**
  * This class represents a <i>spear</i>.
  * <p>
@@ -11,7 +9,7 @@ import model.items.IEquipableItem;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Spear extends AbstractWeapon {
+public class Spear extends AbstractItem {
 
   /**
    * Creates a new Spear item
@@ -29,13 +27,4 @@ public class Spear extends AbstractWeapon {
     super(name, power, minRange, maxRange);
   }
 
-  @Override
-  public boolean isStrongAgainst(IEquipableItem item){
-    return super.isStrongAgainst(item) || item instanceof Sword;
-  }
-
-  @Override
-  public boolean isWeakAgainst(IEquipableItem item){
-    return item instanceof Axe;
-  }
 }

@@ -2,7 +2,7 @@ package model.items;
 
 import model.items.weapons.Spear;
 import model.map.Location;
-import model.units.Hero;
+import model.units.warriors.Hero;
 import model.units.IUnit;
 
 /**

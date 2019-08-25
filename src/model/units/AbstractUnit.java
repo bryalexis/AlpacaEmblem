@@ -7,6 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 import model.items.IEquipableItem;
 import model.map.Location;
+import model.units.healers.Cleric;
+import model.units.magic.Sorcerer;
+import model.units.warriors.Fighter;
+import model.units.warriors.Hero;
+import model.units.warriors.SwordMaster;
 
 /**
  * This class represents an abstract unit.
@@ -20,7 +25,7 @@ import model.map.Location;
  */
 public abstract class AbstractUnit implements IUnit {
 
-  protected List<IEquipableItem> items = new ArrayList<>();
+  private List<IEquipableItem> items = new ArrayList<>();
   private final double maxHitPoints;
   private double currentHitPoints;
   private final int movement;
@@ -42,7 +47,7 @@ public abstract class AbstractUnit implements IUnit {
    * @param maxItems
    *     maximum amount of items this unit can carry
    */
-  protected AbstractUnit(final int hitPoints, final int movement,
+  public AbstractUnit(final int hitPoints, final int movement,
       final Location location, final int maxItems, final IEquipableItem... items) {
     this.currentHitPoints = hitPoints;
     this.maxHitPoints = hitPoints;
@@ -141,21 +146,6 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void attack(IUnit target){
-      if (isAbleToAttack(target)){
-          startCombatWith(target);
-          target.modifyCurrentHitPoints(getEquippedItem().getEffectAgainst(target.getEquippedItem()));
-          if (!target.isAlive()){
-              endCombat();
-          } else{
-              target.attack(this);
-          }
-      } else {
-          endCombatWith(target);
-      }
-  }
-
-  @Override
   public void die(){
     this.alive = false;
     endCombat();
@@ -169,6 +159,26 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void startCombat(){
     inCombat = true;
+  }
+
+  @Override
+  public void receiveHealing(Cleric cleric){
+      modifyCurrentHitPoints(cleric.getEquippedItem().getPower());
+  }
+
+  @Override
+  public void receiveSwordMasterAttack(SwordMaster swordMaster){
+      receivePhysicalAttack(swordMaster);
+  }
+
+  @Override
+  public void receiveHeroAttack(Hero hero){
+      receivePhysicalAttack(hero);
+  }
+
+  @Override
+  public void receiveFighterAttack(Fighter fighter){
+      receivePhysicalAttack(fighter);
   }
 
   @Override
