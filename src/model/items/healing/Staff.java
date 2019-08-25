@@ -36,4 +36,5 @@ public class Staff extends AbstractHealing {
     super(name, power, minRange, maxRange);
   }
 
+
 }

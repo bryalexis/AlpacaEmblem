@@ -6,21 +6,27 @@ import model.items.weapons.Axe;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 
-public abstract class AbstractBook extends AbstractItem {
+/**
+ * Abstract class that defines some common information and behaviour between spells books.
+ *
+ * @author Bryan Ortiz P.
+ * @since 1.1
+ */
+public abstract class AbstractBook extends AbstractItem implements ISpellsBook {
 
     /**
-     * Constructor for a default item without any special behaviour.
+     * Constructor for a default spells book.
      *
      * @param name
-     *     the name of the item
+     *     the name of the book
      * @param power
-     *     the power of the item (this could be the amount of damage or healing the item does)
+     *     the power of the book
      * @param minRange
-     *     the minimum range of the item
+     *     the minimum range of the book
      * @param maxRange
-     *     the maximum range of the item
+     *     the maximum range of the book
      */
-    public AbstractBook(final String name, final int power, final int minRange, final int maxRange) {
+    AbstractBook(final String name, final int power, final int minRange, final int maxRange) {
         super(name, power, minRange, maxRange);
     }
 

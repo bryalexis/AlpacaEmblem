@@ -8,8 +8,13 @@ import model.items.spellbooks.Spirit;
 import model.items.weapons.Axe;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
-import model.units.IUnit;
 
+/**
+ * Abstract class that defines some common information and behaviour between healing items.
+ *
+ * @author Bryan Ortiz P.
+ * @since 1.1
+ */
 public abstract class AbstractHealing extends AbstractItem {
 
     /**
@@ -24,13 +29,8 @@ public abstract class AbstractHealing extends AbstractItem {
      * @param maxRange
      *     the maximum range of the item
      */
-    public AbstractHealing(final String name, final int power, final int minRange, final int maxRange) {
+    AbstractHealing(final String name, final int power, final int minRange, final int maxRange) {
         super(name, power, minRange, maxRange);
-    }
-
-    @Override
-    public void throwSpell(IUnit target) {
-        // This type of items can't throw spells (fix this)
     }
 
     @Override

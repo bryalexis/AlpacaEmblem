@@ -64,12 +64,6 @@ public interface IEquipableItem {
    */
   void setOwner(IUnit owner);
 
-  /**
-   * Throws a spell against a target
-   * @param target who will receive the spell
-   */
-  void throwSpell(IUnit target);
-
   void takeInMagicalAttack(IEquipableItem item);
 
   void takeInDarknessSpell(Darkness spell);

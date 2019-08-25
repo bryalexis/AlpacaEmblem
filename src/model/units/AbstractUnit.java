@@ -11,10 +11,6 @@ import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
 import model.map.Location;
 import model.units.healers.Cleric;
-import model.units.magic.Sorcerer;
-import model.units.warriors.Fighter;
-import model.units.warriors.Hero;
-import model.units.warriors.SwordMaster;
 
 /**
  * This class represents an abstract unit.
@@ -144,6 +140,7 @@ public abstract class AbstractUnit implements IUnit {
     if (receptor.getItems().size() < receptor.getMaxItems() &&
             getLocation().isNeighbour(receptor.getLocation())){
       receptor.addItem(item);
+      item.setOwner(receptor);
       removeItem(item);
     }
   }

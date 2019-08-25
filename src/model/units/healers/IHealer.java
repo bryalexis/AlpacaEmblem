@@ -2,7 +2,7 @@ package model.units.healers;
 
 import model.units.IUnit;
 
-public interface IHealer {
+public interface IHealer extends IUnit {
 
     /**
      * Gives Hit Points to an unit

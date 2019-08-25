@@ -1,34 +1,33 @@
 package model.items.weapons;
 
-import jdk.jfr.Percentage;
 import model.items.AbstractItem;
 import model.items.IEquipableItem;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
-import model.units.IUnit;
 
+/**
+ * Abstract class that defines some common information and behaviour between physical weapons.
+ *
+ * @author Bryan Ortiz P.
+ * @since 1.1
+ */
 public abstract class AbstractWeapon extends AbstractItem {
 
     /**
-     * Constructor for a default item without any special behaviour.
+     * Constructor for a default physical weapon.
      *
      * @param name
-     *     the name of the item
+     *     the name of the weapon
      * @param power
-     *     the power of the item (this could be the amount of damage or healing the item does)
+     *     the power of the weapon
      * @param minRange
-     *     the minimum range of the item
+     *     the minimum range of the weapon
      * @param maxRange
-     *     the maximum range of the item
+     *     the maximum range of the weapon
      */
-    public AbstractWeapon(final String name, final int power, final int minRange, final int maxRange) {
+    AbstractWeapon(final String name, final int power, final int minRange, final int maxRange) {
         super(name, power, minRange, maxRange);
-    }
-
-    @Override
-    public void throwSpell(IUnit target){
-        // Weapons can't throw spells (fix this)
     }
 
     @Override

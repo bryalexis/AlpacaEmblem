@@ -1,9 +1,7 @@
 package model.units.magic;
 
 import model.items.IEquipableItem;
-import model.items.spellbooks.Darkness;
-import model.items.spellbooks.Light;
-import model.items.spellbooks.Spirit;
+import model.items.spellbooks.ISpellsBook;
 import model.map.Location;
 import model.units.AbstractUnit;
 import model.units.IUnit;
@@ -37,7 +35,7 @@ public class Sorcerer extends AbstractUnit {
      */
     @Override
     public void equipItem(final IEquipableItem item) {
-        if (item instanceof Darkness || item instanceof Light || item instanceof Spirit) {
+        if (item instanceof ISpellsBook) {
             equippedItem = item;
         }
     }
@@ -46,29 +44,12 @@ public class Sorcerer extends AbstractUnit {
     public void attack(IUnit target) {
         if(isAbleToAttack(target)){
             startCombatWith(target);
-            getEquippedItem().throwSpell(target);
+            ISpellsBook item = (ISpellsBook) getEquippedItem();
+            item.throwSpell(target);
             target.attack(this);
         } else{
             endCombatWith(target);
         }
     }
-
-    // Sería conveniente que cada sorcerer sólo pudiera equiparse un tipo de libro
-
-    @Override
-    public void receiveDarknessSpell(IUnit sorcerer) {
-        getEquippedItem().takeInDarknessSpell((Darkness) sorcerer.getEquippedItem());
-    }
-
-    @Override
-    public void receiveLightSpell(IUnit sorcerer) {
-        getEquippedItem().takeInLightSpell((Light) sorcerer.getEquippedItem());
-    }
-
-    @Override
-    public void receiveSpiritSpell(IUnit sorcerer) {
-        getEquippedItem().takeInSpiritSpell((Spirit) sorcerer.getEquippedItem());
-    }
-
 
 }
