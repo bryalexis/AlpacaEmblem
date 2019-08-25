@@ -5,16 +5,16 @@ import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
 import model.map.Location;
-import model.units.AbstractMagic;
+import model.units.AbstractUnit;
 import model.units.IUnit;
 
 /**
- * This class represents a sorcerer type unit. A sorcerer can only use magic books.
+ * This class represents a sorcerer type unit. A sorcerer can only use spells books.
  *
  * @author Bryan Ortiz P
  * @since 1.1
  */
-public class Sorcerer extends AbstractMagic {
+public class Sorcerer extends AbstractUnit {
 
     /**
      * Creates a new Sorcerer.
@@ -44,7 +44,30 @@ public class Sorcerer extends AbstractMagic {
 
     @Override
     public void attack(IUnit target) {
-        target.receiveMagicalAttack(this);
+        if(isAbleToAttack(target)){
+            startCombatWith(target);
+            getEquippedItem().throwSpell(target);
+            target.attack(this);
+        } else{
+            endCombatWith(target);
+        }
+    }
+
+    // Sería conveniente que cada sorcerer sólo pudiera equiparse un tipo de libro
+
+    @Override
+    public void receiveDarknessSpell(IUnit sorcerer) {
+        getEquippedItem().takeInDarknessSpell((Darkness) sorcerer.getEquippedItem());
+    }
+
+    @Override
+    public void receiveLightSpell(IUnit sorcerer) {
+        getEquippedItem().takeInLightSpell((Light) sorcerer.getEquippedItem());
+    }
+
+    @Override
+    public void receiveSpiritSpell(IUnit sorcerer) {
+        getEquippedItem().takeInSpiritSpell((Spirit) sorcerer.getEquippedItem());
     }
 
 

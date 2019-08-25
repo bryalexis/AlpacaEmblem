@@ -1,12 +1,10 @@
 package model.items.weapons;
 
-import model.items.AbstractItem;
-
 /**
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Bow extends AbstractItem {
+public class Bow extends AbstractWeapon {
 
   /**
    * Creates a new bow.
@@ -27,5 +25,20 @@ public class Bow extends AbstractItem {
     super(name, power, minRange, maxRange);
     this.minRange = Math.max(minRange, 2);
     this.maxRange = Math.max(maxRange, this.minRange);
+  }
+
+  @Override
+  public void takeInAxeAttack(int power){
+    takeInPhysicalAttack(power);
+  }
+
+  @Override
+  public void takeInSpearAttack(int power){
+    takeInPhysicalAttack(power);
+  }
+
+  @Override
+  public void takeInSwordAttack(int power){
+    takeInPhysicalAttack(power);
   }
 }

@@ -163,32 +163,26 @@ public interface IUnit {
   void receiveHealing(Cleric cleric);
 
   /**
-   * The unit receives physical attack
-   * @param unit who attacks
+   * The unit receives a darkness-type spell
+   * @param sorcerer who attacks
    */
-  void receivePhysicalAttack(IUnit unit);
+  void receiveDarknessSpell(IUnit sorcerer);
 
   /**
-   * Receives the attack from a Hero
-   * @param hero who attacks
+   * The unit receives a light-type spell
+   * @param sorcerer who attacks
    */
-  void receiveHeroAttack(Hero hero);
+  void receiveLightSpell(IUnit sorcerer);
 
   /**
-   * Receives the attack from a Fighter
-   * @param fighter who attacks
+   * The unit receives a spirit-type spell
+   * @param sorcerer who attacks
    */
-  void receiveFighterAttack(Fighter fighter);
+  void receiveSpiritSpell(IUnit sorcerer);
 
   /**
-   * Receives the attack from a Sword Master
-   * @param swordMaster who attacks
+   * @return if the unit has an item equipped.
    */
-  void receiveSwordMasterAttack(SwordMaster swordMaster);
+  boolean hasItem();
 
-  /**
-   * The unit receives magical attack
-   * @param unit who attacks
-   */
-  void receiveMagicalAttack(IUnit unit);
 }

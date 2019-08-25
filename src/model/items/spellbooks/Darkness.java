@@ -1,6 +1,7 @@
 package model.items.spellbooks;
 
 import model.items.AbstractItem;
+import model.units.IUnit;
 
 /**
  * This class represents a <i>Darkness</i> book item.
@@ -11,7 +12,7 @@ import model.items.AbstractItem;
  * @author Bryan Ortiz P
  * @since 1.1
  */
-public class Darkness extends AbstractItem {
+public class Darkness extends AbstractBook{
 
     /**
      * Creates a new Darkness book item.
@@ -27,6 +28,27 @@ public class Darkness extends AbstractItem {
      */
     public Darkness(final String name, final int power, final int minRange, final int maxRange) {
         super(name, power, minRange, maxRange);
+    }
+
+    @Override
+    public void throwSpell(IUnit target){
+        target.receiveDarknessSpell(getOwner());
+    }
+
+    @Override
+    public void takeInDarknessSpell(Darkness spell){
+        getOwner().modifyCurrentHitPoints(- spell.getPower());
+    }
+
+    @Override
+    public void takeInSpiritSpell(Spirit spell){
+        double damage = -spell.getPower() + 20;
+        getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
+    }
+
+    @Override
+    public void takeInLightSpell(Light spell){
+        getOwner().modifyCurrentHitPoints(- spell.getPower()*1.5);
     }
 
 

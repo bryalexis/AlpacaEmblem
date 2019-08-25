@@ -1,8 +1,5 @@
 package model.items.weapons;
 
-import model.items.AbstractItem;
-import model.items.IEquipableItem;
-
 /**
  * This class represents an Axe.
  * <p>
@@ -11,7 +8,7 @@ import model.items.IEquipableItem;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Axe extends AbstractItem {
+public class Axe extends AbstractWeapon {
 
   /**
    * Creates a new Axe item
@@ -27,6 +24,22 @@ public class Axe extends AbstractItem {
    */
   public Axe(final String name, final int power, final int minRange, final int maxRange) {
     super(name, power, minRange, maxRange);
+  }
+
+  @Override
+  public void takeInAxeAttack(int power){
+    getOwner().modifyCurrentHitPoints(-power);
+  }
+
+  @Override
+  public void takeInSpearAttack(int power){
+    double damage = -power + 20;
+    getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
+  }
+
+  @Override
+  public void takeInSwordAttack(int power){
+    getOwner().modifyCurrentHitPoints(-power*1.5);
   }
 
 }

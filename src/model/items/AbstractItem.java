@@ -36,7 +36,7 @@ public abstract class AbstractItem implements IEquipableItem {
   }
 
   @Override
-  public void equipTo(final IUnit unit) {
+  public void equipTo(IUnit unit) {
     unit.setEquippedItem(this);
     owner = unit;
   }
@@ -66,4 +66,12 @@ public abstract class AbstractItem implements IEquipableItem {
     return maxRange;
   }
 
+  @Override
+  public boolean isReachable(double distance){
+    return minRange <= distance & maxRange >= distance;
+  }
+
+  public void setOwner(IUnit owner){
+    this.owner = owner;
+  }
 }

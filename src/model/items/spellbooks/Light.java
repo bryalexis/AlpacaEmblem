@@ -1,6 +1,6 @@
 package model.items.spellbooks;
 
-import model.items.AbstractItem;
+import model.units.IUnit;
 
 /**
  * This class represents a <i>Light</i> book item.
@@ -11,7 +11,7 @@ import model.items.AbstractItem;
  * @author Bryan Ortiz P
  * @since 1.1
  */
-public class Light extends AbstractItem {
+public class Light extends AbstractBook {
 
     /**
      * Creates a new Light book item.
@@ -29,4 +29,24 @@ public class Light extends AbstractItem {
         super(name, power, minRange, maxRange);
     }
 
+    @Override
+    public void throwSpell(IUnit target) {
+        target.receiveLightSpell(getOwner());
+    }
+
+    @Override
+    public void takeInDarknessSpell(Darkness spell){
+        double damage = -spell.getPower() + 20;
+        getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
+    }
+
+    @Override
+    public void takeInSpiritSpell(Spirit spell){
+        getOwner().modifyCurrentHitPoints(- spell.getPower()*1.5);
+    }
+
+    @Override
+    public void takeInLightSpell(Light spell){
+        getOwner().modifyCurrentHitPoints(- spell.getPower());
+    }
 }

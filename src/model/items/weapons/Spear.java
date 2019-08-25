@@ -1,6 +1,4 @@
 package model.items.weapons;
-
-import model.items.AbstractItem;
 /**
  * This class represents a <i>spear</i>.
  * <p>
@@ -9,7 +7,7 @@ import model.items.AbstractItem;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Spear extends AbstractItem {
+public class Spear extends AbstractWeapon {
 
   /**
    * Creates a new Spear item
@@ -25,6 +23,22 @@ public class Spear extends AbstractItem {
    */
   public Spear(final String name, final int power, final int minRange, final int maxRange) {
     super(name, power, minRange, maxRange);
+  }
+
+  @Override
+  public void takeInAxeAttack(int power){
+    getOwner().modifyCurrentHitPoints(-power*1.5);
+  }
+
+  @Override
+  public void takeInSpearAttack(int power){
+    getOwner().modifyCurrentHitPoints(-power);
+  }
+
+  @Override
+  public void takeInSwordAttack(int power){
+    double damage = -power + 20;
+    getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
   }
 
 }

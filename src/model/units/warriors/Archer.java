@@ -3,7 +3,6 @@ package model.units.warriors;
 import model.items.weapons.Bow;
 import model.items.IEquipableItem;
 import model.map.Location;
-import model.units.AbstractNonMagic;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
@@ -15,7 +14,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Archer extends AbstractNonMagic {
+public class Archer extends AbstractUnit {
 
   /**
    * Creates a new archer
@@ -51,7 +50,13 @@ public class Archer extends AbstractNonMagic {
 
   @Override
   public void attack(IUnit target) {
-    target.receivePhysicalAttack(this);
+    if(isAbleToAttack(target)){
+      startCombatWith(target);
+      target.getEquippedItem().takeInPhysicalAttack(getEquippedItem().getPower());
+      target.attack(this);
+    } else{
+      endCombatWith(target);
+    }
   }
 
 }

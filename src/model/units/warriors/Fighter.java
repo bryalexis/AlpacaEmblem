@@ -3,7 +3,7 @@ package model.units.warriors;
 import model.items.weapons.Axe;
 import model.items.IEquipableItem;
 import model.map.Location;
-import model.units.AbstractNonMagic;
+import model.units.AbstractUnit;
 import model.units.IUnit;
 
 /**
@@ -13,7 +13,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Fighter extends AbstractNonMagic {
+public class Fighter extends AbstractUnit {
 
   public Fighter(final int hitPoints, final int movement, final Location location,
       IEquipableItem... items) {
@@ -35,23 +35,11 @@ public class Fighter extends AbstractNonMagic {
 
   @Override
   public void attack(IUnit target) {
-    target.receiveFighterAttack(this);
-  }
-
-  @Override
-  public void receiveHeroAttack(Hero hero){
-    double damage = -hero.getEquippedItem().getPower() + 20;
-    modifyCurrentHitPoints(Math.min(damage, 0));
-  }
-
-  @Override
-  public void receiveFighterAttack(Fighter fighter){
-    modifyCurrentHitPoints(-fighter.getEquippedItem().getPower());
-  }
-
-  @Override
-  public void receiveSwordMasterAttack(SwordMaster swordMaster){
-    modifyCurrentHitPoints(-swordMaster.getEquippedItem().getPower()*1.5);
+    if(isAbleToAttack(target)){
+      startCombatWith(target);
+      target.getEquippedItem().takeInAxeAttack(getEquippedItem().getPower());
+      target.attack(this);
+    } else endCombatWith(target);
   }
 
 }

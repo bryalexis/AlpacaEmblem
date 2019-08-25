@@ -3,7 +3,7 @@ package model.units.healers;
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
 import model.map.Location;
-import model.units.AbstractNonMagic;
+import model.units.AbstractUnit;
 import model.units.IUnit;
 
 /**
@@ -13,7 +13,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Cleric extends AbstractNonMagic implements IHealer {
+public class Cleric extends AbstractUnit implements IHealer {
 
   /**
    * Creates a new Unit.

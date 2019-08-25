@@ -1,6 +1,4 @@
 package model.items.weapons;
-
-import model.items.AbstractItem;
 /**
  * This class represents a sword type item.
  * <p>
@@ -9,7 +7,7 @@ import model.items.AbstractItem;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Sword extends AbstractItem {
+public class Sword extends AbstractWeapon {
 
   /**
    * Creates a new Sword.
@@ -25,6 +23,22 @@ public class Sword extends AbstractItem {
    */
   public Sword(final String name, final int power, final int minRange, final int maxRange) {
     super(name, power, minRange, maxRange);
+  }
+
+  @Override
+  public void takeInAxeAttack(int power){
+    double damage = -power + 20;
+    getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
+  }
+
+  @Override
+  public void takeInSpearAttack(int power){
+    getOwner().modifyCurrentHitPoints(-power*1.5);
+  }
+
+  @Override
+  public void takeInSwordAttack(int power){
+    getOwner().modifyCurrentHitPoints(-power);
   }
 
 }

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import model.items.IEquipableItem;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
 import model.map.Location;
 import model.units.healers.Cleric;
 import model.units.magic.Sorcerer;
@@ -167,21 +170,6 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void receiveSwordMasterAttack(SwordMaster swordMaster){
-      receivePhysicalAttack(swordMaster);
-  }
-
-  @Override
-  public void receiveHeroAttack(Hero hero){
-      receivePhysicalAttack(hero);
-  }
-
-  @Override
-  public void receiveFighterAttack(Fighter fighter){
-      receivePhysicalAttack(fighter);
-  }
-
-  @Override
   public void startCombatWith(IUnit enemy){
       startCombat();
       enemy.startCombat();
@@ -199,11 +187,30 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
+  public boolean hasItem(){
+      return getEquippedItem() != null;
+  }
+
+  @Override
   public boolean isAbleToAttack(IUnit target){
-      double distance = getLocation().distanceTo(target.getLocation());
-      boolean inRange = distance <= getEquippedItem().getMaxRange() && distance >= getEquippedItem().getMinRange();
-      boolean hasItem = getEquippedItem() != null;
-      boolean isCleric = this instanceof Cleric;
-      return isAlive() && hasItem && target.isAlive() && inRange && !isCleric;
+      if(hasItem() && isAlive() && target.isAlive()){
+        return getEquippedItem().isReachable(getLocation().distanceTo(target.getLocation()));
+      }
+      return false;
+  }
+
+  @Override
+  public void receiveDarknessSpell(IUnit sorcerer) {
+    getEquippedItem().takeInDarknessSpell((Darkness) sorcerer.getEquippedItem());
+  }
+
+  @Override
+  public void receiveLightSpell(IUnit sorcerer) {
+    getEquippedItem().takeInLightSpell((Light) sorcerer.getEquippedItem());
+  }
+
+  @Override
+  public void receiveSpiritSpell(IUnit sorcerer) {
+    getEquippedItem().takeInSpiritSpell((Spirit) sorcerer.getEquippedItem());
   }
 }

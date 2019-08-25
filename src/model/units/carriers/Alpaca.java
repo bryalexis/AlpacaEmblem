@@ -2,7 +2,6 @@ package model.units.carriers;
 
 import model.items.IEquipableItem;
 import model.map.Location;
-import model.units.AbstractNonMagic;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
@@ -15,7 +14,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Alpaca extends AbstractNonMagic {
+public class Alpaca extends AbstractUnit {
 
   /**
    * Creates a new Alpaca.

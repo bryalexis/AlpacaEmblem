@@ -1,5 +1,8 @@
 package model.items;
 
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
 import model.units.IUnit;
 
 /**
@@ -46,4 +49,35 @@ public interface IEquipableItem {
    */
   int getMaxRange();
 
+  /**
+   * @param distance at the objective
+   * @return if the item can attack/heal the objective in terms of distance
+   */
+  boolean isReachable(double distance);
+
+  /**
+   * Sets the owner of the item
+   * @param owner of the item
+   */
+  void setOwner(IUnit owner);
+
+  /**
+   * Throws a spell against a target
+   * @param target who will receive the spell
+   */
+  void throwSpell(IUnit target);
+
+  void takeInDarknessSpell(Darkness spell);
+
+  void takeInSpiritSpell(Spirit spell);
+
+  void takeInLightSpell(Light spell);
+
+  void takeInPhysicalAttack(int power);
+
+  void takeInAxeAttack(int power);
+
+  void takeInSpearAttack(int power);
+
+  void takeInSwordAttack(int power);
 }
