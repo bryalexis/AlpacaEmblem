@@ -46,7 +46,7 @@ public class Hero extends AbstractUnit {
   public void attack(IUnit target) {
     if(isAbleToAttack(target)){
       startCombatWith(target);
-      target.getEquippedItem().takeInSpearAttack(getEquippedItem().getPower());
+      target.getEquippedItem().takeInSpearAttack((Spear) getEquippedItem());
       target.attack(this);
     } else endCombatWith(target);
   }

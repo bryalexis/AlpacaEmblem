@@ -1,6 +1,8 @@
 package model.items.weapons;
 
+import jdk.jfr.Percentage;
 import model.items.AbstractItem;
+import model.items.IEquipableItem;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
@@ -31,26 +33,27 @@ public abstract class AbstractWeapon extends AbstractItem {
 
     @Override
     public void takeInDarknessSpell(Darkness spell){
-        takeInMagicAttack(spell.getPower());
+        takeInMagicalAttack(spell);
     }
 
     @Override
     public void takeInSpiritSpell(Spirit spell){
-        takeInMagicAttack(spell.getPower());
+        takeInMagicalAttack(spell);
     }
 
     @Override
     public void takeInLightSpell(Light spell){
-        takeInMagicAttack(spell.getPower());
-    }
-
-    public void takeInMagicAttack(int power){
-        getOwner().modifyCurrentHitPoints(- power*1.5);
+        takeInMagicalAttack(spell);
     }
 
     @Override
-    public void takeInPhysicalAttack(int power){
-        getOwner().modifyCurrentHitPoints(-power);
+    public void takeInMagicalAttack(IEquipableItem item){
+        getOwner().modifyCurrentHitPoints(- item.getPower()*1.5);
+    }
+
+    @Override
+    public void takeInPhysicalAttack(IEquipableItem item){
+        getOwner().modifyCurrentHitPoints(-item.getPower());
     }
 
 }

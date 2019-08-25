@@ -3,6 +3,9 @@ package model.items;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.units.IUnit;
 
 /**
@@ -67,17 +70,20 @@ public interface IEquipableItem {
    */
   void throwSpell(IUnit target);
 
+  void takeInMagicalAttack(IEquipableItem item);
+
   void takeInDarknessSpell(Darkness spell);
 
   void takeInSpiritSpell(Spirit spell);
 
   void takeInLightSpell(Light spell);
 
-  void takeInPhysicalAttack(int power);
+  void takeInPhysicalAttack(IEquipableItem item);
 
-  void takeInAxeAttack(int power);
 
-  void takeInSpearAttack(int power);
+  void takeInAxeAttack(Axe axe);
 
-  void takeInSwordAttack(int power);
+  void takeInSpearAttack(Spear spear);
+
+  void takeInSwordAttack(Sword sword);
 }

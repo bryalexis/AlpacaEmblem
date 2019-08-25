@@ -1,12 +1,16 @@
-package model.items.spellbooks;
+package model.items.healing;
 
 import model.items.AbstractItem;
 import model.items.IEquipableItem;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
 import model.items.weapons.Axe;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
+import model.units.IUnit;
 
-public abstract class AbstractBook extends AbstractItem {
+public abstract class AbstractHealing extends AbstractItem {
 
     /**
      * Constructor for a default item without any special behaviour.
@@ -20,18 +24,38 @@ public abstract class AbstractBook extends AbstractItem {
      * @param maxRange
      *     the maximum range of the item
      */
-    public AbstractBook(final String name, final int power, final int minRange, final int maxRange) {
+    public AbstractHealing(final String name, final int power, final int minRange, final int maxRange) {
         super(name, power, minRange, maxRange);
     }
 
     @Override
-    public void takeInPhysicalAttack(IEquipableItem item) {
-        getOwner().modifyCurrentHitPoints(- item.getPower()*1.5);
+    public void throwSpell(IUnit target) {
+        // This type of items can't throw spells (fix this)
     }
 
     @Override
     public void takeInMagicalAttack(IEquipableItem item) {
-        getOwner().modifyCurrentHitPoints(- item.getPower());
+        getOwner().modifyCurrentHitPoints(-item.getPower()*1.5);
+    }
+
+    @Override
+    public void takeInDarknessSpell(Darkness spell) {
+        takeInMagicalAttack(spell);
+    }
+
+    @Override
+    public void takeInSpiritSpell(Spirit spell) {
+        takeInMagicalAttack(spell);
+    }
+
+    @Override
+    public void takeInLightSpell(Light spell) {
+        takeInMagicalAttack(spell);
+    }
+
+    @Override
+    public void takeInPhysicalAttack(IEquipableItem item) {
+        getOwner().modifyCurrentHitPoints(-item.getPower());
     }
 
     @Override

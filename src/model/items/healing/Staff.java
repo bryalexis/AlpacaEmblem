@@ -1,6 +1,14 @@
 package model.items.healing;
 
-import model.items.AbstractItem;
+
+import model.items.IEquipableItem;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
+import model.units.IUnit;
 
 /**
  * This class represents a <i>Staff</i> type item.
@@ -10,7 +18,7 @@ import model.items.AbstractItem;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Staff extends AbstractItem {
+public class Staff extends AbstractHealing {
 
   /**
    * Creates a new Staff item.
@@ -27,4 +35,5 @@ public class Staff extends AbstractItem {
   public Staff(final String name, final int power, final int minRange, final int maxRange) {
     super(name, power, minRange, maxRange);
   }
+
 }

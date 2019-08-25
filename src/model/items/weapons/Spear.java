@@ -26,18 +26,18 @@ public class Spear extends AbstractWeapon {
   }
 
   @Override
-  public void takeInAxeAttack(int power){
-    getOwner().modifyCurrentHitPoints(-power*1.5);
+  public void takeInAxeAttack(Axe axe){
+    getOwner().modifyCurrentHitPoints(-axe.getPower()*1.5);
   }
 
   @Override
-  public void takeInSpearAttack(int power){
-    getOwner().modifyCurrentHitPoints(-power);
+  public void takeInSpearAttack(Spear spear){
+    getOwner().modifyCurrentHitPoints(-spear.getPower());
   }
 
   @Override
-  public void takeInSwordAttack(int power){
-    double damage = -power + 20;
+  public void takeInSwordAttack(Sword sword){
+    double damage = -sword.getPower() + 20;
     getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
   }
 

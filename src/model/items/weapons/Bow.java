@@ -28,17 +28,17 @@ public class Bow extends AbstractWeapon {
   }
 
   @Override
-  public void takeInAxeAttack(int power){
-    takeInPhysicalAttack(power);
+  public void takeInAxeAttack(Axe axe){
+    takeInPhysicalAttack(axe);
   }
 
   @Override
-  public void takeInSpearAttack(int power){
-    takeInPhysicalAttack(power);
+  public void takeInSpearAttack(Spear spear){
+    takeInPhysicalAttack(spear);
   }
 
   @Override
-  public void takeInSwordAttack(int power){
-    takeInPhysicalAttack(power);
+  public void takeInSwordAttack(Sword sword){
+    takeInPhysicalAttack(sword);
   }
 }

@@ -38,7 +38,7 @@ public class SwordMaster extends AbstractUnit {
   public void attack(IUnit target) {
     if(isAbleToAttack(target)){
       startCombatWith(target);
-      target.getEquippedItem().takeInSwordAttack(getEquippedItem().getPower());
+      target.getEquippedItem().takeInSwordAttack((Sword) getEquippedItem());
       target.attack(this);
     } else endCombatWith(target);
   }

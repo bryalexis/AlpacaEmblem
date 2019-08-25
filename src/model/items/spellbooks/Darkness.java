@@ -1,6 +1,7 @@
 package model.items.spellbooks;
 
 import model.items.AbstractItem;
+import model.items.IEquipableItem;
 import model.units.IUnit;
 
 /**
