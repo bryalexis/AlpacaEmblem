@@ -25,11 +25,11 @@ import model.units.healers.Cleric;
 public abstract class AbstractUnit implements IUnit {
 
   private List<IEquipableItem> items = new ArrayList<>();
-  private final double maxHitPoints;
-  private double currentHitPoints;
+  private final int maxHitPoints;
   private final int movement;
   private final int maxItems;
-  protected IEquipableItem equippedItem;
+  private int currentHitPoints;
+  private IEquipableItem equippedItem;
   private Location location;
   private boolean alive;
   private boolean inCombat;

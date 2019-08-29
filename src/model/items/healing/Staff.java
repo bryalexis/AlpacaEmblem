@@ -37,4 +37,8 @@ public class Staff extends AbstractHealing {
   }
 
 
+  @Override
+  public void giveHitPoints(IUnit target) {
+    target.modifyCurrentHitPoints(getPower());
+  }
 }

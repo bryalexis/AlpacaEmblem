@@ -1,6 +1,7 @@
 package model.units.magic;
 
 import model.items.IEquipableItem;
+import model.items.healing.Staff;
 import model.items.spellbooks.ISpellsBook;
 import model.map.Location;
 import model.units.AbstractUnit;
@@ -35,8 +36,8 @@ public class Sorcerer extends AbstractUnit {
      */
     @Override
     public void equipItem(final IEquipableItem item) {
-        if (item instanceof ISpellsBook) {
-            equippedItem = item;
+        if (item instanceof Staff) {
+            setEquippedItem(item);
         }
     }
 
@@ -46,9 +47,18 @@ public class Sorcerer extends AbstractUnit {
             startCombatWith(target);
             ISpellsBook item = (ISpellsBook) getEquippedItem();
             item.throwSpell(target);
-            target.attack(this);
-        } else{
-            endCombatWith(target);
+            target.counterAttack(this);
+        }
+    }
+
+    @Override
+    public void counterAttack(IUnit aggressor) {
+        if(isAbleToAttack(aggressor)){
+            startCombatWith(aggressor);
+            ISpellsBook item = (ISpellsBook) getEquippedItem();
+            item.throwSpell(aggressor);
+        } else {
+            endCombatWith(aggressor);
         }
     }
 

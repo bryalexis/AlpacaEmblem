@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import model.items.*;
 import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
 import model.items.weapons.*;
 import model.map.Field;
 import model.map.Location;
@@ -26,6 +29,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
   protected Sword sword;
   protected Staff staff;
   protected Spear spear;
+  protected Darkness darkness;
+  protected Spirit spirit;
+  protected Light light;
 
   @Override
   public void setTargetAlpaca() {
@@ -70,6 +76,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
     this.spear = new Spear("Spear", 10, 1, 2);
     this.staff = new Staff("Staff", 10, 1, 2);
     this.bow = new Bow("Bow", 10, 2, 3);
+    this.darkness = new Darkness("DarknessBook",10,1,2);
+    this.spirit = new Spirit("SpiritBook", 10,1,3);
+    this.light = new Light("Light", 8,2,4);
   }
 
   /**

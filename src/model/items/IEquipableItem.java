@@ -64,20 +64,65 @@ public interface IEquipableItem {
    */
   void setOwner(IUnit owner);
 
+  /**
+   * The owner of the item receives a default Magical Attack
+   * @param item that sends the magical attack
+   */
   void takeInMagicalAttack(IEquipableItem item);
 
+  /**
+   * The owner of the item receives a Darkness spell.
+   * @param spell that was sent
+   */
   void takeInDarknessSpell(Darkness spell);
 
+  /**
+   * The owner of the item receives a Spirit spell.
+   * @param spell that was sent
+   */
   void takeInSpiritSpell(Spirit spell);
 
+  /**
+   * The owner of the item receives a Light spell.
+   * @param spell that was sent
+   */
   void takeInLightSpell(Light spell);
 
+  /**
+   * The owner of the item receives a default Physical Attack
+   * @param item that sends the physical attack
+   */
   void takeInPhysicalAttack(IEquipableItem item);
 
-
+  /**
+   * The owner of the item is attacked with an Axe.
+   * @param axe the weapon
+   */
   void takeInAxeAttack(Axe axe);
 
+  /**
+   * The owner of the item is attacked with a Spear.
+   * @param spear the weapon
+   */
   void takeInSpearAttack(Spear spear);
 
+  /**
+   * The owner of the item is attacked with a Sword.
+   * @param sword the weapon
+   */
   void takeInSwordAttack(Sword sword);
+
+  /**
+   * Updates the maximum range
+   * @param value new maximum range
+   */
+  void setMaxRange(int value);
+
+  /**
+   * Updates the minimum range
+   * @param value new minimum range
+   */
+  void setMinRange(int value);
+
+
 }

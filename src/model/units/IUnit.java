@@ -4,10 +4,6 @@ import java.util.List;
 import model.items.IEquipableItem;
 import model.map.Location;
 import model.units.healers.Cleric;
-import model.units.magic.Sorcerer;
-import model.units.warriors.Fighter;
-import model.units.warriors.Hero;
-import model.units.warriors.SwordMaster;
 
 /**
  * This interface represents all units in the game.
@@ -133,9 +129,15 @@ public interface IUnit {
 
   /**
    * Attacks another unit with the equipped item
-   * @param target
+   * @param target to be attacked
    */
   void attack(IUnit target);
+
+  /**
+   * Attacks another unit with the equipped item
+   * @param aggressor who attacked
+   */
+  void counterAttack(IUnit aggressor);
 
   /**
    * Both the Unit and the enemy are in combat together
@@ -184,5 +186,6 @@ public interface IUnit {
    * @return if the unit has an item equipped.
    */
   boolean hasItem();
+
 
 }

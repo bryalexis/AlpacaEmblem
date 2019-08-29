@@ -30,7 +30,7 @@ public class SwordMaster extends AbstractUnit {
   @Override
   public void equipItem(final IEquipableItem item) {
     if (item instanceof Sword) {
-      equippedItem = item;
+      setEquippedItem(item);
     }
   }
 
@@ -39,8 +39,17 @@ public class SwordMaster extends AbstractUnit {
     if(isAbleToAttack(target)){
       startCombatWith(target);
       target.getEquippedItem().takeInSwordAttack((Sword) getEquippedItem());
-      target.attack(this);
-    } else endCombatWith(target);
+      target.counterAttack(this);
+    }
   }
+
+  @Override
+  public void counterAttack(IUnit aggressor) {
+    if(isAbleToAttack(aggressor)){
+      startCombatWith(aggressor);
+      aggressor.getEquippedItem().takeInSwordAttack((Sword) getEquippedItem());
+    } else endCombatWith(aggressor);
+  }
+
 
 }

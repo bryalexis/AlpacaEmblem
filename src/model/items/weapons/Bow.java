@@ -23,8 +23,8 @@ public class Bow extends AbstractWeapon {
    */
   public Bow(final String name, final int power, final int minRange, final int maxRange) {
     super(name, power, minRange, maxRange);
-    this.minRange = Math.max(minRange, 2);
-    this.maxRange = Math.max(maxRange, this.minRange);
+    this.setMinRange(Math.max(minRange, 2));
+    this.setMaxRange(Math.max(maxRange, this.getMinRange()));
   }
 
   @Override

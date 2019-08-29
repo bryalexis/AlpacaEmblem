@@ -29,7 +29,7 @@ public class Fighter extends AbstractUnit {
   @Override
   public void equipItem(final IEquipableItem item) {
     if (item instanceof Axe) {
-      equippedItem = item;
+      setEquippedItem(item);
     }
   }
 
@@ -38,8 +38,16 @@ public class Fighter extends AbstractUnit {
     if(isAbleToAttack(target)){
       startCombatWith(target);
       target.getEquippedItem().takeInAxeAttack((Axe) getEquippedItem());
-      target.attack(this);
-    } else endCombatWith(target);
+      target.counterAttack(this);
+    }
+  }
+
+  @Override
+  public void counterAttack(IUnit aggressor) {
+    if(isAbleToAttack(aggressor)){
+      startCombatWith(aggressor);
+      aggressor.getEquippedItem().takeInAxeAttack((Axe) getEquippedItem());
+    } else endCombatWith(aggressor);
   }
 
 }

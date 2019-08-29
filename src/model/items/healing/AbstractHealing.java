@@ -15,7 +15,7 @@ import model.items.weapons.Sword;
  * @author Bryan Ortiz P.
  * @since 1.1
  */
-public abstract class AbstractHealing extends AbstractItem {
+public abstract class AbstractHealing extends AbstractItem implements IHealing {
 
     /**
      * Constructor for a default item without any special behaviour.

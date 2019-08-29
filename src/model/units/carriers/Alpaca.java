@@ -43,7 +43,12 @@ public class Alpaca extends AbstractUnit {
 
   @Override
   public void attack(IUnit target) {
-    endCombatWith(target);
+    // Alpaca can't attack
+  }
+
+  @Override
+  public void counterAttack(IUnit aggressor) {
+    endCombatWith(aggressor);
     // Alpaca can't attack
   }
 

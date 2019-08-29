@@ -37,14 +37,19 @@ public class Cleric extends AbstractUnit implements IHealer {
   @Override
   public void equipItem(final IEquipableItem item) {
     if (item instanceof Staff) {
-      equippedItem = item;
+      setEquippedItem(item);
     }
   }
 
   @Override
   public void attack(IUnit target){
-    endCombatWith(target);
     // A cleric can't attack
+  }
+
+  @Override
+  public void counterAttack(IUnit aggressor) {
+    // Cleric can't attack
+    endCombatWith(aggressor);
   }
 
   /**
@@ -52,7 +57,7 @@ public class Cleric extends AbstractUnit implements IHealer {
    * @param target who will receive the healing
    */
   public void heal(IUnit target){
-    target.receiveHealing(this);
+    ((Staff) getEquippedItem()).giveHitPoints(target);
   }
 
 }

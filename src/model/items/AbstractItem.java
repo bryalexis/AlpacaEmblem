@@ -11,9 +11,9 @@ import model.units.IUnit;
 public abstract class AbstractItem implements IEquipableItem {
 
   private final String name;
-  private final int power;
-  protected int maxRange;
-  protected int minRange;
+  private int power;
+  private int maxRange;
+  private int minRange;
   private IUnit owner;
 
   /**
@@ -71,7 +71,19 @@ public abstract class AbstractItem implements IEquipableItem {
     return minRange <= distance & maxRange >= distance;
   }
 
+  @Override
   public void setOwner(IUnit owner){
     this.owner = owner;
   }
+
+  @Override
+  public void setMaxRange(int value){
+    maxRange = value;
+  }
+
+  @Override
+  public void setMinRange(int value){
+    minRange = value;
+  }
+
 }
