@@ -40,4 +40,14 @@ public class FighterTest extends AbstractTestUnit {
     axe.equipTo(fighter);
     assertEquals(axe, fighter.getEquippedItem());
   }
+
+  @Test
+  public void testNormalAttack(){
+    fighter.addItem(axe);
+    axe.equipTo(fighter);
+    fighter.attack(getTargetAlpaca());
+    double expectedHP = getTargetAlpaca().getMaxHitPoints()-axe.getPower();
+    double currentHP = getTargetAlpaca().getCurrentHitPoints();
+    assertEquals(expectedHP,currentHP);
+  }
 }

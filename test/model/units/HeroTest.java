@@ -37,4 +37,14 @@ public class HeroTest extends AbstractTestUnit {
     spear.equipTo(hero);
     assertEquals(spear, hero.getEquippedItem());
   }
+
+  @Test
+  public void testNormalAttack(){
+    hero.addItem(spear);
+    spear.equipTo(hero);
+    hero.attack(getTargetAlpaca());
+    double expectedHP = getTargetAlpaca().getMaxHitPoints()-spear.getPower();
+    double currentHP = getTargetAlpaca().getCurrentHitPoints();
+    assertEquals(expectedHP,currentHP);
+  }
 }

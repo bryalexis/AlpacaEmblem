@@ -37,4 +37,14 @@ public class SwordMasterTest extends AbstractTestUnit {
     sword.equipTo(swordMaster);
     assertEquals(sword, swordMaster.getEquippedItem());
   }
+
+  @Test
+  public void testNormalAttack(){
+    swordMaster.addItem(sword);
+    sword.equipTo(swordMaster);
+    swordMaster.attack(getTargetAlpaca());
+    double expectedHP = getTargetAlpaca().getMaxHitPoints()-sword.getPower();
+    double currentHP = getTargetAlpaca().getCurrentHitPoints();
+    assertEquals(expectedHP,currentHP);
+  }
 }

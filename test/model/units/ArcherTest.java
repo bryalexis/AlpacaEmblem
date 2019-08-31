@@ -45,10 +45,13 @@ public class ArcherTest extends AbstractTestUnit {
   }
 
   @Test
-  public void testAttack(){
-    IUnit unit = getTestUnit();
-    unit.attack(getTargetAlpaca());
+  public void testNormalAttack(){
+    archer.addItem(bow);
+    bow.equipTo(archer);
+    archer.attack(getTargetAlpaca());
+    double expectedHP = getTargetAlpaca().getMaxHitPoints()-bow.getPower();
+    double currentHP = getTargetAlpaca().getCurrentHitPoints();
+    assertEquals(expectedHP,currentHP);
   }
-
 
 }
