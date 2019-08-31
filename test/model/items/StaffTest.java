@@ -4,6 +4,7 @@ import model.items.healing.Staff;
 import model.map.Location;
 import model.units.healers.Cleric;
 import model.units.IUnit;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test set for staffs
@@ -65,4 +66,5 @@ public class StaffTest extends AbstractTestItem {
   public IUnit getTestUnit() {
     return cleric;
   }
+
 }

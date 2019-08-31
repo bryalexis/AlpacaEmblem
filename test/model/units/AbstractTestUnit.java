@@ -120,7 +120,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   public void checkEquippedItem(IEquipableItem item) {
     assertNull(getTestUnit().getEquippedItem());
-    getTestUnit().equipItem(item);
+    item.equipTo(getTestUnit());
     assertNull(getTestUnit().getEquippedItem());
   }
 
@@ -221,9 +221,29 @@ public abstract class AbstractTestUnit implements ITestUnit {
     return targetAlpaca;
   }
 
+
+
+
+  public Darkness getDarknessBook(){ return  darkness; }
+
   @Test
-  public void testAttack(){
-    IUnit unit = getTestUnit();
-    unit.attack(getTargetAlpaca());
+  public void equipDarknessBookTest() {
+    checkEquippedItem(getDarknessBook());
+  }
+
+
+  public Light getLightBook(){ return light; }
+
+  @Test
+  public void equipLightBookTest() {
+    checkEquippedItem(getLightBook());
+  }
+
+
+  public Spirit getSpiritBook(){ return spirit; }
+
+  @Test
+  public void equipSpiritBookTest() {
+    checkEquippedItem(getSpiritBook());
   }
 }

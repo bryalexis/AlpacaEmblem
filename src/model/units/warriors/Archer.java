@@ -89,7 +89,7 @@ public class Archer extends AbstractUnit {
       if(target.hasEquippedItem()){
         target.getEquippedItem().takeInPhysicalAttack(getEquippedItem());
       } else {
-        target.modifyCurrentHitPoints(- getEquippedItem().getPower() * 1.75);
+        target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       }
       target.counterAttack(this);
     }

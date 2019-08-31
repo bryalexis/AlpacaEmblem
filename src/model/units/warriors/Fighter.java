@@ -77,7 +77,7 @@ public class Fighter extends AbstractUnit {
       if(target.hasEquippedItem()){
         target.getEquippedItem().takeInAxeAttack(axe);
       } else {
-        target.modifyCurrentHitPoints(- getEquippedItem().getPower() * 1.75);
+        target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       }
       target.counterAttack(this);
     }

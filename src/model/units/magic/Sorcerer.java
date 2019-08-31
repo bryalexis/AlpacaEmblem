@@ -90,7 +90,7 @@ public class Sorcerer extends AbstractUnit {
       if(target.hasEquippedItem()){
         spellsBook.throwSpell(target);
       } else {
-        target.modifyCurrentHitPoints(- getEquippedItem().getPower() * 1.75);
+        target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       }
       target.counterAttack(this);
     }
