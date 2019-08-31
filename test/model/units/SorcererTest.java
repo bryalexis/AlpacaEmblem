@@ -58,12 +58,11 @@ public class SorcererTest extends AbstractTestUnit {
 
   @Test
   public void testNormalAttack(){
-    Sorcerer enemy = new Sorcerer(50, 2, field.getCell(1, 1));
     sorcerer.addItem(spirit);
     spirit.equipTo(sorcerer);
-    sorcerer.attack(enemy);
-    double expectedHP = enemy.getMaxHitPoints()-spirit.getPower();
-    double currentHP = enemy.getCurrentHitPoints();
+    sorcerer.attack(getTargetAlpaca());
+    double expectedHP = getTargetAlpaca().getMaxHitPoints()-spirit.getPower();
+    double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP);
   }
 }

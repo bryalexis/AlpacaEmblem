@@ -3,7 +3,9 @@ package model.units;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import model.units.magic.Sorcerer;
 import model.units.warriors.Fighter;
+import model.units.warriors.Hero;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,5 +51,29 @@ public class FighterTest extends AbstractTestUnit {
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-axe.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP);
+  }
+
+  @Test
+  public void testStrongAttack(){
+    Sorcerer sorcerer = new Sorcerer(50, 2, field.getCell(1, 1));
+    sorcerer.addItem(spirit);
+    spirit.equipTo(sorcerer);
+
+    Hero hero = new Hero (50, 2, field.getCell(0, 2));
+    hero.addItem(spear);
+    spear.equipTo(hero);
+
+    fighter.addItem(axe);
+    axe.equipTo(fighter);
+
+    fighter.attack(sorcerer);
+    double expectedSorcererHP = sorcerer.getMaxHitPoints()-bow.getPower()*1.5;
+    double currentSorcererHP = sorcerer.getCurrentHitPoints();
+    assertEquals(expectedSorcererHP,currentSorcererHP);
+    assertEquals(fighter.getMaxHitPoints() - spirit.getPower()*1.5,
+            fighter.getCurrentHitPoints()); // Check counter
+
+    //fighter.attack(hero);
+
   }
 }
