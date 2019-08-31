@@ -1,6 +1,14 @@
 package model.units.carriers;
 
 import model.items.IEquipableItem;
+import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Bow;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.AbstractUnit;
 import model.units.IUnit;
@@ -31,14 +39,52 @@ public class Alpaca extends AbstractUnit {
     super(hitPoints, movement, location, Integer.MAX_VALUE, items);
   }
 
-  /**
-   * {@inheritDoc}
-   * <p>
-   * The <i>Alpaca</i> cannot equip any item.
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
+  public void equipStaff(Staff staff) {
     // Method body intentionally left empty
+    // Alpaca can't equip any item
+  }
+
+  @Override
+  public void equipDarknessBook(Darkness darkness) {
+    // Method body intentionally left empty
+    // Alpaca can't equip any item
+  }
+
+  @Override
+  public void equipLightBook(Light light) {
+    // Method body intentionally left empty
+    // Alpaca can't equip any item
+  }
+
+  @Override
+  public void equipSpiritBook(Spirit spirit) {
+    // Method body intentionally left empty
+    // Alpaca can't equip any item
+  }
+
+  @Override
+  public void equipAxe(Axe axe) {
+    // Method body intentionally left empty
+    // Alpaca can't equip any item
+  }
+
+  @Override
+  public void equipBow(Bow bow) {
+    // Method body intentionally left empty
+    // Alpaca can't equip any item
+  }
+
+  @Override
+  public void equipSpear(Spear spear) {
+    // Method body intentionally left empty
+    // Alpaca can't equip any item
+  }
+
+  @Override
+  public void equipSword(Sword sword) {
+    // Method body intentionally left empty
+    // Alpaca can't equip any item
   }
 
   @Override

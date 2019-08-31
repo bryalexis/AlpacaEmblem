@@ -2,6 +2,14 @@ package model.units;
 
 import java.util.List;
 import model.items.IEquipableItem;
+import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Bow;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.healers.Cleric;
 
@@ -23,7 +31,8 @@ public interface IUnit {
    * @param item
    *     the item to equip
    */
-  void equipItem(IEquipableItem item);
+  //@Deprecated
+  //void equipItem(IEquipableItem item);
 
   /**
    * @return hit points of the unit
@@ -187,5 +196,67 @@ public interface IUnit {
    */
   boolean hasItem();
 
+  /**
+   * Sets a Staff as equippedItem.
+   * Only clerics can equip this item.
+   * Items can only be equipped if they are in the inventory.
+   * @param staff that will be equipped.
+   */
+  void equipStaff(Staff staff);
 
+  /**
+   * Sets a Darkness Book as equippedItem.
+   * Only sorcerers can equip this item.
+   * Items can only be equipped if they are in the inventory.
+   * @param darkness book that will be equipped
+   */
+  void equipDarknessBook(Darkness darkness);
+
+  /**
+   * Sets a Light Book as equippedItem
+   * Only sorcerers can equip this item
+   * Items can only be equipped if they are in the inventory.
+   * @param light book that will be equipped
+   */
+  void equipLightBook(Light light);
+
+  /**
+   * Sets a Spirit Book as equippedItem
+   * Only sorcerers can equip this item
+   * Items can only be equipped if they are in the inventory.
+   * @param spirit book that will be equipped
+   */
+  void equipSpiritBook(Spirit spirit);
+
+  /**
+   * Sets an Axe as equippedItem
+   * Only fighters can equip this item
+   * Items can only be equipped if they are in the inventory.
+   * @param axe the weapon that will be equipped
+   */
+  void equipAxe(Axe axe);
+
+  /**
+   * Sets a Bow as equippedItem
+   * Only archers can equip this item
+   * Items can only be equipped if they are in the inventory.
+   * @param bow that will be equipped
+   */
+  void equipBow(Bow bow);
+
+  /**
+   * Sets a Spear as equippedItem
+   * Only heroes can equip this item
+   * Items can only be equipped if they are in the inventory.
+   * @param spear that will be equipped
+   */
+  void equipSpear(Spear spear);
+
+  /**
+   * Sets a Sword as equippedItem
+   * Only sword masters can equip this item
+   * Items can only be equipped if they are in the inventory.
+   * @param sword that will be equipped
+   */
+  void equipSword(Sword sword);
 }

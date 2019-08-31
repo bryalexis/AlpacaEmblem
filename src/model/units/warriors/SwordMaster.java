@@ -1,6 +1,13 @@
 package model.units.warriors;
 
 import model.items.IEquipableItem;
+import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Bow;
+import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.AbstractUnit;
@@ -21,19 +28,48 @@ public class SwordMaster extends AbstractUnit {
     super(hitPoints, movement, location, 3, items);
   }
 
-  /**
-   * Sets the currently equipped item of this unit.
-   *
-   * @param item
-   *     the item to equip
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
-    if (item instanceof Sword) {
-      setEquippedItem(item);
-    }
+  public void equipStaff(Staff staff) {
+    // SwordMaster can't equip this item.
   }
 
+  @Override
+  public void equipDarknessBook(Darkness darkness) {
+    // SwordMaster can't equip this item.
+  }
+
+  @Override
+  public void equipLightBook(Light light) {
+    // SwordMaster can't equip this item.
+  }
+
+  @Override
+  public void equipSpiritBook(Spirit spirit) {
+    // SwordMaster can't equip this item.
+  }
+
+  @Override
+  public void equipAxe(Axe axe) {
+    // SwordMaster can't equip this item.
+  }
+
+  @Override
+  public void equipBow(Bow bow) {
+    // SwordMaster can't equip this item.
+  }
+
+  @Override
+  public void equipSpear(Spear spear) {
+    // SwordMaster can't equip this item.
+  }
+
+  @Override
+  public void equipSword(Sword sword) {
+    if (getItems().contains(sword)){
+      setEquippedItem(sword);
+    }
+  }
+  
   @Override
   public void attack(IUnit target) {
     if(isAbleToAttack(target)){
@@ -50,6 +86,5 @@ public class SwordMaster extends AbstractUnit {
       aggressor.getEquippedItem().takeInSwordAttack((Sword) getEquippedItem());
     } else endCombatWith(aggressor);
   }
-
-
+  
 }

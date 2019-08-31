@@ -38,6 +38,8 @@ public abstract class AbstractTestUnit implements ITestUnit {
     targetAlpaca = new Alpaca(50, 2, field.getCell(1, 0));
   }
 
+
+
   /**
    * Sets up the units and weapons to be tested
    */
@@ -217,5 +219,11 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   public Alpaca getTargetAlpaca() {
     return targetAlpaca;
+  }
+
+  @Test
+  public void testAttack(){
+    IUnit unit = getTestUnit();
+    unit.attack(getTargetAlpaca());
   }
 }

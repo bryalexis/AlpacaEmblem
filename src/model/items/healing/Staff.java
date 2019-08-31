@@ -36,6 +36,10 @@ public class Staff extends AbstractHealing {
     super(name, power, minRange, maxRange);
   }
 
+  @Override
+  public void equipTo(IUnit unit) {
+    unit.equipStaff(this);
+  }
 
   @Override
   public void giveHitPoints(IUnit target) {

@@ -2,6 +2,13 @@ package model.units.healers;
 
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Bow;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.AbstractUnit;
 import model.units.IUnit;
@@ -28,17 +35,54 @@ public class Cleric extends AbstractUnit implements IHealer {
     super(hitPoints, movement, location, 3, items);
   }
 
-  /**
-   * Sets the currently equipped item of this unit.
-   *
-   * @param item
-   *     the item to equip
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
-    if (item instanceof Staff) {
-      setEquippedItem(item);
+  public void equipStaff(Staff staff) {
+    if (getItems().contains(staff)){
+      setEquippedItem(staff);
     }
+  }
+
+  @Override
+  public void equipDarknessBook(Darkness darkness) {
+    // Cleric can't equip this item
+  }
+
+  @Override
+  public void equipLightBook(Light light) {
+    // Cleric can't equip this item
+  }
+
+  @Override
+  public void equipSpiritBook(Spirit spirit) {
+    // Cleric can't equip this item
+  }
+
+  @Override
+  public void equipAxe(Axe axe) {
+    // Cleric can't equip this item
+  }
+
+  @Override
+  public void equipBow(Bow bow) {
+    // Cleric can't equip this item
+  }
+
+  @Override
+  public void equipSpear(Spear spear) {
+    // Cleric can't equip this item
+  }
+
+  @Override
+  public void equipSword(Sword sword) {
+    // Cleric can't equip this item
+  }
+
+  /**
+   * Heal another Unit giving HitPoints
+   * @param target who will receive the healing
+   */
+  public void heal(IUnit target){
+    ((Staff) getEquippedItem()).giveHitPoints(target);
   }
 
   @Override
@@ -50,14 +94,6 @@ public class Cleric extends AbstractUnit implements IHealer {
   public void counterAttack(IUnit aggressor) {
     // Cleric can't attack
     endCombatWith(aggressor);
-  }
-
-  /**
-   * Heal another Unit giving HitPoints
-   * @param target who will receive the healing
-   */
-  public void heal(IUnit target){
-    ((Staff) getEquippedItem()).giveHitPoints(target);
   }
 
 }

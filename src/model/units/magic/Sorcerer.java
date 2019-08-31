@@ -2,7 +2,14 @@ package model.units.magic;
 
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
 import model.items.spellbooks.ISpellsBook;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Bow;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.AbstractUnit;
 import model.units.IUnit;
@@ -15,51 +22,85 @@ import model.units.IUnit;
  */
 public class Sorcerer extends AbstractUnit {
 
-    /**
-     * Creates a new Sorcerer.
-     *
-     * @param hitPoints
-     *     the maximum amount of damage a unit can sustain
-     * @param movement
-     *     the number of panels a unit can move
-     */
-    public Sorcerer(final int hitPoints, final int movement, final Location location,
+  /**
+   * Creates a new Sorcerer.
+   *
+   * @param hitPoints
+   *     the maximum amount of damage a unit can sustain
+   * @param movement
+   *     the number of panels a unit can move
+   */
+  public Sorcerer(final int hitPoints, final int movement, final Location location,
                   IEquipableItem... items) {
-        super(hitPoints, movement, location, 3, items);
-    }
+    super(hitPoints, movement, location, 3, items);
+  }
 
-    /**
-     * Sets the currently equipped item of this unit.
-     *
-     * @param item
-     *     the item to equip
-     */
-    @Override
-    public void equipItem(final IEquipableItem item) {
-        if (item instanceof Staff) {
-            setEquippedItem(item);
-        }
-    }
+  @Override
+  public void equipStaff(Staff staff) {
+    // Sorcerer can't equip this item
+  }
 
-    @Override
-    public void attack(IUnit target) {
-        if(isAbleToAttack(target)){
-            startCombatWith(target);
-            ISpellsBook item = (ISpellsBook) getEquippedItem();
-            item.throwSpell(target);
-            target.counterAttack(this);
-        }
+  @Override
+  public void equipDarknessBook(Darkness darkness) {
+    if (getItems().contains(darkness)){
+      setEquippedItem(darkness);
     }
+  }
 
-    @Override
-    public void counterAttack(IUnit aggressor) {
-        if(isAbleToAttack(aggressor)){
-            startCombatWith(aggressor);
-            ISpellsBook item = (ISpellsBook) getEquippedItem();
-            item.throwSpell(aggressor);
-        } else {
-            endCombatWith(aggressor);
-        }
+  @Override
+  public void equipLightBook(Light light) {
+    if (getItems().contains(light)){
+      setEquippedItem(light);
     }
+  }
+
+  @Override
+  public void equipSpiritBook(Spirit spirit) {
+    if (getItems().contains(spirit)){
+      setEquippedItem(spirit);
+    }
+  }
+
+  @Override
+  public void equipAxe(Axe axe) {
+    // Sorcerer can't equip this item
+  }
+
+  @Override
+  public void equipBow(Bow bow) {
+    // Sorcerer can't equip this item
+  }
+
+  @Override
+  public void equipSpear(Spear spear) {
+    // Sorcerer can't equip this item
+  }
+
+  @Override
+  public void equipSword(Sword sword) {
+    // Sorcerer can't equip this item
+  }
+
+
+  @Override
+  public void attack(IUnit target) {
+    if(isAbleToAttack(target)){
+      startCombatWith(target);
+      ISpellsBook item = (ISpellsBook) getEquippedItem();
+      item.throwSpell(target);
+      target.counterAttack(this);
+    }
+  }
+
+  @Override
+  public void counterAttack(IUnit aggressor) {
+    if(isAbleToAttack(aggressor)){
+      startCombatWith(aggressor);
+      ISpellsBook item = (ISpellsBook) getEquippedItem();
+      item.throwSpell(aggressor);
+    } else {
+      endCombatWith(aggressor);
+    }
+  }
 
 }

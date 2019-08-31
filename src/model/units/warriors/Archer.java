@@ -1,7 +1,14 @@
 package model.units.warriors;
 
+import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
 import model.items.weapons.Bow;
 import model.items.IEquipableItem;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.AbstractUnit;
 import model.units.IUnit;
@@ -33,19 +40,46 @@ public class Archer extends AbstractUnit {
     super(hitPoints, movement, position, 3, items);
   }
 
-  /**
-   * Sets the currently equipped item of this unit.
-   * <p>
-   * The <i>Archer</i> can <b>only equip Bows</b>.
-   *
-   * @param item
-   *     the item to equip
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
-    if (item instanceof Bow) {
-      setEquippedItem(item);
+  public void equipStaff(Staff staff) {
+    // Archer can't equip this item.
+  }
+
+  @Override
+  public void equipDarknessBook(Darkness darkness) {
+    // Archer can't equip this item.
+  }
+
+  @Override
+  public void equipLightBook(Light light) {
+    // Archer can't equip this item.
+  }
+
+  @Override
+  public void equipSpiritBook(Spirit spirit) {
+    // Archer can't equip this item.
+  }
+
+  @Override
+  public void equipAxe(Axe axe) {
+    // Archer can't equip this item.
+  }
+
+  @Override
+  public void equipBow(Bow bow) {
+    if (getItems().contains(bow)){
+      setEquippedItem(bow);
     }
+  }
+
+  @Override
+  public void equipSpear(Spear spear) {
+    // Archer can't equip this item.
+  }
+
+  @Override
+  public void equipSword(Sword sword) {
+    // Archer can't equip this item.
   }
 
   @Override
@@ -66,5 +100,4 @@ public class Archer extends AbstractUnit {
       endCombatWith(aggressor);
     }
   }
-
 }

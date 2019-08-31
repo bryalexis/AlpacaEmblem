@@ -30,6 +30,12 @@ public class Light extends AbstractBook {
     }
 
     @Override
+    public void equipTo(IUnit unit) {
+        unit.equipLightBook(this);
+        setOwner(unit);
+    }
+
+    @Override
     public void throwSpell(IUnit target) {
         target.receiveLightSpell(getOwner());
     }

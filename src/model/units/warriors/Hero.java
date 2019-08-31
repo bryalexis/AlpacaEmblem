@@ -1,7 +1,14 @@
 package model.units.warriors;
 
 import model.items.IEquipableItem;
+import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Bow;
 import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.AbstractUnit;
 import model.units.IUnit;
@@ -29,17 +36,46 @@ public class Hero extends AbstractUnit {
     super(hitPoints, movement, location, 3, items);
   }
 
-  /**
-   * Sets the currently equipped item of this unit.
-   *
-   * @param item
-   *     the item to equip
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
-    if (item instanceof Spear) {
-      setEquippedItem(item);
+  public void equipStaff(Staff staff) {
+    // Hero can't equip this item.
+  }
+
+  @Override
+  public void equipDarknessBook(Darkness darkness) {
+    // Hero can't equip this item.
+  }
+
+  @Override
+  public void equipLightBook(Light light) {
+    // Hero can't equip this item.
+  }
+
+  @Override
+  public void equipSpiritBook(Spirit spirit) {
+    // Hero can't equip this item.
+  }
+
+  @Override
+  public void equipAxe(Axe axe) {
+    // Hero can't equip this item.
+  }
+
+  @Override
+  public void equipBow(Bow bow) {
+    // Hero can't equip this item.
+  }
+
+  @Override
+  public void equipSpear(Spear spear) {
+    if (getItems().contains(spear)){
+      setEquippedItem(spear);
     }
+  }
+
+  @Override
+  public void equipSword(Sword sword) {
+    // Hero can't equip this item.
   }
 
   @Override

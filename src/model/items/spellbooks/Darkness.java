@@ -30,6 +30,12 @@ public class Darkness extends AbstractBook{
     }
 
     @Override
+    public void equipTo(IUnit unit) {
+        unit.equipDarknessBook(this);
+        setOwner(unit);
+    }
+
+    @Override
     public void throwSpell(IUnit target){
         target.receiveDarknessSpell(getOwner());
     }

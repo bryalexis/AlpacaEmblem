@@ -1,5 +1,7 @@
 package model.items.weapons;
 
+import model.units.IUnit;
+
 /**
  * @author Ignacio Slater Muñoz
  * @since 1.0
@@ -25,6 +27,12 @@ public class Bow extends AbstractWeapon {
     super(name, power, minRange, maxRange);
     this.setMinRange(Math.max(minRange, 2));
     this.setMaxRange(Math.max(maxRange, this.getMinRange()));
+  }
+
+  @Override
+  public void equipTo(IUnit unit) {
+    unit.equipBow(this);
+    setOwner(unit);
   }
 
   @Override
