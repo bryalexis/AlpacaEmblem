@@ -73,7 +73,12 @@ public class Fighter extends AbstractUnit {
   public void attack(IUnit target) {
     if(isAbleToAttack(target)){
       startCombatWith(target);
-      target.getEquippedItem().takeInAxeAttack((Axe) getEquippedItem());
+      Axe axe = (Axe) getEquippedItem();
+      if(target.hasEquippedItem()){
+        target.getEquippedItem().takeInAxeAttack(axe);
+      } else {
+        target.modifyCurrentHitPoints(- getEquippedItem().getPower() * 1.75);
+      }
       target.counterAttack(this);
     }
   }

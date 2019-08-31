@@ -82,7 +82,12 @@ public class Hero extends AbstractUnit {
   public void attack(IUnit target) {
     if(isAbleToAttack(target)){
       startCombatWith(target);
-      target.getEquippedItem().takeInSpearAttack((Spear) getEquippedItem());
+      Spear spear = (Spear) getEquippedItem();
+      if(target.hasEquippedItem()){
+        target.getEquippedItem().takeInSpearAttack(spear);
+      } else {
+        target.modifyCurrentHitPoints(- getEquippedItem().getPower() * 1.75);
+      }
       target.counterAttack(this);
     } else endCombatWith(target);
   }

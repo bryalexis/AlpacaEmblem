@@ -25,11 +25,13 @@ import model.units.healers.Cleric;
 public abstract class AbstractUnit implements IUnit {
 
   private List<IEquipableItem> items = new ArrayList<>();
-  private final int maxHitPoints;
-  private final int movement;
-  private final int maxItems;
-  private int currentHitPoints;
   private IEquipableItem equippedItem;
+  private final int maxItems;
+
+  private final double maxHitPoints;
+  private double currentHitPoints;
+
+  private final int movement;
   private Location location;
   private boolean alive;
   private boolean inCombat;
@@ -184,13 +186,13 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public boolean hasItem(){
+  public boolean hasEquippedItem(){
       return getEquippedItem() != null;
   }
 
   @Override
   public boolean isAbleToAttack(IUnit target){
-      if(hasItem() && isAlive() && target.isAlive()){
+      if(hasEquippedItem() && isAlive() && target.isAlive()){
         return getEquippedItem().isReachable(getLocation().distanceTo(target.getLocation()));
       }
       return false;

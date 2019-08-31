@@ -138,6 +138,8 @@ public interface IUnit {
 
   /**
    * Attacks another unit with the equipped item
+   * The damage done depends on the item that the other unit has equipped,
+   * if it hasn't any item equipped, it will receives the default attack.
    * @param target to be attacked
    */
   void attack(IUnit target);
@@ -194,7 +196,7 @@ public interface IUnit {
   /**
    * @return if the unit has an item equipped.
    */
-  boolean hasItem();
+  boolean hasEquippedItem();
 
   /**
    * Sets a Staff as equippedItem.

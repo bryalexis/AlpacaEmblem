@@ -77,10 +77,7 @@ public class Cleric extends AbstractUnit implements IHealer {
     // Cleric can't equip this item
   }
 
-  /**
-   * Heal another Unit giving HitPoints
-   * @param target who will receive the healing
-   */
+  @Override
   public void heal(IUnit target){
     ((Staff) getEquippedItem()).giveHitPoints(target);
   }

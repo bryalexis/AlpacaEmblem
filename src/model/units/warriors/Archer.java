@@ -86,7 +86,11 @@ public class Archer extends AbstractUnit {
   public void attack(IUnit target) {
     if(isAbleToAttack(target)){
       startCombatWith(target);
-      target.getEquippedItem().takeInPhysicalAttack(getEquippedItem());
+      if(target.hasEquippedItem()){
+        target.getEquippedItem().takeInPhysicalAttack(getEquippedItem());
+      } else {
+        target.modifyCurrentHitPoints(- getEquippedItem().getPower() * 1.75);
+      }
       target.counterAttack(this);
     }
   }
