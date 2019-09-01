@@ -1,9 +1,5 @@
 package model.units;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import model.items.*;
 import model.items.healing.Staff;
 import model.items.spellbooks.Darkness;
@@ -13,8 +9,11 @@ import model.items.weapons.*;
 import model.map.Field;
 import model.map.Location;
 import model.units.carriers.Alpaca;
+import model.units.healers.Cleric;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -221,9 +220,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     return targetAlpaca;
   }
 
-
-
-
+  @Override
   public Darkness getDarknessBook(){ return  darkness; }
 
   @Test
@@ -231,20 +228,88 @@ public abstract class AbstractTestUnit implements ITestUnit {
     checkEquippedItem(getDarknessBook());
   }
 
-
+  @Override
   public Light getLightBook(){ return light; }
 
+  @Override
   @Test
   public void equipLightBookTest() {
     checkEquippedItem(getLightBook());
   }
 
-
+  @Override
   public Spirit getSpiritBook(){ return spirit; }
 
+  @Override
   @Test
   public void equipSpiritBookTest() {
     checkEquippedItem(getSpiritBook());
+  }
+
+  @Override
+  @Test
+  public void testHasEquippedItem(){
+    IUnit unit = getEquippedTestUnit();
+    assertEquals(unit.getEquippedItem() != null, unit.hasEquippedItem());
+  }
+
+  @Override
+  @Test
+  public void testIsAbleToAttack(){
+    IUnit unit = getEquippedTestUnit();
+    if (unit.hasEquippedItem())
+      assertTrue(unit.isAbleToAttack(targetAlpaca));
+    unit.setEquippedItem(null);
+    assertFalse(unit.isAbleToAttack(targetAlpaca));
+    unit = getEquippedTestUnit();
+    targetAlpaca.die();
+    assertFalse(unit.isAbleToAttack(targetAlpaca));
+  }
+
+  @Override
+  public abstract IUnit getEquippedTestUnit();
+
+  @Override
+  @Test
+  public void testIsAlive(){
+    assertTrue(targetAlpaca.isAlive());
+    targetAlpaca.die();
+    assertFalse(targetAlpaca.isAlive());
+  }
+
+  @Override
+  @Test
+  public void testGiveItem(){
+    Alpaca alpaca = getTargetAlpaca();
+    alpaca.moveTo(new Location(1,0));
+    getTestUnit().addItem(sword);
+    assertEquals(getTestUnit(), sword.getOwner());
+    getTestUnit().giveItem(alpaca,sword);
+    assertEquals(alpaca, sword.getOwner());
+    assertFalse(getTestUnit().getItems().contains(sword));
+    assertTrue(alpaca.getItems().contains(sword));
+  }
+
+  @Override
+  @Test
+  public void testHealing(){
+    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
+    getTargetAlpaca().modifyCurrentHitPoints(-40);
+    cleric.addItem(staff);
+    staff.equipTo(cleric);
+    cleric.heal(getTargetAlpaca());
+    assertEquals(10+staff.getPower(), getTargetAlpaca().getCurrentHitPoints());
+  }
+
+  @Override
+  @Test
+  public void testCombatState(){
+    getTestUnit().startCombatWith(getTargetAlpaca());
+    assertTrue(getTestUnit().getInCombat());
+    assertTrue(getTargetAlpaca().getInCombat());
+    getTestUnit().endCombatWith(getTargetAlpaca());
+    assertFalse(getTargetAlpaca().getInCombat());
+    assertFalse(getTestUnit().getInCombat());
   }
 
 }

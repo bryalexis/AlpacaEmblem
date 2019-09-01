@@ -1,5 +1,8 @@
 package model.units;
 
+import model.units.magic.Sorcerer;
+import model.units.warriors.Fighter;
+import model.units.warriors.Hero;
 import model.units.warriors.SwordMaster;
 import org.junit.jupiter.api.Test;
 
@@ -46,5 +49,46 @@ public class SwordMasterTest extends AbstractTestUnit {
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-sword.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP);
+  }
+
+  @Test
+  public void testStrongAttack(){
+    swordMaster.addItem(sword);
+    sword.equipTo(swordMaster);
+    double current;
+    double expected;
+
+    // Sword vs Magic Item
+    Sorcerer sorcerer = new Sorcerer(50, 2, field.getCell(1, 1));
+    sorcerer.addItem(light);
+    light.equipTo(sorcerer);
+
+    swordMaster.attack(sorcerer);
+    double expectedSorcererHP = sorcerer.getMaxHitPoints()-sword.getPower()*1.5;
+    double currentSorcererHP = sorcerer.getCurrentHitPoints();
+    assertEquals(expectedSorcererHP,currentSorcererHP);
+    expected = swordMaster.getMaxHitPoints() - light.getPower()*1.5;
+    current = swordMaster.getCurrentHitPoints();
+    assertEquals(expected, current); // Check counter
+
+    // Sword vs Axe
+    Fighter fighter = new Fighter(50, 2, field.getCell(0, 2));
+    fighter.addItem(axe);
+    axe.equipTo(fighter);
+
+    swordMaster.attack(fighter);
+    double expectedHeroHP = fighter.getMaxHitPoints() - sword.getPower()*1.5;
+    double currentHeroHP = fighter.getCurrentHitPoints();
+    assertEquals(expectedHeroHP,currentHeroHP);
+    expected = current + Math.min(-axe.getPower()+20,0);
+    current = swordMaster.getCurrentHitPoints();
+    assertEquals(expected, current); // Check counter
+  }
+
+  @Override
+  public IUnit getEquippedTestUnit() {
+    swordMaster.addItem(sword);
+    sword.equipTo(swordMaster);
+    return swordMaster;
   }
 }

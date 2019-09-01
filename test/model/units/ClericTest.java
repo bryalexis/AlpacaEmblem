@@ -37,4 +37,12 @@ public class ClericTest extends AbstractTestUnit {
     staff.equipTo(cleric);
     assertEquals(staff, cleric.getEquippedItem());
   }
+
+  @Override
+  public IUnit getEquippedTestUnit() {
+    cleric.addItem(staff);
+    staff.equipTo(cleric);
+    return cleric;
+  }
+
 }

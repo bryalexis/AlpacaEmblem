@@ -3,6 +3,9 @@ package model.units;
 
 import model.items.*;
 import model.items.healing.Staff;
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
 import model.items.weapons.*;
 import model.map.Field;
 import model.units.carriers.Alpaca;
@@ -110,4 +113,52 @@ public interface ITestUnit {
    * @return the target Alpaca
    */
   Alpaca getTargetAlpaca();
+
+  /**
+   * @return the test darkness book
+   */
+  Darkness getDarknessBook();
+
+  @Test
+  void equipDarknessBookTest();
+
+  /**
+   * @return the test light book.
+   */
+  Light getLightBook();
+
+  @Test
+  void equipLightBookTest();
+
+  /**
+   * @return the test light book
+   */
+  Spirit getSpiritBook();
+
+  @Test
+  void equipSpiritBookTest();
+
+  @Test
+  void testHasEquippedItem();
+
+  @Test
+  void testIsAbleToAttack();
+
+  /**
+   * @return the current unit being tested with an item equipped.
+   */
+  IUnit getEquippedTestUnit();
+
+  @Test
+  void testIsAlive();
+
+  @Test
+  void testGiveItem();
+
+  @Test
+  void testHealing();
+
+  @Test
+  void testCombatState();
+
 }

@@ -261,4 +261,9 @@ public interface IUnit {
    * @param sword that will be equipped
    */
   void equipSword(Sword sword);
+
+  /**
+   * @return if the unit is in combat with another one.
+   */
+  boolean getInCombat();
 }

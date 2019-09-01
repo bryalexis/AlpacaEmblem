@@ -141,7 +141,7 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void giveItem(IUnit receptor, IEquipableItem item){
     if (receptor.getItems().size() < receptor.getMaxItems() &&
-            getLocation().isNeighbour(receptor.getLocation())){
+            getLocation().distanceTo(receptor.getLocation())==1){
       receptor.addItem(item);
       item.setOwner(receptor);
       removeItem(item);
@@ -182,8 +182,8 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void endCombatWith(IUnit enemy){
-      startCombat();
-      enemy.startCombat();
+      endCombat();
+      enemy.endCombat();
   }
 
   @Override
@@ -212,5 +212,10 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void receiveSpiritSpell(IUnit sorcerer) {
     getEquippedItem().takeInSpiritSpell((Spirit) sorcerer.getEquippedItem());
+  }
+
+  @Override
+  public boolean getInCombat(){
+    return inCombat;
   }
 }

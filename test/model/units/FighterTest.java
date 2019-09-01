@@ -55,25 +55,42 @@ public class FighterTest extends AbstractTestUnit {
 
   @Test
   public void testStrongAttack(){
+    fighter.addItem(axe);
+    axe.equipTo(fighter);
+    double current;
+    double expected;
+
+    // Axe vs Magic Item
     Sorcerer sorcerer = new Sorcerer(50, 2, field.getCell(1, 1));
     sorcerer.addItem(spirit);
     spirit.equipTo(sorcerer);
 
+    fighter.attack(sorcerer);
+    double expectedSorcererHP = sorcerer.getMaxHitPoints()-axe.getPower()*1.5;
+    double currentSorcererHP = sorcerer.getCurrentHitPoints();
+    assertEquals(expectedSorcererHP,currentSorcererHP);
+    expected = fighter.getMaxHitPoints() - spirit.getPower()*1.5;
+    current = fighter.getCurrentHitPoints();
+    assertEquals(expected, current); // Check counter
+
+    // Axe vs Spear
     Hero hero = new Hero (50, 2, field.getCell(0, 2));
     hero.addItem(spear);
     spear.equipTo(hero);
 
+    fighter.attack(hero);
+    double expectedHeroHP = hero.getMaxHitPoints() - axe.getPower()*1.5;
+    double currentHeroHP = hero.getCurrentHitPoints();
+    assertEquals(expectedHeroHP,currentHeroHP);
+    expected = current + Math.min(-spear.getPower()+20,0);
+    current = fighter.getCurrentHitPoints();
+    assertEquals(expected, current); // Check counter
+  }
+
+  @Override
+  public IUnit getEquippedTestUnit() {
     fighter.addItem(axe);
     axe.equipTo(fighter);
-
-    fighter.attack(sorcerer);
-    double expectedSorcererHP = sorcerer.getMaxHitPoints()-bow.getPower()*1.5;
-    double currentSorcererHP = sorcerer.getCurrentHitPoints();
-    assertEquals(expectedSorcererHP,currentSorcererHP);
-    assertEquals(fighter.getMaxHitPoints() - spirit.getPower()*1.5,
-            fighter.getCurrentHitPoints()); // Check counter
-
-    //fighter.attack(hero);
-
+    return fighter;
   }
 }

@@ -1,10 +1,11 @@
 package model.units;
 
 import model.units.magic.Sorcerer;
+import model.units.warriors.Archer;
+import model.units.warriors.Hero;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Bryan Ortiz P
@@ -64,5 +65,37 @@ public class SorcererTest extends AbstractTestUnit {
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-spirit.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP);
+  }
+
+  @Test
+  public void testStrongAttack(){
+    sorcerer.addItem(darkness);
+    darkness.equipTo(sorcerer);
+
+    Sorcerer target = new Sorcerer(50, 2, field.getCell(1, 1));
+    target.addItem(spirit);
+    spirit.equipTo(target);
+
+    sorcerer.attack(target);
+    double expectedSorcererHP = target.getMaxHitPoints()-darkness.getPower()*1.5;
+    double currentSorcererHP = target.getCurrentHitPoints();
+    assertEquals(expectedSorcererHP,currentSorcererHP);
+
+
+    Archer archer = new Archer(50, 2, field.getCell(0, 2));
+    archer.addItem(bow);
+    bow.equipTo(archer);
+
+    sorcerer.attack(archer);
+    double expectedArcherHP = archer.getMaxHitPoints()-darkness.getPower()*1.5;
+    double currentArcherHP = archer.getCurrentHitPoints();
+    assertEquals(expectedArcherHP, currentArcherHP);
+  }
+
+  @Override
+  public IUnit getEquippedTestUnit() {
+    sorcerer.addItem(light);
+    light.equipTo(sorcerer);
+    return sorcerer;
   }
 }
