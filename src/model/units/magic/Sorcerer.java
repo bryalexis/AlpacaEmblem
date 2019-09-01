@@ -99,12 +99,10 @@ public class Sorcerer extends AbstractUnit {
   @Override
   public void counterAttack(IUnit aggressor) {
     if(isAbleToAttack(aggressor)){
-      startCombatWith(aggressor);
       ISpellsBook item = (ISpellsBook) getEquippedItem();
       item.throwSpell(aggressor);
-    } else {
-      endCombatWith(aggressor);
     }
+    endCombatWith(aggressor);
   }
 
 }

@@ -1,6 +1,7 @@
 package model.units;
 
 import model.units.carriers.Alpaca;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test set for the alpaca unit

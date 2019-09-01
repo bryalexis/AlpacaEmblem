@@ -87,9 +87,9 @@ public class SwordMaster extends AbstractUnit {
   @Override
   public void counterAttack(IUnit aggressor) {
     if(isAbleToAttack(aggressor)){
-      startCombatWith(aggressor);
       aggressor.getEquippedItem().takeInSwordAttack((Sword) getEquippedItem());
-    } else endCombatWith(aggressor);
+    }
+    endCombatWith(aggressor);
   }
   
 }

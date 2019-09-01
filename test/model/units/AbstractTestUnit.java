@@ -10,6 +10,7 @@ import model.map.Field;
 import model.map.Location;
 import model.units.carriers.Alpaca;
 import model.units.healers.Cleric;
+import model.units.warriors.Archer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -312,4 +313,31 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertFalse(getTestUnit().getInCombat());
   }
 
+  @Test
+  public void alpacaAttackTest(){
+    IUnit unit = getEquippedTestUnit();
+    getTargetAlpaca().attack(unit);
+    assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
+  }
+
+  @Test
+  public void clericAttackTest(){
+    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
+    cleric.addItem(staff);
+    cleric.equipStaff(staff);
+    IUnit unit = getEquippedTestUnit();
+    cleric.attack(unit);
+    assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
+  }
+
+  @Test
+  public void testReceiveHealing(){
+    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
+    cleric.addItem(staff);
+    cleric.equipStaff(staff);
+    IUnit unit = getEquippedTestUnit();
+    unit.modifyCurrentHitPoints(-unit.getMaxHitPoints()+10);
+    getEquippedTestUnit().receiveHealing(cleric);
+    assertEquals(10+staff.getPower(), unit.getCurrentHitPoints());
+  }
 }

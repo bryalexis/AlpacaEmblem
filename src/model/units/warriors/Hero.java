@@ -95,9 +95,9 @@ public class Hero extends AbstractUnit {
   @Override
   public void counterAttack(IUnit aggressor) {
     if(isAbleToAttack(aggressor)){
-      startCombatWith(aggressor);
       aggressor.getEquippedItem().takeInSpearAttack((Spear) getEquippedItem());
-    } else endCombatWith(aggressor);
+    }
+    endCombatWith(aggressor);
   }
 
 }

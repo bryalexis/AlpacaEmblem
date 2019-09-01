@@ -86,9 +86,9 @@ public class Fighter extends AbstractUnit {
   @Override
   public void counterAttack(IUnit aggressor) {
     if(isAbleToAttack(aggressor)){
-      startCombatWith(aggressor);
       aggressor.getEquippedItem().takeInAxeAttack((Axe) getEquippedItem());
-    } else endCombatWith(aggressor);
+    }
+    endCombatWith(aggressor);
   }
 
 }

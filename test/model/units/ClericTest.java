@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import model.units.healers.Cleric;
+import model.units.warriors.Archer;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,4 +46,13 @@ public class ClericTest extends AbstractTestUnit {
     return cleric;
   }
 
+  @Test
+  public void counterTest(){
+    IUnit unit = getEquippedTestUnit();
+    Archer target = new Archer(50, 2, field.getCell(0, 2));
+    target.addItem(bow);
+    bow.equipTo(target);
+    unit.counterAttack(target);
+    assertEquals(target.getMaxHitPoints(), target.getCurrentHitPoints());
+  }
 }

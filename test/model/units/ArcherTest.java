@@ -94,4 +94,15 @@ public class ArcherTest extends AbstractTestUnit {
     bow.equipTo(archer);
     return archer;
   }
+
+  @Test
+  public void counterTest(){
+    IUnit unit = getEquippedTestUnit();
+    Archer target = new Archer(50, 2, field.getCell(0, 2));
+    target.addItem(bow);
+    bow.equipTo(target);
+    double damage = (unit.hasEquippedItem()) ? unit.getEquippedItem().getPower() : 0;
+    unit.counterAttack(target);
+    assertEquals(target.getMaxHitPoints() - damage, target.getCurrentHitPoints());
+  }
 }

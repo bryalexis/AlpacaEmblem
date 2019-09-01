@@ -98,4 +98,15 @@ public class SorcererTest extends AbstractTestUnit {
     light.equipTo(sorcerer);
     return sorcerer;
   }
+
+  @Test
+  public void counterTest(){
+    IUnit unit = getEquippedTestUnit();
+    Archer target = new Archer(50, 2, field.getCell(0, 2));
+    target.addItem(bow);
+    bow.equipTo(target);
+    double damage = (unit.hasEquippedItem()) ? unit.getEquippedItem().getPower()*1.5 : 0;
+    unit.counterAttack(target);
+    assertEquals(target.getMaxHitPoints() - damage, target.getCurrentHitPoints());
+  }
 }

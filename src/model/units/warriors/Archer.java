@@ -98,10 +98,8 @@ public class Archer extends AbstractUnit {
   @Override
   public void counterAttack(IUnit aggressor) {
     if(isAbleToAttack(aggressor)){
-      startCombatWith(aggressor);
       aggressor.getEquippedItem().takeInPhysicalAttack(getEquippedItem());
-    } else{
-      endCombatWith(aggressor);
     }
+    endCombatWith(aggressor);
   }
 }

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import model.units.magic.Sorcerer;
+import model.units.warriors.Archer;
 import model.units.warriors.Fighter;
 import model.units.warriors.Hero;
 import org.junit.jupiter.api.Test;
@@ -92,5 +93,16 @@ public class FighterTest extends AbstractTestUnit {
     fighter.addItem(axe);
     axe.equipTo(fighter);
     return fighter;
+  }
+
+  @Test
+  public void counterTest(){
+    IUnit unit = getEquippedTestUnit();
+    Archer target = new Archer(50, 2, field.getCell(0, 2));
+    target.addItem(bow);
+    bow.equipTo(target);
+    double damage = (unit.hasEquippedItem()) ? unit.getEquippedItem().getPower() : 0;
+    unit.counterAttack(target);
+    assertEquals(target.getMaxHitPoints() - damage, target.getCurrentHitPoints());
   }
 }

@@ -1,6 +1,7 @@
 package model.units;
 
 import model.units.magic.Sorcerer;
+import model.units.warriors.Archer;
 import model.units.warriors.Fighter;
 import model.units.warriors.Hero;
 import model.units.warriors.SwordMaster;
@@ -90,5 +91,16 @@ public class SwordMasterTest extends AbstractTestUnit {
     swordMaster.addItem(sword);
     sword.equipTo(swordMaster);
     return swordMaster;
+  }
+
+  @Test
+  public void counterTest(){
+    IUnit unit = getEquippedTestUnit();
+    Archer target = new Archer(50, 2, field.getCell(0, 2));
+    target.addItem(bow);
+    bow.equipTo(target);
+    double damage = (unit.hasEquippedItem()) ? unit.getEquippedItem().getPower() : 0;
+    unit.counterAttack(target);
+    assertEquals(target.getMaxHitPoints() - damage, target.getCurrentHitPoints());
   }
 }
