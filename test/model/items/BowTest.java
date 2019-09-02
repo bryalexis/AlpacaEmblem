@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class BowTest extends AbstractTestItem {
+public class BowTest extends AbstractTestWeapon {
 
   private Bow bow;
   private Bow wrongBow;
@@ -45,7 +45,7 @@ public class BowTest extends AbstractTestItem {
    */
   @Override
   public void setTestUnit() {
-    archer = new Archer(10, 5, new Location(0, 0));
+    archer = new Archer(50, 5, new Location(0, 0));
   }
 
   /**

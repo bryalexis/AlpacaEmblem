@@ -11,7 +11,7 @@ import model.units.warriors.SwordMaster;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class SwordTest extends AbstractTestItem {
+public class SwordTest extends AbstractTestWeapon {
 
   private Sword sword;
   private Sword wrongSword;
@@ -42,7 +42,7 @@ public class SwordTest extends AbstractTestItem {
    */
   @Override
   public void setTestUnit() {
-    swordMaster = new SwordMaster(10, 5, new Location(0, 0));
+    swordMaster = new SwordMaster(50, 5, new Location(0, 0));
   }
 
   @Override

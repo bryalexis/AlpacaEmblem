@@ -313,6 +313,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertFalse(getTestUnit().getInCombat());
   }
 
+  @Override
   @Test
   public void alpacaAttackTest(){
     IUnit unit = getEquippedTestUnit();
@@ -320,6 +321,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
   }
 
+  @Override
   @Test
   public void clericAttackTest(){
     Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
@@ -330,6 +332,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
   }
 
+  @Override
   @Test
   public void testReceiveHealing(){
     Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));

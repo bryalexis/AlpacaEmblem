@@ -161,4 +161,13 @@ public interface ITestUnit {
   @Test
   void testCombatState();
 
+  @Test
+  void alpacaAttackTest();
+
+  @Test
+  void clericAttackTest();
+
+  @Test
+  void testReceiveHealing();
+
 }

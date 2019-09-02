@@ -1,12 +1,13 @@
 package model.items;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
+import model.items.spellbooks.Spirit;
 import model.units.IUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Defines some common methods for all the items tests
@@ -117,4 +118,13 @@ public abstract class AbstractTestItem {
    * @return a unit that can equip the item being tested
    */
   public abstract IUnit getTestUnit();
+
+  @Test
+  public void isReachableTest(){
+    assertFalse(getTestItem().isReachable(getTestItem().getMaxRange()+1));
+    assertTrue(getTestItem().isReachable(getTestItem().getMaxRange()));
+    assertFalse(getTestItem().isReachable(getTestItem().getMinRange()-1));
+    assertTrue(getTestItem().isReachable(getTestItem().getMinRange()));
+  }
+
 }

@@ -1,29 +1,29 @@
 package model.items;
 
-import model.items.weapons.Axe;
+import model.items.spellbooks.Spirit;
 import model.map.Location;
-import model.units.warriors.Fighter;
+import model.units.magic.Sorcerer;
 import model.units.IUnit;
 
 /**
- * Test set for Axes
+ * Test set for Spirit books
  *
- * @author Ignacio Slater Muñoz
- * @since 1.0
+ * @author Bryan Ortiz P.
+ * @since 1.1
  */
-class AxeTest extends AbstractTestWeapon {
+class SpiritTest extends AbstractTestItem {
 
-  private Axe axe;
-  private Axe wrongAxe;
-  private Fighter fighter;
+  private Spirit spiritBook;
+  private Spirit wrongSpiritBook;
+  private Sorcerer sorcerer;
 
   @Override
   public void setTestItem() {
-    expectedName = "Common axe";
+    expectedName = "Common spirit book";
     expectedPower = 10;
     expectedMinRange = 1;
     expectedMaxRange = 2;
-    axe = new Axe(expectedName, expectedPower, expectedMinRange, expectedMaxRange);
+    spiritBook = new Spirit(expectedName, expectedPower, expectedMinRange, expectedMaxRange);
   }
 
   /**
@@ -31,7 +31,7 @@ class AxeTest extends AbstractTestWeapon {
    */
   @Override
   public void setWrongRangeItem() {
-    wrongAxe = new Axe("Wrong axe", 0, -1, -2);
+    wrongSpiritBook = new Spirit("Wrong spirit book", 0, -1, -2);
   }
 
   /**
@@ -39,17 +39,17 @@ class AxeTest extends AbstractTestWeapon {
    */
   @Override
   public void setTestUnit() {
-    fighter = new Fighter(50, 5, new Location(0, 0));
+    sorcerer = new Sorcerer(50, 5, new Location(0, 0));
   }
 
   @Override
   public IEquipableItem getWrongTestItem() {
-    return wrongAxe;
+    return wrongSpiritBook;
   }
 
   @Override
   public IEquipableItem getTestItem() {
-    return axe;
+    return spiritBook;
   }
 
   /**
@@ -57,6 +57,6 @@ class AxeTest extends AbstractTestWeapon {
    */
   @Override
   public IUnit getTestUnit() {
-    return fighter;
+    return sorcerer;
   }
 }
