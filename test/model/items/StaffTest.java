@@ -6,6 +6,8 @@ import model.units.healers.Cleric;
 import model.units.IUnit;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Test set for staffs
  *
@@ -65,6 +67,16 @@ public class StaffTest extends AbstractTestHealing {
   @Override
   public IUnit getTestUnit() {
     return cleric;
+  }
+
+  @Test
+  public void giveHitPointsTest() {
+    Staff staff = new Staff("spear", 10, 1,2);
+    IUnit unit = getTestUnit();
+    unit.modifyCurrentHitPoints(- unit.getMaxHitPoints()+10);
+
+    staff.giveHitPoints(unit);
+    assertEquals(20, unit.getCurrentHitPoints());
   }
 
 }

@@ -1,9 +1,14 @@
 package model.items;
 
+import model.items.spellbooks.Darkness;
+import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
 import model.map.Location;
 import model.units.magic.Sorcerer;
 import model.units.IUnit;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test set for Spirit books
@@ -58,5 +63,57 @@ class SpiritTest extends AbstractTestBook {
   @Override
   public IUnit getTestUnit() {
     return sorcerer;
+  }
+
+  @Test
+  public void takeInDarknessSpellTest(){
+    Darkness darkness = new Darkness("darkness book", 10, 1,2);
+    IEquipableItem item = getTestItem();
+    IUnit unit = getTestUnit();
+    unit.addItem(item);
+    item.equipTo(unit);
+
+    item.takeInDarknessSpell(darkness);
+    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+  }
+
+  @Test
+  public void takeInSpiritSpellTest(){
+    Spirit spirit = new Spirit("spirit book", 10, 1,2);
+    IEquipableItem item = getTestItem();
+    IUnit unit = getTestUnit();
+    unit.addItem(item);
+    item.equipTo(unit);
+
+    item.takeInSpiritSpell(spirit);
+    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+  }
+
+  @Test
+  public void takeInLightSpellTest(){
+    Light light = new Light("light book", 40, 1,2);
+    IEquipableItem item = getTestItem();
+    IUnit unit = getTestUnit();
+    unit.addItem(item);
+    item.equipTo(unit);
+
+    item.takeInLightSpell(light);
+    assertEquals(unit.getMaxHitPoints() - (40-20), unit.getCurrentHitPoints());
+  }
+
+  @Test
+  public void throwSpellTest(){
+    Spirit spirit = new Spirit("spirit book", 10, 1,2);
+    Sorcerer sorcerer = new Sorcerer(50, 5, new Location(1, 0));
+    sorcerer.addItem(spirit);
+    spirit.equipTo(sorcerer);
+
+    IEquipableItem item = getTestItem();
+    IUnit unit = getTestUnit();
+    unit.addItem(item);
+    item.equipTo(unit);
+
+    spirit.throwSpell(unit);
+    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
   }
 }

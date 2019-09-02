@@ -11,6 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Defines some common methods for all the healing tests
+ *
+ * @author Bryan Ortiz P
+ * @since 1.1
+ */
 public abstract class AbstractTestHealing extends AbstractTestItem {
 
   @Test
