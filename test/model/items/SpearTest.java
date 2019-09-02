@@ -1,9 +1,14 @@
 package model.items;
 
+import model.items.weapons.Axe;
 import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
 import model.units.warriors.Hero;
 import model.units.IUnit;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test set for spears
@@ -64,5 +69,41 @@ public class SpearTest extends AbstractTestWeapon {
   @Override
   public IUnit getTestUnit() {
     return hero;
+  }
+
+  @Test
+  public void takeInAxeAttackTest() {
+    Axe axe = new Axe("axe", 10, 1,2);
+    IEquipableItem item = getTestItem();
+    IUnit unit = getTestUnit();
+    unit.addItem(item);
+    item.equipTo(unit);
+
+    item.takeInAxeAttack(axe);
+    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+  }
+
+  @Test
+  public void takeInSpearAttackTest() {
+    Spear spear = new Spear("spear", 10, 1,2);
+    IEquipableItem item = getTestItem();
+    IUnit unit = getTestUnit();
+    unit.addItem(item);
+    item.equipTo(unit);
+
+    item.takeInSpearAttack(spear);
+    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+  }
+
+  @Test
+  public void takeInSwordAttackTest() {
+    Sword sword = new Sword("sword", 40, 1,2);
+    IEquipableItem item = getTestItem();
+    IUnit unit = getTestUnit();
+    unit.addItem(item);
+    item.equipTo(unit);
+
+    item.takeInSwordAttack(sword);
+    assertEquals(unit.getMaxHitPoints() - (40-20), unit.getCurrentHitPoints());
   }
 }
