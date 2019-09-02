@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class StaffTest extends AbstractTestItem {
+public class StaffTest extends AbstractTestHealing {
 
   private Staff staff;
   private Staff wrongStaff;

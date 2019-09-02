@@ -11,7 +11,7 @@ import model.units.IUnit;
  * @author Bryan Ortiz P.
  * @since 1.1
  */
-class DarknessTest extends AbstractTestItem {
+class DarknessTest extends AbstractTestBook {
 
   private Darkness darknessBook;
   private Darkness wrongDarknessBook;

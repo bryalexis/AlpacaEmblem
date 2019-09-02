@@ -11,7 +11,7 @@ import model.units.IUnit;
  * @author Bryan Ortiz P.
  * @since 1.1
  */
-class SpiritTest extends AbstractTestItem {
+class SpiritTest extends AbstractTestBook {
 
   private Spirit spiritBook;
   private Spirit wrongSpiritBook;
