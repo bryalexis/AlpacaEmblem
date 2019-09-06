@@ -74,7 +74,7 @@ Cada item se compone de las siguientes variables:
 - **inCombat:** Indicador de si una unidad se encuentra en combate con otra.
 
 ## Items
-Existen 3 tipos de items, *weapons*, *spellsbooks* y *healing*. Algunos items son fuertes (o bien débiles) contra otros y se pueden equipar a distintas unidades de acuerdo al cuadro mostrado en la sección anterior. La clasificación de los items va de acuerdo a lo que muestra el siguiente cuadro:
+Existen 3 tipos de items, *weapons*, *spellbooks* y *healing*. Algunos items son fuertes (o bien débiles) contra otros y se pueden equipar a distintas unidades de acuerdo al cuadro mostrado en la sección anterior. La clasificación de los items va de acuerdo a lo que muestra el siguiente cuadro:
 
 <table>
   <tr>
@@ -111,7 +111,7 @@ Existen 3 tipos de items, *weapons*, *spellsbooks* y *healing*. Algunos items so
   
   <tr>
     <td> Darkness </td>
-    <td rowspan="3"> Spellsbook </td>
+    <td rowspan="3"> Spellbook </td>
     <td> Spirit </td>
     <td> Light </td>
   </tr>
@@ -137,7 +137,7 @@ Existen 3 tipos de items, *weapons*, *spellsbooks* y *healing*. Algunos items so
   
 </table>
 
-A su vez, todos los items de tipo *spellsbook* son fuertes contra los no-*spellsbook* y viceversa. 
+A su vez, todos los items de tipo *spellbook* son fuertes contra los no-*spellbook* y viceversa. 
 Cada item se compone de las siguientes variables:
 
 - **name:** nombre del item.
@@ -145,3 +145,8 @@ Cada item se compone de las siguientes variables:
 - **minRange:** rango mínimo.
 - **maxRange:** rango máximo.
 - **owner:** unidad que es dueña del item.
+
+## Interacciones
+
+### Dar Item
+Una unidad puede entregar un item que esté portando siempre y cuando la unidad receptora porte menos de su máximo de items y ambas unidades esten a distancia 1. Si se regala un ítem que esté equipado, la unidad quedará sin item equipado. Además, cada vez que un item cambie de unidad, su dueño será la unidad que lo porte consigo.
