@@ -150,3 +150,19 @@ Cada item se compone de las siguientes variables:
 
 ### Dar Item
 Una unidad puede entregar un item que esté portando siempre y cuando la unidad receptora porte menos de su máximo de items y ambas unidades esten a distancia 1. Si se regala un ítem que esté equipado, la unidad quedará sin item equipado. Además, cada vez que un item cambie de unidad, su dueño será la unidad que lo porte consigo.
+
+### Ataque
+Todas las unidades que puedan tener un item de tipo no-*healing* equipado pueden realizar un ataque a otra unidad bajo ciertas restricciones:
+- Ambas unidades participantes del combate deben estar vivas.
+- El atacante **debe** tener un arma equipada.
+- La unidad objetivo a recibir el ataque debe estar a una distancia que se encuentre dentro del rango del arma equipada por el atacante.
+
+A su vez, cada ataque desencadena un contraataque inmediato por parte de la unidad atacada, siempre y cuando cumpla con las mismas restricciones necesarias para realizar un ataque. Las alpacas y los *clerics* no pueden ni atacar ni contraatacar, por lo que al ser atacados, solo reciben daño y el combate finaliza de inmediato sin respuesta alguna.
+
+Si en el ataque, una unidad recibe más daño que sus *currentHitPoints*, esta muere y pasa a estar fuera de combate.
+
+El daño recibido por un ataque puede variar según las armas de los participantes del encuentro, en particular se pueden dar 4 casos:
+1. Si el arma del atacante es fuerte contra el arma de la unidad atacada, el daño será el poder del arma de ataque x1,5.
+2. Si es débil, el daño será poder del arma de ataque -20 (en particular, si esto resulta en una curación, el daño será 0).
+3. Si no hay una relación en particular entre las armas, el daño será el poder del arma de ataque.
+4. Si el objetivo no posee un arma equipada, el daño será también el poder del arma de ataque.
