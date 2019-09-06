@@ -166,3 +166,10 @@ El daño recibido por un ataque puede variar según las armas de los participant
 2. Si es débil, el daño será poder del arma de ataque -20 (en particular, si esto resulta en una curación, el daño será 0).
 3. Si no hay una relación en particular entre las armas, el daño será el poder del arma de ataque.
 4. Si el objetivo no posee un arma equipada, el daño será también el poder del arma de ataque.
+
+En caso de que el daño recibido sea mayor a la vida de la unidad, sus *currentHitPoints* sólo disminuirán a 0, impidiendo niveles menores a 0.
+
+### Curaciones
+Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *staff*, y sólo puede ser equipado por un *cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
+
+### Ejecución
