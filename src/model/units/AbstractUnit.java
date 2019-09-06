@@ -144,6 +144,9 @@ public abstract class AbstractUnit implements IUnit {
             getLocation().distanceTo(receptor.getLocation())==1){
       receptor.addItem(item);
       item.setOwner(receptor);
+      if(equippedItem == item){
+        equippedItem = null;
+      }
       removeItem(item);
     }
   }

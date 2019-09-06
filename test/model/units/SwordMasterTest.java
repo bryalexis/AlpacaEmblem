@@ -49,7 +49,7 @@ public class SwordMasterTest extends AbstractTestUnit {
     swordMaster.attack(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-sword.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
-    assertEquals(expectedHP,currentHP);
+    assertEquals(expectedHP,currentHP,0.01);
   }
 
   @Test
@@ -67,10 +67,10 @@ public class SwordMasterTest extends AbstractTestUnit {
     swordMaster.attack(sorcerer);
     double expectedSorcererHP = sorcerer.getMaxHitPoints()-sword.getPower()*1.5;
     double currentSorcererHP = sorcerer.getCurrentHitPoints();
-    assertEquals(expectedSorcererHP,currentSorcererHP);
+    assertEquals(expectedSorcererHP,currentSorcererHP,0.01);
     expected = swordMaster.getMaxHitPoints() - light.getPower()*1.5;
     current = swordMaster.getCurrentHitPoints();
-    assertEquals(expected, current); // Check counter
+    assertEquals(expected, current,0.01); // Check counter
 
     // Sword vs Axe
     Fighter fighter = new Fighter(50, 2, field.getCell(0, 2));
@@ -80,10 +80,10 @@ public class SwordMasterTest extends AbstractTestUnit {
     swordMaster.attack(fighter);
     double expectedHeroHP = fighter.getMaxHitPoints() - sword.getPower()*1.5;
     double currentHeroHP = fighter.getCurrentHitPoints();
-    assertEquals(expectedHeroHP,currentHeroHP);
+    assertEquals(expectedHeroHP,currentHeroHP,0.01);
     expected = current + Math.min(-axe.getPower()+20,0);
     current = swordMaster.getCurrentHitPoints();
-    assertEquals(expected, current); // Check counter
+    assertEquals(expected, current,0.01); // Check counter
   }
 
   @Override
@@ -93,14 +93,4 @@ public class SwordMasterTest extends AbstractTestUnit {
     return swordMaster;
   }
 
-  @Test
-  public void counterTest(){
-    IUnit unit = getEquippedTestUnit();
-    Archer target = new Archer(50, 2, field.getCell(0, 2));
-    target.addItem(bow);
-    bow.equipTo(target);
-    double damage = (unit.hasEquippedItem()) ? unit.getEquippedItem().getPower() : 0;
-    unit.counterAttack(target);
-    assertEquals(target.getMaxHitPoints() - damage, target.getCurrentHitPoints());
-  }
 }

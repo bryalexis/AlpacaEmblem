@@ -51,7 +51,7 @@ public class FighterTest extends AbstractTestUnit {
     fighter.attack(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-axe.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
-    assertEquals(expectedHP,currentHP);
+    assertEquals(expectedHP,currentHP,0.01);
   }
 
   @Test
@@ -69,10 +69,10 @@ public class FighterTest extends AbstractTestUnit {
     fighter.attack(sorcerer);
     double expectedSorcererHP = sorcerer.getMaxHitPoints()-axe.getPower()*1.5;
     double currentSorcererHP = sorcerer.getCurrentHitPoints();
-    assertEquals(expectedSorcererHP,currentSorcererHP);
+    assertEquals(expectedSorcererHP,currentSorcererHP,0.01);
     expected = fighter.getMaxHitPoints() - spirit.getPower()*1.5;
     current = fighter.getCurrentHitPoints();
-    assertEquals(expected, current); // Check counter
+    assertEquals(expected, current,0.01); // Check counter
 
     // Axe vs Spear
     Hero hero = new Hero (50, 2, field.getCell(0, 2));
@@ -82,10 +82,10 @@ public class FighterTest extends AbstractTestUnit {
     fighter.attack(hero);
     double expectedHeroHP = hero.getMaxHitPoints() - axe.getPower()*1.5;
     double currentHeroHP = hero.getCurrentHitPoints();
-    assertEquals(expectedHeroHP,currentHeroHP);
+    assertEquals(expectedHeroHP,currentHeroHP,0.01);
     expected = current + Math.min(-spear.getPower()+20,0);
     current = fighter.getCurrentHitPoints();
-    assertEquals(expected, current); // Check counter
+    assertEquals(expected, current,0.01); // Check counter
   }
 
   @Override
@@ -95,14 +95,4 @@ public class FighterTest extends AbstractTestUnit {
     return fighter;
   }
 
-  @Test
-  public void counterTest(){
-    IUnit unit = getEquippedTestUnit();
-    Archer target = new Archer(50, 2, field.getCell(0, 2));
-    target.addItem(bow);
-    bow.equipTo(target);
-    double damage = (unit.hasEquippedItem()) ? unit.getEquippedItem().getPower() : 0;
-    unit.counterAttack(target);
-    assertEquals(target.getMaxHitPoints() - damage, target.getCurrentHitPoints());
-  }
 }

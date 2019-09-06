@@ -14,6 +14,8 @@ import model.units.warriors.Archer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.security.SecureRandom;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -37,8 +39,6 @@ public abstract class AbstractTestUnit implements ITestUnit {
   public void setTargetAlpaca() {
     targetAlpaca = new Alpaca(50, 2, field.getCell(2, 0));
   }
-
-
 
   /**
    * Sets up the units and weapons to be tested
@@ -278,17 +278,37 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertFalse(targetAlpaca.isAlive());
   }
 
+  @Test
+  public void removeItemTest(){
+    IUnit unit = getEquippedTestUnit();
+    IEquipableItem item = unit.getEquippedItem();
+    if (item!=null){
+      unit.removeItem(item);
+      assertFalse(unit.getItems().contains(item));
+    }
+  }
+
   @Override
   @Test
   public void testGiveItem(){
+    IUnit unit = getTestUnit();
+    unit.addItem(sword);
     Alpaca alpaca = getTargetAlpaca();
     alpaca.moveTo(new Location(1,0));
-    getTestUnit().addItem(sword);
-    assertEquals(getTestUnit(), sword.getOwner());
-    getTestUnit().giveItem(alpaca,sword);
-    assertEquals(alpaca, sword.getOwner());
-    assertFalse(getTestUnit().getItems().contains(sword));
+
+    unit.giveItem(alpaca,sword);
+    assertFalse(unit.getItems().contains(sword));
     assertTrue(alpaca.getItems().contains(sword));
+    alpaca.removeItem(sword);
+
+    unit = getEquippedTestUnit();
+    IEquipableItem item = unit.getEquippedItem();
+    if(item!=null){
+      unit.giveItem(alpaca,item);
+      assertNull(unit.getEquippedItem());
+      assertFalse(unit.getItems().contains(item));
+      assertTrue(alpaca.getItems().contains(item));
+    }
   }
 
   @Override

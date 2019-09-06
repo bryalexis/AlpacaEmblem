@@ -1,8 +1,5 @@
 package model.items;
 
-import model.items.spellbooks.Darkness;
-import model.items.spellbooks.Light;
-import model.items.spellbooks.Spirit;
 import model.units.IUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

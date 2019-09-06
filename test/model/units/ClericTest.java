@@ -53,6 +53,6 @@ public class ClericTest extends AbstractTestUnit {
     target.addItem(bow);
     bow.equipTo(target);
     unit.counterAttack(target);
-    assertEquals(target.getMaxHitPoints(), target.getCurrentHitPoints());
+    assertEquals(target.getMaxHitPoints(), target.getCurrentHitPoints(),0.01);
   }
 }

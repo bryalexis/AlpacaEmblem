@@ -61,14 +61,14 @@ public class ArcherTest extends AbstractTestUnit {
     cleric.addItem(staff);
     staff.equipTo(cleric);
     archer.attack(cleric);
-    assertEquals(archer.getMaxHitPoints(), archer.getCurrentHitPoints()); // No counter
+    assertEquals(archer.getMaxHitPoints(), archer.getCurrentHitPoints(),0.01); // No counter
     assertFalse(archer.getInCombat());
 
     // Bow vs No Item
     archer.attack(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-bow.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
-    assertEquals(expectedHP,currentHP);
+    assertEquals(expectedHP,currentHP,0.01);
 
   }
 
@@ -83,9 +83,9 @@ public class ArcherTest extends AbstractTestUnit {
     archer.attack(target);
     double expectedHP = target.getMaxHitPoints()-bow.getPower()*1.5;
     double currentHP = target.getCurrentHitPoints();
-    assertEquals(expectedHP,currentHP);
+    assertEquals(expectedHP,currentHP,0.01);
     assertEquals(archer.getMaxHitPoints() - spirit.getPower()*1.5,
-           archer.getCurrentHitPoints() );
+           archer.getCurrentHitPoints(),0.01);
   }
 
   @Override
@@ -95,14 +95,4 @@ public class ArcherTest extends AbstractTestUnit {
     return archer;
   }
 
-  @Test
-  public void counterTest(){
-    IUnit unit = getEquippedTestUnit();
-    Archer target = new Archer(50, 2, field.getCell(0, 2));
-    target.addItem(bow);
-    bow.equipTo(target);
-    double damage = (unit.hasEquippedItem()) ? unit.getEquippedItem().getPower() : 0;
-    unit.counterAttack(target);
-    assertEquals(target.getMaxHitPoints() - damage, target.getCurrentHitPoints());
-  }
 }
