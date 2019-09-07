@@ -35,14 +35,14 @@ public class ClericTest extends AbstractTestUnit {
   public void equipStaffTest() {
     assertNull(cleric.getEquippedItem());
     cleric.addItem(staff);
-    staff.equipTo(cleric);
+    cleric.equipItem(staff);
     assertEquals(staff, cleric.getEquippedItem());
   }
 
   @Override
   public IUnit getEquippedTestUnit() {
     cleric.addItem(staff);
-    staff.equipTo(cleric);
+    cleric.equipItem(staff);
     return cleric;
   }
 
@@ -51,7 +51,7 @@ public class ClericTest extends AbstractTestUnit {
     IUnit unit = getEquippedTestUnit();
     Archer target = new Archer(50, 2, field.getCell(0, 2));
     target.addItem(bow);
-    bow.equipTo(target);
+    target.equipItem(bow);
     unit.counterAttack(target);
     assertEquals(target.getMaxHitPoints(), target.getCurrentHitPoints(),0.01);
   }

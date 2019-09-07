@@ -38,14 +38,14 @@ public class SwordMasterTest extends AbstractTestUnit {
   public void equipSwordTest() {
     assertNull(swordMaster.getEquippedItem());
     swordMaster.addItem(sword);
-    sword.equipTo(swordMaster);
+    swordMaster.equipItem(sword);
     assertEquals(sword, swordMaster.getEquippedItem());
   }
 
   @Test
   public void testNormalAttack(){
     swordMaster.addItem(sword);
-    sword.equipTo(swordMaster);
+    swordMaster.equipItem(sword);
     swordMaster.attack(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-sword.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
@@ -55,14 +55,14 @@ public class SwordMasterTest extends AbstractTestUnit {
   @Test
   public void testStrongAttack(){
     swordMaster.addItem(sword);
-    sword.equipTo(swordMaster);
+    swordMaster.equipItem(sword);
     double current;
     double expected;
 
     // Sword vs Magic Item
     Sorcerer sorcerer = new Sorcerer(50, 2, field.getCell(1, 1));
     sorcerer.addItem(light);
-    light.equipTo(sorcerer);
+    sorcerer.equipItem(light);
 
     swordMaster.attack(sorcerer);
     double expectedSorcererHP = sorcerer.getMaxHitPoints()-sword.getPower()*1.5;
@@ -75,7 +75,7 @@ public class SwordMasterTest extends AbstractTestUnit {
     // Sword vs Axe
     Fighter fighter = new Fighter(50, 2, field.getCell(0, 2));
     fighter.addItem(axe);
-    axe.equipTo(fighter);
+    fighter.equipItem(axe);
 
     swordMaster.attack(fighter);
     double expectedHeroHP = fighter.getMaxHitPoints() - sword.getPower()*1.5;
@@ -89,7 +89,7 @@ public class SwordMasterTest extends AbstractTestUnit {
   @Override
   public IUnit getEquippedTestUnit() {
     swordMaster.addItem(sword);
-    sword.equipTo(swordMaster);
+    swordMaster.equipItem(sword);
     return swordMaster;
   }
 

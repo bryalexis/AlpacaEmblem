@@ -40,14 +40,14 @@ public class FighterTest extends AbstractTestUnit {
   public void equipAxeTest() {
     assertNull(fighter.getEquippedItem());
     fighter.addItem(axe);
-    axe.equipTo(fighter);
+    fighter.equipItem(axe);
     assertEquals(axe, fighter.getEquippedItem());
   }
 
   @Test
   public void testNormalAttack(){
     fighter.addItem(axe);
-    axe.equipTo(fighter);
+    fighter.equipItem(axe);
     fighter.attack(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-axe.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
@@ -57,14 +57,14 @@ public class FighterTest extends AbstractTestUnit {
   @Test
   public void testStrongAttack(){
     fighter.addItem(axe);
-    axe.equipTo(fighter);
+    fighter.equipItem(axe);
     double current;
     double expected;
 
     // Axe vs Magic Item
     Sorcerer sorcerer = new Sorcerer(50, 2, field.getCell(1, 1));
     sorcerer.addItem(spirit);
-    spirit.equipTo(sorcerer);
+    sorcerer.equipItem(spirit);
 
     fighter.attack(sorcerer);
     double expectedSorcererHP = sorcerer.getMaxHitPoints()-axe.getPower()*1.5;
@@ -77,7 +77,7 @@ public class FighterTest extends AbstractTestUnit {
     // Axe vs Spear
     Hero hero = new Hero (50, 2, field.getCell(0, 2));
     hero.addItem(spear);
-    spear.equipTo(hero);
+    hero.equipItem(spear);
 
     fighter.attack(hero);
     double expectedHeroHP = hero.getMaxHitPoints() - axe.getPower()*1.5;
@@ -91,7 +91,7 @@ public class FighterTest extends AbstractTestUnit {
   @Override
   public IUnit getEquippedTestUnit() {
     fighter.addItem(axe);
-    axe.equipTo(fighter);
+    fighter.equipItem(axe);
     return fighter;
   }
 

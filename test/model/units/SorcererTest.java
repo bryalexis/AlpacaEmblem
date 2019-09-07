@@ -35,7 +35,7 @@ public class SorcererTest extends AbstractTestUnit {
   public void equipDarknessBookTest() {
     assertNull(sorcerer.getEquippedItem());
     sorcerer.addItem(darkness);
-    darkness.equipTo(sorcerer);
+    sorcerer.equipItem(darkness);
     assertEquals(darkness, sorcerer.getEquippedItem());
   }
 
@@ -44,7 +44,7 @@ public class SorcererTest extends AbstractTestUnit {
   public void equipLightBookTest() {
     assertNull(sorcerer.getEquippedItem());
     sorcerer.addItem(light);
-    light.equipTo(sorcerer);
+    sorcerer.equipItem(light);
     assertEquals(light, sorcerer.getEquippedItem());
   }
 
@@ -53,14 +53,14 @@ public class SorcererTest extends AbstractTestUnit {
   public void equipSpiritBookTest() {
     assertNull(sorcerer.getEquippedItem());
     sorcerer.addItem(spirit);
-    spirit.equipTo(sorcerer);
+    sorcerer.equipItem(spirit);
     assertEquals(spirit, sorcerer.getEquippedItem());
   }
 
   @Test
   public void testNormalAttack(){
     sorcerer.addItem(spirit);
-    spirit.equipTo(sorcerer);
+    sorcerer.equipItem(spirit);
     sorcerer.attack(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-spirit.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
@@ -70,11 +70,11 @@ public class SorcererTest extends AbstractTestUnit {
   @Test
   public void testStrongAttack(){
     sorcerer.addItem(darkness);
-    darkness.equipTo(sorcerer);
+    sorcerer.equipItem(darkness);
 
     Sorcerer target = new Sorcerer(50, 2, field.getCell(1, 1));
     target.addItem(spirit);
-    spirit.equipTo(target);
+    target.equipItem(spirit);
 
     sorcerer.attack(target);
     double expectedSorcererHP = target.getMaxHitPoints()-darkness.getPower()*1.5;
@@ -84,7 +84,7 @@ public class SorcererTest extends AbstractTestUnit {
 
     Archer archer = new Archer(50, 2, field.getCell(0, 2));
     archer.addItem(bow);
-    bow.equipTo(archer);
+    archer.equipItem(bow);
 
     sorcerer.attack(archer);
     double expectedArcherHP = archer.getMaxHitPoints()-darkness.getPower()*1.5;
@@ -95,7 +95,7 @@ public class SorcererTest extends AbstractTestUnit {
   @Override
   public IUnit getEquippedTestUnit() {
     sorcerer.addItem(light);
-    light.equipTo(sorcerer);
+    sorcerer.equipItem(light);
     return sorcerer;
   }
 

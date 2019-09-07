@@ -40,13 +40,13 @@ public class ArcherTest extends AbstractTestUnit {
   @Override
   public void equipBowTest() {
     assertNull(archer.getEquippedItem());
-    bow.equipTo(archer);
+    archer.equipItem(bow);
     assertNull(archer.getEquippedItem());
     archer.addItem(bow);
     archer.addItem(sword);
-    bow.equipTo(archer);
+    archer.equipItem(bow);
     assertEquals(bow, archer.getEquippedItem());
-    sword.equipTo(archer);
+    archer.equipItem(sword);
     assertEquals(bow, archer.getEquippedItem());
   }
 
@@ -54,12 +54,12 @@ public class ArcherTest extends AbstractTestUnit {
   public void testNormalAttack(){
 
     archer.addItem(bow);
-    bow.equipTo(archer);
+    archer.equipItem(bow);
 
     // Bow vs Staff
     Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
     cleric.addItem(staff);
-    staff.equipTo(cleric);
+    cleric.equipItem(staff);
     archer.attack(cleric);
     assertEquals(archer.getMaxHitPoints(), archer.getCurrentHitPoints(),0.01); // No counter
     assertFalse(archer.getInCombat());
@@ -77,9 +77,9 @@ public class ArcherTest extends AbstractTestUnit {
     // Bow vs Magic Item
     Sorcerer target = new Sorcerer(50, 2, field.getCell(1, 1));
     target.addItem(spirit);
-    spirit.equipTo(target);
+    target.equipItem(spirit);
     archer.addItem(bow);
-    bow.equipTo(archer);
+    archer.equipItem(bow);
     archer.attack(target);
     double expectedHP = target.getMaxHitPoints()-bow.getPower()*1.5;
     double currentHP = target.getCurrentHitPoints();
@@ -91,7 +91,7 @@ public class ArcherTest extends AbstractTestUnit {
   @Override
   public IUnit getEquippedTestUnit() {
     archer.addItem(bow);
-    bow.equipTo(archer);
+    archer.equipItem(bow);
     return archer;
   }
 

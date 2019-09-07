@@ -199,6 +199,12 @@ public interface IUnit {
   boolean hasEquippedItem();
 
   /**
+   * Sets an item as equippedItem
+   * @param item that will be equipped
+   */
+  void equipItem(IEquipableItem item);
+
+  /**
    * Sets a Staff as equippedItem.
    * Only clerics can equip this item.
    * Items can only be equipped if they are in the inventory.
