@@ -79,7 +79,9 @@ public class Cleric extends AbstractUnit implements IHealer {
 
   @Override
   public void heal(IUnit target){
+    startCombatWith(target);
     ((Staff) getEquippedItem()).giveHitPoints(target);
+    endCombatWith(target);
   }
 
   @Override
