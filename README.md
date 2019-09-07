@@ -64,7 +64,7 @@ El juego cuenta actualmente con 7 diferentes unidades, las cuales se clasifican 
 Los distintos tipos de items se describen en la sección siguiente.
 Cada item se compone de las siguientes variables:
 - **maxHitPoints:** Máxima cantidad de puntos de vida que puede alcanzar la unidad.
-- **currentHitPoints:** Puntos de vida que tiene la unidad.
+- **currentHitPoints:** Puntos de vida que tiene la unidad, por conveniencia y comodidad en la implementación, corresponde a un  *double*.
 - **items:** Lista de items que porta la unidad.
 - **equippedItem:** Item equipado, debe pertenecer a la lista de items.
 - **maxItems:** Máxima cantidad de items que puede portar la unidad.
@@ -148,6 +148,9 @@ Cada item se compone de las siguientes variables:
 
 ## Interacciones
 
+### Equipar Item
+Cada unidad puede equipar (o no) cierto tipo de items específicos, tal como se mostró en el cuadro de unidades. Para que una unidad no se equipe un tipo de item incorrecto, se utiliza *double dispatch*, haciendo que el item se equipe a la unidad, desambiguando así el tipo de item y la unidad en cuestión.
+
 ### Dar Item
 Una unidad puede entregar un item que esté portando siempre y cuando la unidad receptora porte menos de su máximo de items y ambas unidades esten a distancia 1. Si se regala un ítem que esté equipado, la unidad quedará sin item equipado. Además, cada vez que un item cambie de unidad, su dueño será la unidad que lo porte consigo.
 
@@ -169,7 +172,13 @@ El daño recibido por un ataque puede variar según las armas de los participant
 
 En caso de que el daño recibido sea mayor a la vida de la unidad, sus *currentHitPoints* sólo disminuirán a 0, impidiendo niveles menores a 0.
 
+#### Diseño del Ataque
+El daño hecho por un ataque depende principalmente de las armas involucradas en el encuentro, de modo que la implementación de esta funcionalidad está delegada principalmente a los items. Cuando una unidad ataca a otra, dado que cada unidad porta un tipo de arma específica, se sabe a priori con qué arma se está realizando el ataque, de modo que lo que queda por descubrir es qué tipo de arma tiene equipada la unidad atacada. Resolver esto se vuelve sencillo usando *double dispatch*, de modo que el arma de la unidad atacada "recibe" el ataque de un arma que ya conocemos.
+
 ### Curaciones
 Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *staff*, y sólo puede ser equipado por un *cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
 
+Las curaciones no corresponden a ataques como tal, por lo que la implementación presentada las considera como una interacción totalmente distinta y propia de las unidades curadoras.
+
 ### Ejecución
+Las funcionalidades de Alpaca Emblem v1.1 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Para ejecutar los test, basta correr el archivo del test deseado, para testear las implementaciones de forma general, se sugiere ejecutar los **AbstractTest**, que prueban varios objetos simultáneamente.
