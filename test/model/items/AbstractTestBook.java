@@ -31,11 +31,11 @@ public abstract class AbstractTestBook extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInMagicalAttack(light);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
     item.takeInMagicalAttack(darkness);
-    assertEquals(unit.getMaxHitPoints() - 21, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 21,0), unit.getCurrentHitPoints());
     item.takeInMagicalAttack(spirit);
-    assertEquals(unit.getMaxHitPoints() - 33, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 33,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -47,7 +47,7 @@ public abstract class AbstractTestBook extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInAxeAttack(axe);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -59,7 +59,7 @@ public abstract class AbstractTestBook extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInSpearAttack(spear);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -71,7 +71,7 @@ public abstract class AbstractTestBook extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInSwordAttack(sword);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
 }

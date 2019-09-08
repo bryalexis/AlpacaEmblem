@@ -92,7 +92,7 @@ public class BowTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInAxeAttack(axe);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -104,7 +104,7 @@ public class BowTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInSpearAttack(spear);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -116,6 +116,6 @@ public class BowTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInSwordAttack(sword);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 }

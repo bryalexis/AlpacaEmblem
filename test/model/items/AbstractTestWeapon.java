@@ -26,7 +26,7 @@ public abstract class AbstractTestWeapon extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInDarknessSpell(darkness);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -38,7 +38,7 @@ public abstract class AbstractTestWeapon extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInSpiritSpell(spirit);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -50,7 +50,7 @@ public abstract class AbstractTestWeapon extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInLightSpell(light);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -62,6 +62,6 @@ public abstract class AbstractTestWeapon extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInPhysicalAttack(bow);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 }

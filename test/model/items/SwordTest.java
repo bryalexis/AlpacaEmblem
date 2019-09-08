@@ -73,14 +73,14 @@ public class SwordTest extends AbstractTestWeapon {
 
   @Test
   public void takeInAxeAttackTest() {
-    Axe axe = new Axe("axe", 40, 1,2);
+    Axe axe = new Axe("axe", 60, 1,2);
     IEquipableItem item = getTestItem();
     IUnit unit = getTestUnit();
     unit.addItem(item);
     item.equipTo(unit);
 
     item.takeInAxeAttack(axe);
-    assertEquals(unit.getMaxHitPoints() - (40-20), unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - (60-20),0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -92,7 +92,7 @@ public class SwordTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInSpearAttack(spear);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -104,6 +104,6 @@ public class SwordTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInSwordAttack(sword);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 }

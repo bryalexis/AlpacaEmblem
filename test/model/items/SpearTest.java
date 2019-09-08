@@ -80,7 +80,7 @@ public class SpearTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInAxeAttack(axe);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -92,7 +92,7 @@ public class SpearTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInSpearAttack(spear);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -104,6 +104,6 @@ public class SpearTest extends AbstractTestWeapon {
     item.equipTo(unit);
 
     item.takeInSwordAttack(sword);
-    assertEquals(unit.getMaxHitPoints() - (40-20), unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - (40-20),0), unit.getCurrentHitPoints());
   }
 }

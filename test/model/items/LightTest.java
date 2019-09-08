@@ -74,7 +74,7 @@ class LightTest extends AbstractTestBook {
     item.equipTo(unit);
 
     item.takeInDarknessSpell(darkness);
-    assertEquals(unit.getMaxHitPoints() - (40-20), unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - (40-20),0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -86,7 +86,7 @@ class LightTest extends AbstractTestBook {
     item.equipTo(unit);
 
     item.takeInSpiritSpell(spirit);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -98,7 +98,7 @@ class LightTest extends AbstractTestBook {
     item.equipTo(unit);
 
     item.takeInLightSpell(light);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -114,6 +114,6 @@ class LightTest extends AbstractTestBook {
     item.equipTo(unit);
 
     light.throwSpell(unit);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 }

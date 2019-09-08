@@ -28,7 +28,7 @@ public abstract class AbstractTestHealing extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInAxeAttack(axe);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -40,7 +40,7 @@ public abstract class AbstractTestHealing extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInSpearAttack(spear);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -52,7 +52,7 @@ public abstract class AbstractTestHealing extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInSwordAttack(sword);
-    assertEquals(unit.getMaxHitPoints() - 10, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -64,7 +64,7 @@ public abstract class AbstractTestHealing extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInDarknessSpell(darkness);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -76,7 +76,7 @@ public abstract class AbstractTestHealing extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInSpiritSpell(spirit);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
   @Test
@@ -88,7 +88,7 @@ public abstract class AbstractTestHealing extends AbstractTestItem {
     item.equipTo(unit);
 
     item.takeInLightSpell(light);
-    assertEquals(unit.getMaxHitPoints() - 15, unit.getCurrentHitPoints());
+    assertEquals(Math.max(unit.getMaxHitPoints() - 15,0), unit.getCurrentHitPoints());
   }
 
 }
