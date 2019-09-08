@@ -132,10 +132,10 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void addItem(IEquipableItem item){
-      if (items.size() < maxItems) {
-          items.add(item);
-          item.setOwner(this);
-      }
+    if (items.size() < maxItems) {
+      items.add(item);
+      item.setOwner(this);
+    }
   }
 
   @Override
