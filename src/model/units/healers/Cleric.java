@@ -80,7 +80,9 @@ public class Cleric extends AbstractUnit implements IHealer {
   @Override
   public void heal(IUnit target){
     startCombatWith(target);
-    ((Staff) getEquippedItem()).giveHitPoints(target);
+    if(isAbleToAttack(target)) {
+      ((Staff) getEquippedItem()).giveHitPoints(target);
+    }
     endCombatWith(target);
   }
 

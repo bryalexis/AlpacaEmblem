@@ -167,7 +167,4 @@ public interface ITestUnit {
   @Test
   void clericAttackTest();
 
-  @Test
-  void testReceiveHealing();
-
 }

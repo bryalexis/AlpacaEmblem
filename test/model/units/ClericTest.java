@@ -37,6 +37,9 @@ public class ClericTest extends AbstractTestUnit {
     cleric.addItem(staff);
     cleric.equipItem(staff);
     assertEquals(staff, cleric.getEquippedItem());
+    cleric.addItem(spear);
+    cleric.equipItem(spear);
+    assertEquals(staff, cleric.getEquippedItem());
   }
 
   @Override

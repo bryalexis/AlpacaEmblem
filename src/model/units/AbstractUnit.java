@@ -159,6 +159,7 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void die(){
     this.alive = false;
+    this.currentHitPoints = 0;
     endCombat();
   }
 
@@ -225,5 +226,10 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public boolean getInCombat(){
     return inCombat;
+  }
+
+  @Override
+  public void setAlive(){
+    alive= true;
   }
 }

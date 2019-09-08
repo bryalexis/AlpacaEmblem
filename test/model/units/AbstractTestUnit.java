@@ -309,17 +309,33 @@ public abstract class AbstractTestUnit implements ITestUnit {
       assertFalse(unit.getItems().contains(item));
       assertTrue(alpaca.getItems().contains(item));
     }
+
+    unit.addItem(darkness);
+    unit.addItem(staff);
+    unit.addItem(axe);
+    alpaca.addItem(sword);
+    alpaca.giveItem(unit, sword);
+    assertTrue(alpaca.getItems().contains(sword));
+    assertFalse(unit.getItems().contains(sword));
   }
 
   @Override
   @Test
   public void testHealing(){
-    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
-    getTargetAlpaca().modifyCurrentHitPoints(-40);
+    Cleric cleric = new Cleric(50, 2, field.getCell(1, 0));
+    IUnit unit = getTestUnit();
+    unit.modifyCurrentHitPoints(-unit.getMaxHitPoints()+10);
     cleric.addItem(staff);
-    staff.equipTo(cleric);
-    cleric.heal(getTargetAlpaca());
-    assertEquals(10+staff.getPower(), getTargetAlpaca().getCurrentHitPoints());
+    cleric.equipItem(staff);
+    cleric.heal(unit);
+    assertEquals(10+staff.getPower(), unit.getCurrentHitPoints());
+    unit.die();
+    cleric.heal(unit);
+    assertEquals(0, unit.getCurrentHitPoints());
+
+    unit.setAlive();
+    unit.receiveHealing(cleric);
+    assertEquals(staff.getPower(), unit.getCurrentHitPoints());
   }
 
   @Override
@@ -352,15 +368,4 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
   }
 
-  @Override
-  @Test
-  public void testReceiveHealing(){
-    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
-    cleric.addItem(staff);
-    cleric.equipStaff(staff);
-    IUnit unit = getEquippedTestUnit();
-    unit.modifyCurrentHitPoints(-unit.getMaxHitPoints()+10);
-    getEquippedTestUnit().receiveHealing(cleric);
-    assertEquals(10+staff.getPower(), unit.getCurrentHitPoints());
-  }
 }

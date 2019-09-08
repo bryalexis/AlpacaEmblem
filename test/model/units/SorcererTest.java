@@ -37,6 +37,9 @@ public class SorcererTest extends AbstractTestUnit {
     sorcerer.addItem(darkness);
     sorcerer.equipItem(darkness);
     assertEquals(darkness, sorcerer.getEquippedItem());
+    sorcerer.addItem(bow);
+    sorcerer.equipItem(bow);
+    assertEquals(darkness, sorcerer.getEquippedItem());
   }
 
   @Test

@@ -272,4 +272,9 @@ public interface IUnit {
    * @return if the unit is in combat with another one.
    */
   boolean getInCombat();
+
+  /**
+   * Makes the player to be alive again
+   */
+  void setAlive();
 }

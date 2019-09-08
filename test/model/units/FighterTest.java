@@ -42,6 +42,9 @@ public class FighterTest extends AbstractTestUnit {
     fighter.addItem(axe);
     fighter.equipItem(axe);
     assertEquals(axe, fighter.getEquippedItem());
+    fighter.addItem(sword);
+    fighter.equipItem(sword);
+    assertEquals(axe, fighter.getEquippedItem());
   }
 
   @Test
