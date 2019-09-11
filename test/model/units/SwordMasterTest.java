@@ -1,9 +1,7 @@
 package model.units;
 
 import model.units.magic.Sorcerer;
-import model.units.warriors.Archer;
 import model.units.warriors.Fighter;
-import model.units.warriors.Hero;
 import model.units.warriors.SwordMaster;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +47,7 @@ public class SwordMasterTest extends AbstractTestUnit {
   public void testNormalAttack(){
     swordMaster.addItem(sword);
     swordMaster.equipItem(sword);
-    swordMaster.attack(getTargetAlpaca());
+    swordMaster.useItemOn(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-sword.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP,0.01);
@@ -67,7 +65,7 @@ public class SwordMasterTest extends AbstractTestUnit {
     sorcerer.addItem(light);
     sorcerer.equipItem(light);
 
-    swordMaster.attack(sorcerer);
+    swordMaster.useItemOn(sorcerer);
     double expectedSorcererHP = sorcerer.getMaxHitPoints()-sword.getPower()*1.5;
     double currentSorcererHP = sorcerer.getCurrentHitPoints();
     assertEquals(expectedSorcererHP,currentSorcererHP,0.01);
@@ -80,7 +78,7 @@ public class SwordMasterTest extends AbstractTestUnit {
     fighter.addItem(axe);
     fighter.equipItem(axe);
 
-    swordMaster.attack(fighter);
+    swordMaster.useItemOn(fighter);
     double expectedHeroHP = fighter.getMaxHitPoints() - sword.getPower()*1.5;
     double currentHeroHP = fighter.getCurrentHitPoints();
     assertEquals(expectedHeroHP,currentHeroHP,0.01);

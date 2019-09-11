@@ -113,7 +113,7 @@ class LightTest extends AbstractTestBook {
     unit.addItem(item);
     item.equipTo(unit);
 
-    light.throwSpell(unit);
+    light.useOn(unit);
     assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 }

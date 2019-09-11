@@ -83,12 +83,12 @@ public class Sorcerer extends AbstractUnit {
 
 
   @Override
-  public void attack(IUnit target) {
-    if(isAbleToAttack(target)){
+  public void useItemOn(IUnit target) {
+    if(canUseItemOn(target)){
       startCombatWith(target);
       ISpellsBook spellsBook = (ISpellsBook) getEquippedItem();
       if(target.hasEquippedItem()){
-        spellsBook.throwSpell(target);
+        spellsBook.useOn(target);
       } else {
         target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       }
@@ -98,9 +98,9 @@ public class Sorcerer extends AbstractUnit {
 
   @Override
   public void counterAttack(IUnit aggressor) {
-    if(isAbleToAttack(aggressor)){
+    if(canUseItemOn(aggressor)){
       ISpellsBook item = (ISpellsBook) getEquippedItem();
-      item.throwSpell(aggressor);
+      item.useOn(aggressor);
     }
     endCombatWith(aggressor);
   }

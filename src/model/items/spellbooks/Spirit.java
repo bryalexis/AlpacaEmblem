@@ -37,8 +37,8 @@ public class Spirit extends AbstractBook {
     }
 
     @Override
-    public void throwSpell(IUnit target) {
-        target.receiveSpiritSpell(getOwner());
+    public void useOn(IUnit target) {
+        target.getEquippedItem().takeInSpiritSpell(this);
     }
 
     @Override

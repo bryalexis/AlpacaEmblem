@@ -79,23 +79,20 @@ public class Hero extends AbstractUnit {
   }
 
   @Override
-  public void attack(IUnit target) {
-    if(isAbleToAttack(target)){
+  public void useItemOn(IUnit target) {
+    if(canUseItemOn(target)){
       startCombatWith(target);
-      Spear spear = (Spear) getEquippedItem();
       if(target.hasEquippedItem()){
-        target.getEquippedItem().takeInSpearAttack(spear);
-      } else {
-        target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
-      }
+        getEquippedItem().useOn(target);
+      } else target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       target.counterAttack(this);
     } else endCombatWith(target);
   }
 
   @Override
   public void counterAttack(IUnit aggressor) {
-    if(isAbleToAttack(aggressor)){
-      aggressor.getEquippedItem().takeInSpearAttack((Spear) getEquippedItem());
+    if(canUseItemOn(aggressor)){
+      getEquippedItem().useOn(aggressor);
     }
     endCombatWith(aggressor);
   }

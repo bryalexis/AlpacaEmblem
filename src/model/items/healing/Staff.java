@@ -1,13 +1,6 @@
 package model.items.healing;
 
 
-import model.items.IEquipableItem;
-import model.items.spellbooks.Darkness;
-import model.items.spellbooks.Light;
-import model.items.spellbooks.Spirit;
-import model.items.weapons.Axe;
-import model.items.weapons.Spear;
-import model.items.weapons.Sword;
 import model.units.IUnit;
 
 /**
@@ -42,7 +35,7 @@ public class Staff extends AbstractHealing {
   }
 
   @Override
-  public void giveHitPoints(IUnit target) {
+  public void useOn(IUnit target) {
     target.modifyCurrentHitPoints(getPower());
   }
 }

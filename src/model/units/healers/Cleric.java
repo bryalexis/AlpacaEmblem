@@ -77,18 +77,17 @@ public class Cleric extends AbstractUnit implements IHealer {
     // Cleric can't equip this item
   }
 
+  /**
+   * Clerics heal other units
+   * @param target to be healed
+   */
   @Override
-  public void heal(IUnit target){
+  public void useItemOn(IUnit target){
     startCombatWith(target);
-    if(isAbleToAttack(target)) {
-      ((Staff) getEquippedItem()).giveHitPoints(target);
+    if(canUseItemOn(target)) {
+      ((Staff) getEquippedItem()).useOn(target);
     }
     endCombatWith(target);
-  }
-
-  @Override
-  public void attack(IUnit target){
-    // A cleric can't attack
   }
 
   @Override

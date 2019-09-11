@@ -83,11 +83,11 @@ public class Archer extends AbstractUnit {
   }
 
   @Override
-  public void attack(IUnit target) {
-    if(isAbleToAttack(target)){
+  public void useItemOn(IUnit target) {
+    if(canUseItemOn(target)){
       startCombatWith(target);
       if(target.hasEquippedItem()){
-        target.getEquippedItem().takeInPhysicalAttack(getEquippedItem());
+        getEquippedItem().useOn(target);
       } else {
         target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       }
@@ -97,8 +97,8 @@ public class Archer extends AbstractUnit {
 
   @Override
   public void counterAttack(IUnit aggressor) {
-    if(isAbleToAttack(aggressor)){
-      aggressor.getEquippedItem().takeInPhysicalAttack(getEquippedItem());
+    if(canUseItemOn(aggressor)){
+      getEquippedItem().useOn(aggressor);
     }
     endCombatWith(aggressor);
   }

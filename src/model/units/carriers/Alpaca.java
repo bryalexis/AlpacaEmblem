@@ -88,7 +88,7 @@ public class Alpaca extends AbstractUnit {
   }
 
   @Override
-  public void attack(IUnit target) {
+  public void useItemOn(IUnit target) {
     // Alpaca can't attack
   }
 

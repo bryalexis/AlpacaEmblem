@@ -75,7 +75,7 @@ public class StaffTest extends AbstractTestHealing {
     IUnit unit = getTestUnit();
     unit.modifyCurrentHitPoints(- unit.getMaxHitPoints()+10);
 
-    staff.giveHitPoints(unit);
+    staff.useOn(unit);
     assertEquals(Math.min(20,unit.getMaxHitPoints()), unit.getCurrentHitPoints());
   }
 

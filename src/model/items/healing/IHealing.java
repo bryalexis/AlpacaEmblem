@@ -18,5 +18,5 @@ public interface IHealing extends IEquipableItem {
      * Heals another unit
      * @param target who will receive the healing
      */
-    void giveHitPoints(IUnit target);
+    void useOn(IUnit target);
 }

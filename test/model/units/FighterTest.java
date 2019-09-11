@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import model.units.magic.Sorcerer;
-import model.units.warriors.Archer;
 import model.units.warriors.Fighter;
 import model.units.warriors.Hero;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,7 @@ public class FighterTest extends AbstractTestUnit {
   public void testNormalAttack(){
     fighter.addItem(axe);
     fighter.equipItem(axe);
-    fighter.attack(getTargetAlpaca());
+    fighter.useItemOn(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-axe.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP,0.01);
@@ -69,7 +68,7 @@ public class FighterTest extends AbstractTestUnit {
     sorcerer.addItem(spirit);
     sorcerer.equipItem(spirit);
 
-    fighter.attack(sorcerer);
+    fighter.useItemOn(sorcerer);
     double expectedSorcererHP = sorcerer.getMaxHitPoints()-axe.getPower()*1.5;
     double currentSorcererHP = sorcerer.getCurrentHitPoints();
     assertEquals(expectedSorcererHP,currentSorcererHP,0.01);
@@ -82,13 +81,18 @@ public class FighterTest extends AbstractTestUnit {
     hero.addItem(spear);
     hero.equipItem(spear);
 
-    fighter.attack(hero);
+    fighter.useItemOn(hero);
     double expectedHeroHP = hero.getMaxHitPoints() - axe.getPower()*1.5;
     double currentHeroHP = hero.getCurrentHitPoints();
     assertEquals(expectedHeroHP,currentHeroHP,0.01);
     expected = current + Math.min(-spear.getPower()+20,0);
     current = fighter.getCurrentHitPoints();
     assertEquals(expected, current,0.01); // Check counter
+
+    // Overkilling (? assert
+    hero.modifyCurrentHitPoints(-currentHeroHP+1);
+    fighter.useItemOn(hero);
+    assertEquals(0,hero.getCurrentHitPoints());
   }
 
   @Override

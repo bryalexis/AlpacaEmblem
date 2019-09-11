@@ -13,46 +13,46 @@ import model.units.IUnit;
  */
 public class Light extends AbstractBook {
 
-    /**
-     * Creates a new Light book item.
-     *
-     * @param name
-     *     the name of the Light Book
-     * @param power
-     *     the base damage of the Light Book
-     * @param minRange
-     *     the minimum range of the spells
-     * @param maxRange
-     *     the maximum range of the spells
-     */
-    public Light(final String name, final int power, final int minRange, final int maxRange) {
-        super(name, power, minRange, maxRange);
-    }
+  /**
+   * Creates a new Light book item.
+   *
+   * @param name
+   *     the name of the Light Book
+   * @param power
+   *     the base damage of the Light Book
+   * @param minRange
+   *     the minimum range of the spells
+   * @param maxRange
+   *     the maximum range of the spells
+   */
+  public Light(final String name, final int power, final int minRange, final int maxRange) {
+    super(name, power, minRange, maxRange);
+  }
 
-    @Override
-    public void equipTo(IUnit unit) {
-        unit.equipLightBook(this);
-        setOwner(unit);
-    }
+  @Override
+  public void equipTo(IUnit unit) {
+    unit.equipLightBook(this);
+    setOwner(unit);
+  }
 
-    @Override
-    public void throwSpell(IUnit target) {
-        target.receiveLightSpell(getOwner());
-    }
+  @Override
+  public void useOn(IUnit target) {
+    target.getEquippedItem().takeInLightSpell(this);
+  }
 
-    @Override
-    public void takeInDarknessSpell(Darkness spell){
-        double damage = -spell.getPower() + 20;
-        getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
-    }
+  @Override
+  public void takeInDarknessSpell(Darkness spell){
+    double damage = -spell.getPower() + 20;
+    getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
+  }
 
-    @Override
-    public void takeInSpiritSpell(Spirit spell){
-        getOwner().modifyCurrentHitPoints(- spell.getPower()*1.5);
-    }
+  @Override
+  public void takeInSpiritSpell(Spirit spell){
+    getOwner().modifyCurrentHitPoints(- spell.getPower()*1.5);
+  }
 
-    @Override
-    public void takeInLightSpell(Light spell){
-        getOwner().modifyCurrentHitPoints(- spell.getPower());
-    }
+  @Override
+  public void takeInLightSpell(Light spell){
+    getOwner().modifyCurrentHitPoints(- spell.getPower());
+  }
 }

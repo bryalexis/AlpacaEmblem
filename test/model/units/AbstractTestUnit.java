@@ -10,11 +10,8 @@ import model.map.Field;
 import model.map.Location;
 import model.units.carriers.Alpaca;
 import model.units.healers.Cleric;
-import model.units.warriors.Archer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.security.SecureRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -259,12 +256,12 @@ public abstract class AbstractTestUnit implements ITestUnit {
   public void testIsAbleToAttack(){
     IUnit unit = getEquippedTestUnit();
     if (unit.hasEquippedItem())
-      assertTrue(unit.isAbleToAttack(targetAlpaca));
+      assertTrue(unit.canUseItemOn(targetAlpaca));
     unit.setEquippedItem(null);
-    assertFalse(unit.isAbleToAttack(targetAlpaca));
+    assertFalse(unit.canUseItemOn(targetAlpaca));
     unit = getEquippedTestUnit();
     targetAlpaca.die();
-    assertFalse(unit.isAbleToAttack(targetAlpaca));
+    assertFalse(unit.canUseItemOn(targetAlpaca));
   }
 
   @Override
@@ -327,15 +324,20 @@ public abstract class AbstractTestUnit implements ITestUnit {
     unit.modifyCurrentHitPoints(-unit.getMaxHitPoints()+10);
     cleric.addItem(staff);
     cleric.equipItem(staff);
-    cleric.heal(unit);
+    cleric.useItemOn(unit);
     assertEquals(10+staff.getPower(), unit.getCurrentHitPoints());
     unit.die();
-    cleric.heal(unit);
+    cleric.useItemOn(unit);
     assertEquals(0, unit.getCurrentHitPoints());
 
     unit.setAlive();
     unit.receiveHealing(cleric);
     assertEquals(staff.getPower(), unit.getCurrentHitPoints());
+
+    // Prevents OverHealing
+    unit.modifyCurrentHitPoints(unit.getMaxHitPoints()-staff.getPower()*0.5);
+    unit.receiveHealing(cleric);
+    assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
   }
 
   @Override
@@ -353,7 +355,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Test
   public void alpacaAttackTest(){
     IUnit unit = getEquippedTestUnit();
-    getTargetAlpaca().attack(unit);
+    getTargetAlpaca().useItemOn(unit);
     assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
   }
 
@@ -364,7 +366,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     cleric.addItem(staff);
     cleric.equipStaff(staff);
     IUnit unit = getEquippedTestUnit();
-    cleric.attack(unit);
+    cleric.useItemOn(unit);
     assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
   }
 

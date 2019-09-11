@@ -6,7 +6,7 @@ import model.units.IUnit;
 /**
  * This interface represents the <i>spells books</i> that magic units of the game can use.
  * <p>
- * The signature for all the common methods of the spells books are defined here.
+ * The signature for all the common methods of the spellbooks are defined here.
  * Every book have a base damage and is strong or weak against other type of books and weapons.
  *
  * @author Bryan Ortiz P.
@@ -18,5 +18,5 @@ public interface ISpellsBook extends IEquipableItem {
      * Throws a spell against a target
      * @param target who will receive the spell
      */
-    void throwSpell(IUnit target);
+    void useOn(IUnit target);
 }

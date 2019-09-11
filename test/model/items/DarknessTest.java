@@ -114,7 +114,7 @@ class DarknessTest extends AbstractTestBook {
     unit.addItem(item);
     item.equipTo(unit);
 
-    darkness.throwSpell(unit);
+    darkness.useOn(unit);
     assertEquals(Math.max(unit.getMaxHitPoints() - 10,0), unit.getCurrentHitPoints());
   }
 }

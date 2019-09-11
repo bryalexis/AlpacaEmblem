@@ -60,12 +60,12 @@ public class ArcherTest extends AbstractTestUnit {
     Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
     cleric.addItem(staff);
     cleric.equipItem(staff);
-    archer.attack(cleric);
+    archer.useItemOn(cleric);
     assertEquals(archer.getMaxHitPoints(), archer.getCurrentHitPoints(),0.01); // No counter
     assertFalse(archer.getInCombat());
 
     // Bow vs No Item
-    archer.attack(getTargetAlpaca());
+    archer.useItemOn(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-bow.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP,0.01);
@@ -80,7 +80,7 @@ public class ArcherTest extends AbstractTestUnit {
     target.equipItem(spirit);
     archer.addItem(bow);
     archer.equipItem(bow);
-    archer.attack(target);
+    archer.useItemOn(target);
     double expectedHP = target.getMaxHitPoints()-bow.getPower()*1.5;
     double currentHP = target.getCurrentHitPoints();
     assertEquals(expectedHP,currentHP,0.01);

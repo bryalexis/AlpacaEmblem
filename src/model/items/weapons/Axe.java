@@ -50,4 +50,9 @@ public class Axe extends AbstractWeapon {
     getOwner().modifyCurrentHitPoints(-sword.getPower()*1.5);
   }
 
+  @Override
+  public void useOn(IUnit target) {
+    target.getEquippedItem().takeInAxeAttack(this);
+  }
+
 }

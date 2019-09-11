@@ -49,4 +49,9 @@ public class Bow extends AbstractWeapon {
   public void takeInSwordAttack(Sword sword){
     takeInPhysicalAttack(sword);
   }
+
+  @Override
+  public void useOn(IUnit target) {
+    target.getEquippedItem().takeInPhysicalAttack(this);
+  }
 }

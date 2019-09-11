@@ -50,4 +50,9 @@ public class Sword extends AbstractWeapon {
     getOwner().modifyCurrentHitPoints(-sword.getPower());
   }
 
+  @Override
+  public void useOn(IUnit target) {
+    target.getEquippedItem().takeInSwordAttack(this);
+  }
+
 }

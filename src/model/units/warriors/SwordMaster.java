@@ -71,12 +71,11 @@ public class SwordMaster extends AbstractUnit {
   }
   
   @Override
-  public void attack(IUnit target) {
-    if(isAbleToAttack(target)){
+  public void useItemOn(IUnit target) {
+    if(canUseItemOn(target)){
       startCombatWith(target);
-      Sword sword = (Sword) getEquippedItem();
       if (target.hasEquippedItem()){
-        target.getEquippedItem().takeInSwordAttack(sword);
+        getEquippedItem().useOn(target);
       } else {
         target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       }
@@ -86,8 +85,8 @@ public class SwordMaster extends AbstractUnit {
 
   @Override
   public void counterAttack(IUnit aggressor) {
-    if(isAbleToAttack(aggressor)){
-      aggressor.getEquippedItem().takeInSwordAttack((Sword) getEquippedItem());
+    if(canUseItemOn(aggressor)){
+      getEquippedItem().useOn(aggressor);
     }
     endCombatWith(aggressor);
   }

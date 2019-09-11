@@ -201,26 +201,11 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public boolean isAbleToAttack(IUnit target){
+  public boolean canUseItemOn(IUnit target){
       if(hasEquippedItem() && isAlive() && target.isAlive()){
         return getEquippedItem().isReachable(getLocation().distanceTo(target.getLocation()));
       }
       return false;
-  }
-
-  @Override
-  public void receiveDarknessSpell(IUnit sorcerer) {
-    getEquippedItem().takeInDarknessSpell((Darkness) sorcerer.getEquippedItem());
-  }
-
-  @Override
-  public void receiveLightSpell(IUnit sorcerer) {
-    getEquippedItem().takeInLightSpell((Light) sorcerer.getEquippedItem());
-  }
-
-  @Override
-  public void receiveSpiritSpell(IUnit sorcerer) {
-    getEquippedItem().takeInSpiritSpell((Spirit) sorcerer.getEquippedItem());
   }
 
   @Override

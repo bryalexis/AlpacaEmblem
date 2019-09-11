@@ -36,11 +36,6 @@ public class Darkness extends AbstractBook{
     }
 
     @Override
-    public void throwSpell(IUnit target){
-        target.receiveDarknessSpell(getOwner());
-    }
-
-    @Override
     public void takeInDarknessSpell(Darkness spell){
         getOwner().modifyCurrentHitPoints(- spell.getPower());
     }
@@ -56,6 +51,10 @@ public class Darkness extends AbstractBook{
         getOwner().modifyCurrentHitPoints(- spell.getPower()*1.5);
     }
 
+    @Override
+    public void useOn(IUnit target) {
+        target.getEquippedItem().takeInDarknessSpell(this);
+    }
 
 
 }

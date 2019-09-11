@@ -50,4 +50,9 @@ public class Spear extends AbstractWeapon {
     getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
   }
 
+  @Override
+  public void useOn(IUnit target) {
+    target.getEquippedItem().takeInSpearAttack(this);
+  }
+
 }

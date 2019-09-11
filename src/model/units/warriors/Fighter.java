@@ -70,12 +70,11 @@ public class Fighter extends AbstractUnit {
   }
 
   @Override
-  public void attack(IUnit target) {
-    if(isAbleToAttack(target)){
+  public void useItemOn(IUnit target) {
+    if(canUseItemOn(target)){
       startCombatWith(target);
-      Axe axe = (Axe) getEquippedItem();
       if(target.hasEquippedItem()){
-        target.getEquippedItem().takeInAxeAttack(axe);
+        getEquippedItem().useOn(target);
       } else {
         target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
       }
@@ -85,8 +84,8 @@ public class Fighter extends AbstractUnit {
 
   @Override
   public void counterAttack(IUnit aggressor) {
-    if(isAbleToAttack(aggressor)){
-      aggressor.getEquippedItem().takeInAxeAttack((Axe) getEquippedItem());
+    if(canUseItemOn(aggressor)){
+      getEquippedItem().useOn(aggressor);
     }
     endCombatWith(aggressor);
   }

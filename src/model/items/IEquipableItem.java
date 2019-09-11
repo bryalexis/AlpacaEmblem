@@ -125,4 +125,9 @@ public interface IEquipableItem {
   void setMinRange(int value);
 
 
+  /**
+   * Use the power of the item to attack/heal another unit
+   * @param target who will receive the attack/healing
+   */
+  void useOn(IUnit target);
 }

@@ -137,12 +137,12 @@ public interface IUnit {
   void giveItem(IUnit receptor, IEquipableItem item);
 
   /**
-   * Attacks another unit with the equipped item
-   * The damage done depends on the item that the other unit has equipped,
+   * Attacks/heal another unit with the equipped item
+   * The damage/healing done depends on the item that the other unit has equipped,
    * if it hasn't any item equipped, it will receives the default attack.
-   * @param target to be attacked
+   * @param target to be attacked/healed
    */
-  void attack(IUnit target);
+  void useItemOn(IUnit target);
 
   /**
    * Attacks another unit with the equipped item
@@ -167,31 +167,13 @@ public interface IUnit {
    * @return if the unit is able to attack the target considering its equipped item
    * its distance, if its cleric, and if the fighters are alive.
    */
-  boolean isAbleToAttack(IUnit target);
+  boolean canUseItemOn(IUnit target);
 
   /**
    * The unit receives extra Hit Points that depends of the power of the Sorcerer's staff.
    * @param cleric who is healing the unit
    */
   void receiveHealing(Cleric cleric);
-
-  /**
-   * The unit receives a darkness-type spell
-   * @param sorcerer who attacks
-   */
-  void receiveDarknessSpell(IUnit sorcerer);
-
-  /**
-   * The unit receives a light-type spell
-   * @param sorcerer who attacks
-   */
-  void receiveLightSpell(IUnit sorcerer);
-
-  /**
-   * The unit receives a spirit-type spell
-   * @param sorcerer who attacks
-   */
-  void receiveSpiritSpell(IUnit sorcerer);
 
   /**
    * @return if the unit has an item equipped.

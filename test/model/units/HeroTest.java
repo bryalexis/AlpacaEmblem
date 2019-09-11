@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import model.units.magic.Sorcerer;
-import model.units.warriors.Archer;
 import model.units.warriors.Hero;
 import model.units.warriors.SwordMaster;
 import org.junit.jupiter.api.Test;
@@ -48,9 +47,13 @@ public class HeroTest extends AbstractTestUnit {
   public void testNormalAttack(){
     hero.addItem(spear);
     hero.equipItem(spear);
-    hero.attack(getTargetAlpaca());
+    hero.useItemOn(getTargetAlpaca());
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-spear.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
+    assertEquals(expectedHP,currentHP,0.01);
+
+    hero.setEquippedItem(null);
+    hero.useItemOn(getTargetAlpaca());
     assertEquals(expectedHP,currentHP,0.01);
   }
 
@@ -66,7 +69,7 @@ public class HeroTest extends AbstractTestUnit {
     sorcerer.addItem(darkness);
     sorcerer.equipItem(darkness);
 
-    hero.attack(sorcerer);
+    hero.useItemOn(sorcerer);
     double expectedSorcererHP = sorcerer.getMaxHitPoints()-spear.getPower()*1.5;
     double currentSorcererHP = sorcerer.getCurrentHitPoints();
     assertEquals(expectedSorcererHP,currentSorcererHP,0.01);
@@ -79,7 +82,7 @@ public class HeroTest extends AbstractTestUnit {
     swordMaster.addItem(sword);
     swordMaster.equipItem(sword);
 
-    hero.attack(swordMaster);
+    hero.useItemOn(swordMaster);
     double expectedSwordMasterHP = swordMaster.getMaxHitPoints() - spear.getPower()*1.5;
     double currentSwordMasterHP = swordMaster.getCurrentHitPoints();
     assertEquals(expectedSwordMasterHP,currentSwordMasterHP, 0.01);
