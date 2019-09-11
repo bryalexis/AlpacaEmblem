@@ -20,7 +20,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Cleric extends AbstractUnit implements IHealer {
+public class Cleric extends AbstractUnit {
 
   /**
    * Creates a new Unit.
