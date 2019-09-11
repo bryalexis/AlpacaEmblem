@@ -73,6 +73,13 @@ Cada item se compone de las siguientes variables:
 - **alive:** Indicador de si la unidad está viva (una unidad muere cuando alcanza los 0 *hitpoints*).
 - **inCombat:** Indicador de si una unidad se encuentra en combate con otra.
 
+### Implementación General de las Unidades
+En esta versión se añadió una nueva unidad, el *sorcerer*, el cual puede usar libros de magia para atacar a sus oponentes. 
+
+Las dinámicas e interacciones de todos las unidades son muy similares, de modo que cada unidad solo desciende de un *AbstractUnit*, clase abstracta que define los metodos en común entre las unidades.
+
+Los campos **maxHitPoints**, **maxItems**, **alive** e **inCombat**, fueron añadidos en esta ultima versión del programa. El objetivo del primero es almacenar los máximos **hitpoints** que puede tener la unidad, para evitar *overhealing* y curaciones infinitas. La segunda nueva variable fue creada con la intención de realizar futuras validaciones para interacciones entre *item-unit* y otros. El objetivo de **alive** es facilitar el testeo de casos bordes y *setear* cuando alguien muere como un estado. Mientras que, la ultima variable pareció interesante de definir para alguna aplicación futura, donde sea importante si una unidad se encuentra en combate en cierto momento.
+
 ## Items
 Existen 3 tipos de items, *weapons*, *spellbooks* y *healing*. Algunos items son fuertes (o bien débiles) contra otros y se pueden equipar a distintas unidades de acuerdo al cuadro mostrado en la sección anterior. La clasificación de los items va de acuerdo a lo que muestra el siguiente cuadro:
 
@@ -146,6 +153,11 @@ Cada item se compone de las siguientes variables:
 - **maxRange:** rango máximo.
 - **owner:** unidad que es dueña del item.
 
+### Implementación General de los Items
+Dados los tipos de items disponibles en el juego, se crea una *interfaz* para ayudar a identificar ciertos tipos de ellos, de modo que existen las interfaces **ISpellBook** y **IHealing**,  donde la utilidad del primero es poder identificar todos los items tipo mágico junto con los metodos que podrían tener en común, mientras que la segunda no otorga una utilidad muy clara de momento, pues solo existe un objeto de tipo *healing*, pero podría ser útil si eventualmente se añade otro item de este tipo.
+
+Se usan clases abstractas para definir métodos en común entre los items del mismo tipo. Por ejemplo, recibir el ataque de una espada puede ser diferente a recibir el de un acha si el arma receptora es una lanza, pero da exactamente lo mismo si el arma receptora es un *darkness book*.
+
 ## Interacciones
 
 ### Equipar Item
@@ -154,13 +166,15 @@ Cada unidad puede equipar (o no) cierto tipo de items específicos, tal como se 
 ### Dar Item
 Una unidad puede entregar un item que esté portando siempre y cuando la unidad receptora porte menos de su máximo de items y ambas unidades esten a distancia 1. Si se regala un ítem que esté equipado, la unidad quedará sin item equipado. Además, cada vez que un item cambie de unidad, su dueño será la unidad que lo porte consigo.
 
-### Ataque
-Todas las unidades que puedan tener un item de tipo no-*healing* equipado pueden realizar un ataque a otra unidad bajo ciertas restricciones:
-- Ambas unidades participantes del combate deben estar vivas.
-- El atacante **debe** tener un arma equipada.
-- La unidad objetivo a recibir el ataque debe estar a una distancia que se encuentre dentro del rango del arma equipada por el atacante.
+### Usar Items
 
-A su vez, cada ataque desencadena un contraataque inmediato por parte de la unidad atacada, siempre y cuando cumpla con las mismas restricciones necesarias para realizar un ataque. Las alpacas y los *clerics* no pueden ni atacar ni contraatacar, por lo que al ser atacados, solo reciben daño y el combate finaliza de inmediato sin respuesta alguna.
+Todas las unidades que puedan tener un item equipado, pueden utilizarlo para interactuar con otra unidad bajo ciertas restricciones:
+- Ambas unidades participantes  deben estar vivas.
+- El item **debe** estar equipado.
+- La unidad objetivo a recibir la interacción debe estar a una distancia que se encuentre dentro del rango del item.
+
+#### Ataque
+Se rige bajo las reglas del uso de items. Cada ataque desencadena a su vez un contraataque inmediato por parte de la unidad atacada, siempre y cuando cumpla con las mismas restricciones necesarias para cualquier uso de items. Las alpacas y los *clerics* no pueden ni atacar ni contraatacar, por lo que al ser atacados, solo reciben daño y el combate finaliza de inmediato sin respuesta alguna.
 
 Si en el ataque, una unidad recibe más daño que sus *currentHitPoints*, esta muere y pasa a estar fuera de combate.
 
@@ -172,13 +186,17 @@ El daño recibido por un ataque puede variar según las armas de los participant
 
 En caso de que el daño recibido sea mayor a la vida de la unidad, sus *currentHitPoints* sólo disminuirán a 0, impidiendo niveles menores a 0.
 
-#### Diseño del Ataque
-El daño hecho por un ataque depende principalmente de las armas involucradas en el encuentro, de modo que la implementación de esta funcionalidad está delegada principalmente a los items. Cuando una unidad ataca a otra, dado que cada unidad porta un tipo de arma específica, se sabe a priori con qué arma se está realizando el ataque, de modo que lo que queda por descubrir es qué tipo de arma tiene equipada la unidad atacada. Resolver esto se vuelve sencillo usando *double dispatch*, de modo que el arma de la unidad atacada "recibe" el ataque de un arma que ya conocemos.
-
-### Curaciones
+#### Curaciones
 Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *staff*, y sólo puede ser equipado por un *cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
 
-Las curaciones no corresponden a ataques como tal, por lo que la implementación presentada las considera como una interacción totalmente distinta y propia de las unidades curadoras.
+##### Diseño
+El uso de un item para atacar o curar a otra unidad depende principalmente de los items involucrados en el encuentro. Por lo anterior, la implementación del uso de items, junto con los daños a otras unidades, curaciones, ataques fuertes, ataques débiles, etc, está delegado al ítem mismo. Cuando una unidad usa su item contra otra, dado que cada unidad porta un tipo de item específico, no se sabe a priori con qué arma se está realizando el *ataque/curación*, pero el arma sí sabe que tipo de arma es. De modo que el método *useItemOn* de las unidades, se delega al metodo *useOn* del item. El ítem sí sabe que es, de modo que es posible usar *double dispatch* para que el ítem del enemigo (*unknown*), reciba el *ataque/curación* del primer ítem (*known*).
 
-### Ejecución
-Las funcionalidades de Alpaca Emblem v1.1 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Para ejecutar los test, basta correr el archivo del test deseado, para testear las implementaciones de forma general, se sugiere ejecutar los **AbstractTest**, que prueban varios objetos simultáneamente.
+### Ejecución y Tests
+Las funcionalidades de Alpaca Emblem v1.1 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Se cuenta con un 99% de *coverage* donde se intentó testear casos borde que se espera haber resuelto en la implementación.
+
+Los *tests* de ataque se implementan en cada unidad por separado, ya que existen ataques normales, fuertes y débiles para cada caso. Por otro lado, los de las curaciones se implementan en la clase abstracta que testea los *healings* para cada unidad existente.
+
+Los *test* de interacciones entre items, se prueban en las clases abstractas del tipo de item si es una interacción general (por ejemplo, recibir el efecto de una arma fisica siendo un arma mágica), y si es una interacción más específica, el testeo se realiza para el item en particular (recibir un ataque de *darkness* siendo *light*).
+
+# Alpaca Emblem v1.1
