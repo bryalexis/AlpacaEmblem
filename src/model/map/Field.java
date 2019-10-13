@@ -140,4 +140,12 @@ public class Field {
   public boolean checkConnection(final Location cell1, final Location cell2) {
     return cell1.isNeighbour(cell2);
   }
+
+  /**
+   * A method that
+   * @return the size of the map
+   */
+  public int getSize() {
+    return (int) Math.sqrt(map.size());
+  }
 }
