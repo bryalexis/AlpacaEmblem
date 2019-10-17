@@ -5,6 +5,7 @@ import model.units.IUnit;
 /**
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 1.1
  */
 public class Bow extends AbstractWeapon {
 

@@ -314,6 +314,11 @@ public abstract class AbstractTestUnit implements ITestUnit {
     alpaca.giveItem(unit, sword);
     assertTrue(alpaca.getItems().contains(sword));
     assertFalse(unit.getItems().contains(sword));
+
+    alpaca.moveTo(new Location(2,0));
+    unit.removeItem(axe);
+    alpaca.giveItem(unit,sword);
+    assertFalse(unit.getItems().contains(sword));
   }
 
   @Override

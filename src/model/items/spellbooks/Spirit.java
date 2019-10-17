@@ -11,6 +11,7 @@ import model.units.IUnit;
  *
  * @author Bryan Ortiz P
  * @since 1.1
+ * @version 2.2
  */
 public class Spirit extends AbstractBook {
 
@@ -43,17 +44,16 @@ public class Spirit extends AbstractBook {
 
     @Override
     public void takeInDarknessSpell(Darkness spell){
-        getOwner().modifyCurrentHitPoints(- spell.getPower()*1.5);
+        takeInStrongAttack(spell.getPower());
     }
 
     @Override
     public void takeInSpiritSpell(Spirit spell){
-        getOwner().modifyCurrentHitPoints(- spell.getPower());
+        takeInNormalAttack(spell.getPower());
     }
 
     @Override
     public void takeInLightSpell(Light spell){
-        double damage = -spell.getPower() + 20;
-        getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
+        takeInWeakAttack(spell.getPower());
     }
 }

@@ -11,6 +11,7 @@ import model.items.spellbooks.Spirit;
  *
  * @author Bryan Ortiz P.
  * @since 1.1
+ * @version 2.2
  */
 public abstract class AbstractWeapon extends AbstractItem {
 
@@ -47,12 +48,12 @@ public abstract class AbstractWeapon extends AbstractItem {
 
     @Override
     public void takeInMagicalAttack(IEquipableItem item){
-        getOwner().modifyCurrentHitPoints(- item.getPower()*1.5);
+        takeInStrongAttack(item.getPower());
     }
 
     @Override
     public void takeInPhysicalAttack(IEquipableItem item){
-        getOwner().modifyCurrentHitPoints(-item.getPower());
+        takeInNormalAttack(item.getPower());
     }
 
 }

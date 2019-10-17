@@ -7,6 +7,7 @@ import model.units.IUnit;
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 2.2
  */
 public abstract class AbstractItem implements IEquipableItem {
 
@@ -80,4 +81,15 @@ public abstract class AbstractItem implements IEquipableItem {
     minRange = value;
   }
 
+  public void takeInStrongAttack(double power){
+    getOwner().modifyCurrentHitPoints(- power*1.5);
+  }
+
+  public void takeInWeakAttack(double power){
+    getOwner().modifyCurrentHitPoints(Math.min(- power + 20, 0));
+  }
+
+  public void takeInNormalAttack(double power){
+    getOwner().modifyCurrentHitPoints(- power);
+  }
 }

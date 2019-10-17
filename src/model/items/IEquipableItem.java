@@ -130,4 +130,25 @@ public interface IEquipableItem {
    * @param target who will receive the attack/healing
    */
   void useOn(IUnit target);
+
+  /**
+   * The owner of the item receives a hit (x1.5) from a stronger
+   * weapon comparatively talking.
+   * @param power of the weapon that attacks
+   */
+  void takeInStrongAttack(double power);
+
+  /**
+   * The owner of the item receives a hit (-20) from a weaker
+   * weapon comparatively talking. If the final value of the hit
+   * is positive, there is no damage done.
+   * @param power of the weapon that attacks
+   */
+  void takeInWeakAttack(double power);
+
+  /**
+   * The owner of the item receives a normal hit from another item
+   * @param power of the weapon that attacks
+   */
+  void takeInNormalAttack(double power);
 }

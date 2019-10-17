@@ -9,6 +9,7 @@ import model.units.IUnit;
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 2.2
  */
 public class Sword extends AbstractWeapon {
 
@@ -36,18 +37,17 @@ public class Sword extends AbstractWeapon {
 
   @Override
   public void takeInAxeAttack(Axe axe){
-    double damage = -axe.getPower() + 20;
-    getOwner().modifyCurrentHitPoints(Math.min(damage, 0));
+    takeInWeakAttack(axe.getPower());
   }
 
   @Override
   public void takeInSpearAttack(Spear spear){
-    getOwner().modifyCurrentHitPoints(-spear.getPower()*1.5);
+    takeInStrongAttack(spear.getPower());
   }
 
   @Override
   public void takeInSwordAttack(Sword sword){
-    getOwner().modifyCurrentHitPoints(-sword.getPower());
+    takeInNormalAttack(sword.getPower());
   }
 
   @Override
