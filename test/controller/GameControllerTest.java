@@ -29,7 +29,7 @@ class GameControllerTest {
     // Se define la semilla como un número aleatorio para generar variedad en los tests
     randomSeed = new Random().nextLong();
     controller = new GameController(4, 7);
-    controller.setSeed(randomSeed);
+    //controller.setSeed(randomSeed);
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
   }
 

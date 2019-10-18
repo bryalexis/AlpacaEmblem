@@ -291,7 +291,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     IUnit unit = getTestUnit();
     unit.addItem(sword);
     Alpaca alpaca = getTargetAlpaca();
-    alpaca.moveTo(new Location(1,0));
+    alpaca.moveTo(field.getCell(1,0));
 
     unit.giveItem(alpaca,sword);
     assertFalse(unit.getItems().contains(sword));
@@ -305,18 +305,19 @@ public abstract class AbstractTestUnit implements ITestUnit {
       assertNull(unit.getEquippedItem());
       assertFalse(unit.getItems().contains(item));
       assertTrue(alpaca.getItems().contains(item));
+      unit.addItem(darkness);
+      unit.addItem(staff);
+      unit.addItem(axe);
+      alpaca.addItem(sword);
+      alpaca.giveItem(unit, sword);
+      assertTrue(alpaca.getItems().contains(sword));
+      assertFalse(unit.getItems().contains(sword));
+      unit.removeItem(axe);
+      unit.removeItem(staff);
+      unit.removeItem(darkness);
     }
 
-    unit.addItem(darkness);
-    unit.addItem(staff);
-    unit.addItem(axe);
-    alpaca.addItem(sword);
-    alpaca.giveItem(unit, sword);
-    assertTrue(alpaca.getItems().contains(sword));
-    assertFalse(unit.getItems().contains(sword));
-
-    alpaca.moveTo(new Location(2,0));
-    unit.removeItem(axe);
+    alpaca.moveTo(field.getCell(2,0));
     alpaca.giveItem(unit,sword);
     assertFalse(unit.getItems().contains(sword));
   }

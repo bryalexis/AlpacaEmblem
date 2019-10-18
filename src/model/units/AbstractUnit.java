@@ -119,7 +119,10 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void setLocation(final Location location) {
-    this.location = location;
+    location.setUnit(this);
+    if(location.getUnit()==this){
+      this.location = location;
+    }
   }
 
   @Override
