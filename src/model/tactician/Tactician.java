@@ -54,6 +54,13 @@ public class Tactician {
     this.name = name;
   }
 
+  public void moveUnitTo(int x, int y){
+    selectedUnit.moveTo(field.getCell(x,y));
+  }
+
+  public void attackTo(IUnit target){
+
+  }
   public void generateUnits() {
     // generar las unidades del tactician
   }

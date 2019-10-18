@@ -1,4 +1,4 @@
-package model.items.healing;
+package model.items;
 
 import model.items.IEquipableItem;
 import model.units.IUnit;
@@ -12,11 +12,11 @@ import model.units.IUnit;
  * @author Bryan Ortiz P.
  * @since 1.1
  */
-public interface IHealing extends IEquipableItem {
+public interface IHealingItem extends IEquipableItem {
 
     /**
      * Heals another unit
      * @param target who will receive the healing
      */
-    void useOn(IUnit target);
+    void heal(IUnit target);
 }

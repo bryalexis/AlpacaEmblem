@@ -2,12 +2,14 @@ package model.items.healing;
 
 import model.items.AbstractItem;
 import model.items.IEquipableItem;
+import model.items.IHealingItem;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
 import model.items.weapons.Axe;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
+import model.units.IUnit;
 
 /**
  * Abstract class that defines some common information and behaviour between healing items.
@@ -15,7 +17,7 @@ import model.items.weapons.Sword;
  * @author Bryan Ortiz P.
  * @since 1.1
  */
-public abstract class AbstractHealing extends AbstractItem implements IHealing {
+public abstract class AbstractHealingItem extends AbstractItem implements IHealingItem {
 
     /**
      * Constructor for a default item without any special behaviour.
@@ -29,7 +31,7 @@ public abstract class AbstractHealing extends AbstractItem implements IHealing {
      * @param maxRange
      *     the maximum range of the item
      */
-    AbstractHealing(final String name, final int power, final int minRange, final int maxRange) {
+    AbstractHealingItem(final String name, final int power, final int minRange, final int maxRange) {
         super(name, power, minRange, maxRange);
     }
 
@@ -71,5 +73,10 @@ public abstract class AbstractHealing extends AbstractItem implements IHealing {
     @Override
     public void takeInSwordAttack(Sword sword) {
         takeInPhysicalAttack(sword);
+    }
+
+    @Override
+    public void heal(IUnit unit){
+        useOn(unit);
     }
 }

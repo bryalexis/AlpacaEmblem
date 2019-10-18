@@ -3,7 +3,7 @@ package model.units.magic;
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
 import model.items.spellbooks.Darkness;
-import model.items.spellbooks.ISpellsBook;
+import model.items.spellbooks.ISpellBook;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
 import model.items.weapons.Axe;
@@ -86,7 +86,7 @@ public class Sorcerer extends AbstractUnit {
   public void useItemOn(IUnit target) {
     if(canUseItemOn(target)){
       startCombatWith(target);
-      ISpellsBook spellsBook = (ISpellsBook) getEquippedItem();
+      ISpellBook spellsBook = (ISpellBook) getEquippedItem();
       if(target.hasEquippedItem()){
         spellsBook.useOn(target);
       } else {
@@ -99,7 +99,7 @@ public class Sorcerer extends AbstractUnit {
   @Override
   public void counterAttack(IUnit aggressor) {
     if(canUseItemOn(aggressor)){
-      ISpellsBook item = (ISpellsBook) getEquippedItem();
+      ISpellBook item = (ISpellBook) getEquippedItem();
       item.useOn(aggressor);
     }
     endCombatWith(aggressor);

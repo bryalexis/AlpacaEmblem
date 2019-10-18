@@ -1,7 +1,6 @@
 package model.items.spellbooks;
 
-import model.items.IEquipableItem;
-import model.units.IUnit;
+import model.items.IAttackItem;
 
 /**
  * This interface represents the <i>spells books</i> that magic units of the game can use.
@@ -12,11 +11,5 @@ import model.units.IUnit;
  * @author Bryan Ortiz P.
  * @since 1.1
  */
-public interface ISpellsBook extends IEquipableItem {
-
-    /**
-     * Throws a spell against a target
-     * @param target who will receive the spell
-     */
-    void useOn(IUnit target);
+public interface ISpellBook extends IAttackItem {
 }

@@ -1,6 +1,6 @@
 package model.items.spellbooks;
 
-import model.items.AbstractItem;
+import model.items.AbstractAttackItem;
 import model.items.IEquipableItem;
 import model.items.weapons.Axe;
 import model.items.weapons.Spear;
@@ -12,7 +12,7 @@ import model.items.weapons.Sword;
  * @author Bryan Ortiz P.
  * @since 1.1
  */
-public abstract class AbstractBook extends AbstractItem implements ISpellsBook {
+public abstract class AbstractBook extends AbstractAttackItem implements ISpellBook {
 
     /**
      * Constructor for a default spells book.

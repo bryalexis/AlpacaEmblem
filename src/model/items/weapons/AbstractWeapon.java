@@ -1,6 +1,6 @@
 package model.items.weapons;
 
-import model.items.AbstractItem;
+import model.items.AbstractAttackItem;
 import model.items.IEquipableItem;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
@@ -13,7 +13,7 @@ import model.items.spellbooks.Spirit;
  * @since 1.1
  * @version 2.2
  */
-public abstract class AbstractWeapon extends AbstractItem {
+public abstract class AbstractWeapon extends AbstractAttackItem implements IPhysicalWeapon {
 
     /**
      * Constructor for a default physical weapon.
