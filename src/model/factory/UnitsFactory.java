@@ -1,4 +1,4 @@
-package model.units;
+package model.factory;
 
 import model.items.IEquipableItem;
 import model.map.Location;
