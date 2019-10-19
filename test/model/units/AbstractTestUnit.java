@@ -291,7 +291,10 @@ public abstract class AbstractTestUnit implements ITestUnit {
     IUnit unit = getTestUnit();
     unit.addItem(sword);
     Alpaca alpaca = getTargetAlpaca();
+
+
     alpaca.moveTo(field.getCell(1,0));
+    assertNull(field.getCell(2,0).getUnit());
 
     unit.giveItem(alpaca,sword);
     assertFalse(unit.getItems().contains(sword));
@@ -319,6 +322,8 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
     // Distance > 1
     alpaca.moveTo(field.getCell(2,0));
+    assertEquals(alpaca, field.getCell(2,0).getUnit());
+    assertEquals(alpaca.getLocation(),field.getCell(2,0));
     alpaca.giveItem(unit,sword);
     assertFalse(unit.getItems().contains(sword));
 

@@ -1,4 +1,4 @@
-package model.builder;
+package model.factory;
 
 import model.map.Field;
 import model.map.Location;
@@ -14,13 +14,13 @@ import java.util.Random;
  */
 public class FieldFactory {
 
-  public Field createMap(Random seed, int mapSize){
+  public Field createMap(long seed, int mapSize){
     Field field = new Field();
     field.setSeed(seed);
     Location locations[] = new Location[mapSize*mapSize];
     for(int i=0;i<mapSize;i++){
       for(int j=0; j<mapSize;j++) {
-        locations[i+j*i] = new Location(i,j);
+        locations[j+mapSize*i] = new Location(i,j);
       }
     }
     field.addCells(false, locations);

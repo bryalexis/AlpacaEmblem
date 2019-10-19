@@ -54,6 +54,7 @@ public abstract class AbstractUnit implements IUnit {
     this.maxHitPoints = hitPoints;
     this.movement = movement;
     this.location = location;
+    location.setUnit(this);
     this.maxItems = maxItems;
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
     this.alive = true;
@@ -129,6 +130,7 @@ public abstract class AbstractUnit implements IUnit {
   public void moveTo(final Location targetLocation) {
     if (getLocation().distanceTo(targetLocation) <= getMovement()
         && targetLocation.getUnit() == null) {
+      getLocation().setUnit(null);
       setLocation(targetLocation);
     }
   }

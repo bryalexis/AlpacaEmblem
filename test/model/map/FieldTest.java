@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 2.3
  */
 class FieldTest {
 
@@ -116,5 +117,14 @@ class FieldTest {
     assertFalse(map.checkConnection(cell00, cell01));
     assertTrue(map.checkConnection(cell00, cell10));
     assertFalse(map.checkConnection(cell01, cell10));
+  }
+
+  @Test
+  public void getSizeTest(){
+    assertEquals(3,map.getSize());
+    map.addCells(true, new Location(3,0), new Location(3,1),
+            new Location(3,2), new Location(3,3), new Location(0,3),
+            new Location(1,3), new Location(2,3));
+    assertEquals(4,map.getSize());
   }
 }

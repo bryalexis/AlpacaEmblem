@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
+
+import model.factory.FieldFactory;
 import model.tactician.Tactician;
 import model.map.Field;
 import org.junit.jupiter.api.Assertions;
@@ -27,9 +29,9 @@ class GameControllerTest {
   @BeforeEach
   void setUp() {
     // Se define la semilla como un número aleatorio para generar variedad en los tests
-    randomSeed = new Random().nextLong();
+    //randomSeed = new Random().nextLong();
     controller = new GameController(4, 7);
-    //controller.setSeed(randomSeed);
+    randomSeed = controller.getGameMap().getSeed();
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
   }
 
@@ -47,7 +49,11 @@ class GameControllerTest {
     Field gameMap = controller.getGameMap();
     assertEquals(7, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
-    Random testRandom = new Random(randomSeed);
+    FieldFactory ff = new FieldFactory();
+    Field testMap = ff.createMap(randomSeed, 7); // map with the same seed
+    testMap.equals(gameMap);
+
+    //Random testRandom = new Random(randomSeed);
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
     //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
     //    las dimensiones definidas y que sea conexo.

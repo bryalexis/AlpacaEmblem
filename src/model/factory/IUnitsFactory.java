@@ -1,4 +1,4 @@
-package model.builder;
+package model.factory;
 
 import model.map.Location;
 import model.units.IUnit;
@@ -11,6 +11,15 @@ import model.units.IUnit;
  * @author Bryan Ortiz P
  */
 public interface IUnitsFactory {
+
+  /**
+   * Creates a new instance of unit
+   * @param hp max hitPoints
+   * @param movement how much it can moves
+   * @param location where it will be placed at the begining
+   * @return the unit
+   */
+  IUnit createUnit(int hp, int movement, Location location);
 
   /**
    * Creates a generic instance of unit

@@ -3,7 +3,9 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import model.factory.FieldFactory;
 import model.map.Location;
 import model.tactician.Tactician;
 import model.items.IEquipableItem;
@@ -50,13 +52,8 @@ public class GameController {
   }
 
   private void generateMap(){
-    List<Location> cells = new ArrayList<>();
-    for(int i=0;i<mapSize;i++){
-      for(int j=0; j<mapSize;j++) {
-        Location L = new Location(0, 0);
-        map.addCells(false, L);
-      }
-    }
+    FieldFactory ff = new FieldFactory();
+    map = ff.createMap(new Random().nextLong(), mapSize);
   }
 
   /**

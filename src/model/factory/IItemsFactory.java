@@ -1,4 +1,4 @@
-package model.builder;
+package model.factory;
 
 import model.items.IEquipableItem;
 
@@ -10,6 +10,16 @@ import model.items.IEquipableItem;
  * @version 2.2
  */
 public interface IItemsFactory {
+
+  /**
+   * Creates a new equippable Item
+   * @param name of he item
+   * @param power of the item
+   * @param maxRange of the item
+   * @param minRange of the item
+   * @return the item
+   */
+  IEquipableItem create(String name, int power, int minRange, int maxRange);
 
   /**
    * Creates a balanced item (medium power and medium range)

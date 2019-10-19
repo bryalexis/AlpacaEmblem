@@ -108,7 +108,7 @@ public class Location {
    *     the unit to be placed in this cell
    */
   public void setUnit(final IUnit unit) {
-    if(this.unit == null) // If there isn't another unit on this location
+    if(this.unit == null || unit == null) // If there isn't another unit on this location
       this.unit = unit;
   }
 

@@ -17,13 +17,19 @@ public class Field {
   private Map<String, Location> map = new HashMap<>();
   private Random random = new Random();
   private StringBuilder builder = new StringBuilder();
+  private long seed;
 
-  public void setSeed(Random seed) {
-    random = seed;
+  public Random getRandom(){
+    return random;
   }
 
-  public Random getSeed(){
-    return random;
+  public void setSeed(long seed) {
+    random.setSeed(seed);
+    this.seed = seed;
+  }
+
+  public long getSeed(){
+    return seed;
   }
 
   /**
@@ -155,5 +161,22 @@ public class Field {
    */
   public int getSize() {
     return (int) Math.sqrt(map.size());
+  }
+
+  @Override
+  public boolean equals(Object map){
+    if(map instanceof Field){
+      for(int i=0; i<getSize(); i++){
+        for(int j=0; j<getSize();j++){
+          Location l1 = getCell(i,j);
+          Location l2 = ((Field) map).getCell(i,j);
+          if(!(l1.getNeighbours().containsAll(l2.getNeighbours())
+            && l2.getNeighbours().containsAll(l1.getNeighbours())))
+            return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 }
