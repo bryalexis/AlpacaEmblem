@@ -4,13 +4,10 @@ import model.factory.units.*;
 import model.map.Field;
 import model.map.Location;
 import model.units.IUnit;
-import model.units.*;
-import model.units.carriers.Alpaca;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Defines some common methods for all the unit factory tests
