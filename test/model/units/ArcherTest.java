@@ -1,8 +1,10 @@
 package model.units;
 
+import model.items.weapons.Axe;
 import model.units.healers.Cleric;
 import model.units.magic.Sorcerer;
 import model.units.warriors.Archer;
+import model.units.warriors.Fighter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,6 +71,15 @@ public class ArcherTest extends AbstractTestUnit {
     double expectedHP = getTargetAlpaca().getMaxHitPoints()-bow.getPower();
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP,0.01);
+
+    Fighter fighter = new Fighter(50, 2, field.getCell(2, 0));
+    Axe axe = new Axe("owo", 10, 0, 1);
+    fighter.addItem(axe);
+
+    // Counter out of range.
+    archer.useItemOn(fighter);
+    assertEquals(fighter.getMaxHitPoints() - 10, fighter.getCurrentHitPoints());
+    assertEquals(archer.getMaxHitPoints(), archer.getCurrentHitPoints());
 
   }
 

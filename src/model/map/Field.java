@@ -18,6 +18,14 @@ public class Field {
   private Random random = new Random();
   private StringBuilder builder = new StringBuilder();
 
+  public void setSeed(Random seed) {
+    random = seed;
+  }
+
+  public Random getSeed(){
+    return random;
+  }
+
   /**
    * Add cells to the map.
    *

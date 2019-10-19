@@ -17,11 +17,11 @@ import model.units.healers.Cleric;
  * This interface represents all units in the game.
  * <p>
  * The signature of all the common methods that a unit can execute by itself are defined here. All units
- * except some special ones can carry at most 3 weapons. The interaction methods are defined in the interface
- * IUnitInteraction
+ * except some special ones can carry at most 3 weapons.
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 1.1
  */
 public interface IUnit {
 

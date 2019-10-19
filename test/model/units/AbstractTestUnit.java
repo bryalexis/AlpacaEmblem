@@ -317,9 +317,12 @@ public abstract class AbstractTestUnit implements ITestUnit {
       unit.removeItem(darkness);
     }
 
+    // Distance > 1
     alpaca.moveTo(field.getCell(2,0));
     alpaca.giveItem(unit,sword);
     assertFalse(unit.getItems().contains(sword));
+
+
   }
 
   @Override
