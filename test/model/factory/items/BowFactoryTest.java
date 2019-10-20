@@ -1,6 +1,5 @@
 package model.factory.items;
 
-import model.factory.AbstractItemFactoryTest;
 import model.factory.IItemsFactory;
 import model.items.IEquipableItem;
 import model.items.weapons.Bow;

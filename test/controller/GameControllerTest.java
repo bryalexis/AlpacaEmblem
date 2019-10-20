@@ -28,8 +28,7 @@ class GameControllerTest {
 
   @BeforeEach
   void setUp() {
-    // Se define la semilla como un número aleatorio para generar variedad en los tests
-    //randomSeed = new Random().nextLong();
+    // A random seed is generated to have randomness in tests.
     controller = new GameController(4, 7);
     randomSeed = controller.getGameMap().getSeed();
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
@@ -73,7 +72,7 @@ class GameControllerTest {
   @Test
   void getRoundNumber() {
     controller.initGame(10);
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i <= 10; i++) {
       assertEquals(i, controller.getRoundNumber());
       for (int j = 0; j < 4; j++) {
         controller.endTurn();
@@ -134,7 +133,7 @@ class GameControllerTest {
 
     controller.initGame(2);
     IntStream.range(0, 4).forEach(i -> controller.endTurn());
-    assertNull(controller.getWinners());
+    assertEquals(0,controller.getWinners().size());
     controller.removeTactician("Player 0");
     controller.removeTactician("Player 2");
     IntStream.range(0, 2).forEach(i -> controller.endTurn());
@@ -144,7 +143,7 @@ class GameControllerTest {
 
     controller.initEndlessGame();
     for (int i = 0; i < 3; i++) {
-      assertNull(controller.getWinners());
+      assertEquals(0,controller.getWinners().size());
       controller.removeTactician("Player " + i);
     }
     assertTrue(List.of("Player 3").containsAll(controller.getWinners()));

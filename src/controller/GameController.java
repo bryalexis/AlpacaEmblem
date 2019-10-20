@@ -22,7 +22,7 @@ import model.units.IUnit;
  */
 public class GameController {
 
-  private Map <String, Tactician> tacticians;
+  private List<Tactician> tacticians;
   private Field map;
   private Tactician playerInTurn;
 
@@ -32,6 +32,8 @@ public class GameController {
 
   private int mapSize;
   private int roundNumber;
+  private int turnNumber;
+  private List<Tactician> orderRound;
 
   private IUnit selectedUnit;
   private IEquipableItem selectedItem;
@@ -45,10 +47,14 @@ public class GameController {
    *     the dimensions of the map, for simplicity, all maps are squares
    */
   public GameController(int numberOfPlayers, int mapSize) {
-    this.winners = new ArrayList<>();
+    //this.winners = new ArrayList<>();
+    this.tacticians = new ArrayList<>();
+    this.orderRound = new ArrayList<>();
     this.numberOfPlayers = numberOfPlayers;
     this.mapSize = mapSize;
     generateMap();
+    createPlayers();
+    setTurnsInRound();
   }
 
   private void generateMap(){
@@ -60,7 +66,7 @@ public class GameController {
    * @return the list of all the tacticians participating in the game.
    */
   public List<Tactician> getTacticians() {
-    return new ArrayList<>(tacticians.values());
+    return tacticians;
   }
 
   /**
@@ -95,7 +101,44 @@ public class GameController {
    * Finishes the current player's turn.
    */
   public void endTurn() {
+    turnNumber++;
+    turnNumber%=numberOfPlayers;
+    if(turnNumber == 0){
+      setTurnsInRound();
+      roundNumber++;
+      if(roundNumber > getMaxRounds()){
+        setWinners();
+      }
+    }
+    playerInTurn = orderRound.get(turnNumber);
+  }
 
+  public void setTurnsInRound(){
+    orderRound = new ArrayList<>();
+    List<Integer> selected = new ArrayList<>();
+    int k=0, n=0;
+    while (orderRound.size()!=numberOfPlayers){
+      k = new Random().nextInt();
+      n = Math.abs(k)%numberOfPlayers;
+      Tactician player = tacticians.get(n);
+      if(playerCanBeSelectedThisOrder(player,selected,n)){
+        orderRound.add(player);
+        selected.add(n);
+      }
+    }
+  }
+
+  public boolean playerCanBeSelectedThisOrder(Tactician player, List<Integer> selected, int n){
+    if(!selected.contains(n))
+      return playerInTurn==null ||
+            !(playerInTurn.getName().equals(player.getName()) && selected.isEmpty());
+    return false;
+  }
+
+  public void setWinners() {
+    for(Tactician t: tacticians){
+      this.winners.add(t.getName());
+    }
   }
 
   /**
@@ -103,14 +146,21 @@ public class GameController {
    * @param tactician the player to be removed
    */
   public void removeTactician(String tactician) {
-    tacticians.remove(tactician);
+    numberOfPlayers--;
+    for(Tactician player: tacticians){
+      if(player.getName().equals(tactician)){
+        tacticians.remove(player);
+        orderRound.remove(player);
+        break;
+      }
+    }
   }
 
   public void createPlayers(){
     for(int i=0; i<numberOfPlayers;i++){
       Tactician player = new Tactician("Player "+ i, map);
       player.generateUnits();
-      tacticians.put("Player "+ i, player);
+      tacticians.add(player);
     }
   }
 
@@ -119,7 +169,10 @@ public class GameController {
    * @param maxTurns the maximum number of turns the game can last
    */
   public void initGame(final int maxTurns) {
-
+    maxRounds = maxTurns;
+    winners = new ArrayList<>();
+    this.roundNumber = 1;
+    this.turnNumber = 0;
   }
 
   /**
