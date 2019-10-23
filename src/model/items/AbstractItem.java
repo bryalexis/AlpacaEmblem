@@ -63,7 +63,7 @@ public abstract class AbstractItem implements IEquipableItem {
 
   @Override
   public boolean isReachable(double distance){
-    return minRange <= distance & maxRange >= distance;
+    return minRange <= distance && maxRange >= distance;
   }
 
   @Override

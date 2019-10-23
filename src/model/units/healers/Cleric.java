@@ -10,6 +10,7 @@ import model.items.weapons.Bow;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
@@ -30,9 +31,9 @@ public class Cleric extends AbstractUnit {
    * @param movement
    *     the number of panels a unit can move
    */
-  public Cleric(final int hitPoints, final int movement, final Location location,
+  public Cleric(final int hitPoints, final int movement, final Location location, Tactician owner,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(hitPoints, movement, location, 3, owner, items);
   }
 
   @Override
@@ -40,41 +41,6 @@ public class Cleric extends AbstractUnit {
     if (getItems().contains(staff)){
       setEquippedItem(staff);
     }
-  }
-
-  @Override
-  public void equipDarknessBook(Darkness darkness) {
-    // Cleric can't equip this item
-  }
-
-  @Override
-  public void equipLightBook(Light light) {
-    // Cleric can't equip this item
-  }
-
-  @Override
-  public void equipSpiritBook(Spirit spirit) {
-    // Cleric can't equip this item
-  }
-
-  @Override
-  public void equipAxe(Axe axe) {
-    // Cleric can't equip this item
-  }
-
-  @Override
-  public void equipBow(Bow bow) {
-    // Cleric can't equip this item
-  }
-
-  @Override
-  public void equipSpear(Spear spear) {
-    // Cleric can't equip this item
-  }
-
-  @Override
-  public void equipSword(Sword sword) {
-    // Cleric can't equip this item
   }
 
   /**

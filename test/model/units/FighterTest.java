@@ -20,7 +20,7 @@ public class FighterTest extends AbstractTestUnit {
    */
   @Override
   public void setTestUnit() {
-    fighter = new Fighter(50, 2, field.getCell(0, 0));
+    fighter = new Fighter(50, 2, field.getCell(0, 0),null);
   }
 
   /**
@@ -64,7 +64,7 @@ public class FighterTest extends AbstractTestUnit {
     double expected;
 
     // Axe vs Magic Item
-    Sorcerer sorcerer = new Sorcerer(50, 2, field.getCell(1, 1));
+    Sorcerer sorcerer = new Sorcerer(50, 2, field.getCell(1, 1),null);
     sorcerer.addItem(spirit);
     sorcerer.equipItem(spirit);
 
@@ -77,7 +77,7 @@ public class FighterTest extends AbstractTestUnit {
     assertEquals(expected, current,0.01); // Check counter
 
     // Axe vs Spear
-    Hero hero = new Hero (50, 2, field.getCell(0, 2));
+    Hero hero = new Hero (50, 2, field.getCell(0, 2),null);
     hero.addItem(spear);
     hero.equipItem(spear);
 

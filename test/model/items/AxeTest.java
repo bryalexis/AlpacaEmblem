@@ -44,7 +44,7 @@ class AxeTest extends AbstractTestWeapon {
    */
   @Override
   public void setTestUnit() {
-    fighter = new Fighter(50, 5, new Location(0, 0));
+    fighter = new Fighter(50, 5, new Location(0, 0),null);
   }
 
   @Override

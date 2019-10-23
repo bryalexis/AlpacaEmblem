@@ -44,7 +44,7 @@ class LightTest extends AbstractTestBook {
    */
   @Override
   public void setTestUnit() {
-    sorcerer = new Sorcerer(50, 5, new Location(0, 0));
+    sorcerer = new Sorcerer(50, 5, new Location(0, 0),null);
   }
 
   @Override
@@ -104,7 +104,7 @@ class LightTest extends AbstractTestBook {
   @Test
   public void throwSpellTest(){
     Light light = new Light("light book", 10, 1,2);
-    Sorcerer sorcerer = new Sorcerer(50, 5, new Location(1, 0));
+    Sorcerer sorcerer = new Sorcerer(50, 5, new Location(1, 0),null);
     sorcerer.addItem(light);
     light.equipTo(sorcerer);
 

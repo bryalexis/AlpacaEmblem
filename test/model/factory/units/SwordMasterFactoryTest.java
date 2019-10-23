@@ -10,17 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SwordMasterFactoryTest extends AbstractUnitFactoryTest {
   @Override
   public IUnit getCreatedGenericUnit() {
-    return swordMasterF.createGenericUnit(field.getCell(0,0));
+    return swordMasterF.createGenericUnit(field.getCell(0,0),null);
   }
 
   @Override
   public IUnit getCreatedTankUnit() {
-    return swordMasterF.createTankUnit(field.getCell(0,0));
+    return swordMasterF.createTankUnit(field.getCell(0,0), null);
   }
 
   @Override
   public IUnit getCreatedFastUnit() {
-    return swordMasterF.createFastUnit(field.getCell(0,0));
+    return swordMasterF.createFastUnit(field.getCell(0,0), null);
   }
 
   @Test

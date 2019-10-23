@@ -18,7 +18,7 @@ public class SorcererTest extends AbstractTestUnit {
    */
   @Override
   public void setTestUnit() {
-    sorcerer = new Sorcerer(50, 2, field.getCell(0, 0));
+    sorcerer = new Sorcerer(50, 2, field.getCell(0, 0),null);
   }
 
   /**
@@ -74,7 +74,7 @@ public class SorcererTest extends AbstractTestUnit {
     sorcerer.addItem(darkness);
     sorcerer.equipItem(darkness);
 
-    Sorcerer target = new Sorcerer(50, 2, field.getCell(1, 1));
+    Sorcerer target = new Sorcerer(50, 2, field.getCell(1, 1),null);
     target.addItem(spirit);
     target.equipItem(spirit);
 
@@ -84,7 +84,7 @@ public class SorcererTest extends AbstractTestUnit {
     assertEquals(expectedSorcererHP,currentSorcererHP,0.01);
 
 
-    Archer archer = new Archer(50, 2, field.getCell(0, 2));
+    Archer archer = new Archer(50, 2, field.getCell(0, 2),null);
     archer.addItem(bow);
     archer.equipItem(bow);
 

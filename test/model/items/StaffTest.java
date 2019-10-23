@@ -45,7 +45,7 @@ public class StaffTest extends AbstractTestHealing {
    */
   @Override
   public void setTestUnit() {
-    cleric = new Cleric(50, 5, new Location(0, 0));
+    cleric = new Cleric(50, 5, new Location(0, 0),null);
   }
 
   @Override

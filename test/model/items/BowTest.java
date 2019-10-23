@@ -49,7 +49,7 @@ public class BowTest extends AbstractTestWeapon {
    */
   @Override
   public void setTestUnit() {
-    archer = new Archer(50, 5, new Location(0, 0));
+    archer = new Archer(50, 5, new Location(0, 0),null);
   }
 
   /**

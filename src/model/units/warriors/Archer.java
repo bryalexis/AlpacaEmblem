@@ -10,6 +10,7 @@ import model.items.IEquipableItem;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
@@ -32,37 +33,14 @@ public class Archer extends AbstractUnit {
    *     the amount of cells this unit can move
    * @param position
    *     the initial position of this unit
+   * @param owner
+   *     the owner of this unit
    * @param items
    *     the items carried by this unit
    */
-  public Archer(final int hitPoints, final int movement, final Location position,
+  public Archer(final int hitPoints, final int movement, final Location position, Tactician owner,
       final IEquipableItem... items) {
-    super(hitPoints, movement, position, 3, items);
-  }
-
-  @Override
-  public void equipStaff(Staff staff) {
-    // Archer can't equip this item.
-  }
-
-  @Override
-  public void equipDarknessBook(Darkness darkness) {
-    // Archer can't equip this item.
-  }
-
-  @Override
-  public void equipLightBook(Light light) {
-    // Archer can't equip this item.
-  }
-
-  @Override
-  public void equipSpiritBook(Spirit spirit) {
-    // Archer can't equip this item.
-  }
-
-  @Override
-  public void equipAxe(Axe axe) {
-    // Archer can't equip this item.
+    super(hitPoints, movement, position, 3, owner, items);
   }
 
   @Override
@@ -70,16 +48,6 @@ public class Archer extends AbstractUnit {
     if (getItems().contains(bow)){
       setEquippedItem(bow);
     }
-  }
-
-  @Override
-  public void equipSpear(Spear spear) {
-    // Archer can't equip this item.
-  }
-
-  @Override
-  public void equipSword(Sword sword) {
-    // Archer can't equip this item.
   }
 
   @Override

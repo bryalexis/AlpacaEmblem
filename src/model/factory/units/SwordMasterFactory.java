@@ -1,28 +1,30 @@
 package model.factory.units;
 
 import model.factory.IUnitsFactory;
+import model.items.IEquipableItem;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.warriors.SwordMaster;
 
 public class SwordMasterFactory implements IUnitsFactory {
   @Override
-  public SwordMaster createUnit(int hp, int movement, Location location) {
-    return new SwordMaster(hp,movement,location);
+  public SwordMaster createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
+    return new SwordMaster(hp,movement,location,owner,items);
   }
 
   @Override
-  public SwordMaster createGenericUnit(Location location) {
-    return createUnit(50, 3, location);
+  public SwordMaster createGenericUnit(Location location, Tactician owner) {
+    return createUnit(50, 3, location, owner);
   }
 
   @Override
-  public SwordMaster createTankUnit(Location location) {
-    return createUnit(100, 1, location);
+  public SwordMaster createTankUnit(Location location, Tactician owner) {
+    return createUnit(100, 1, location, owner);
   }
 
   @Override
-  public SwordMaster createFastUnit(Location location) {
-    return createUnit(30, 5, location);
+  public SwordMaster createFastUnit(Location location, Tactician owner) {
+    return createUnit(30, 5, location, owner);
   }
 
 }

@@ -1,28 +1,30 @@
 package model.factory.units;
 
 import model.factory.IUnitsFactory;
+import model.items.IEquipableItem;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.carriers.Alpaca;
 
 public class AlpacaFactory implements IUnitsFactory {
   @Override
-  public Alpaca createUnit(int hp, int movement, Location location) {
-    return new Alpaca(hp,movement,location);
+  public Alpaca createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
+    return new Alpaca(hp,movement,location, owner, items);
   }
 
   @Override
-  public Alpaca createGenericUnit(Location location) {
-    return createUnit(50, 3, location);
+  public Alpaca createGenericUnit(Location location, Tactician owner) {
+    return createUnit(50, 3, location, owner);
   }
 
   @Override
-  public Alpaca createTankUnit(Location location) {
-    return createUnit(100, 1, location);
+  public Alpaca createTankUnit(Location location, Tactician owner) {
+    return createUnit(100, 1, location, owner);
   }
 
   @Override
-  public Alpaca createFastUnit(Location location) {
-    return createUnit(30, 5, location);
+  public Alpaca createFastUnit(Location location, Tactician owner) {
+    return createUnit(30, 5, location, owner);
   }
 
 }

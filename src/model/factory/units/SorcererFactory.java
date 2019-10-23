@@ -1,28 +1,30 @@
 package model.factory.units;
 
 import model.factory.IUnitsFactory;
+import model.items.IEquipableItem;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.magic.Sorcerer;
 
 public class SorcererFactory implements IUnitsFactory {
   @Override
-  public Sorcerer createUnit(int hp, int movement, Location location) {
-    return new Sorcerer(hp,movement,location);
+  public Sorcerer createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
+    return new Sorcerer(hp,movement,location, owner, items);
   }
 
   @Override
-  public Sorcerer createGenericUnit(Location location) {
-    return createUnit(50, 3, location);
+  public Sorcerer createGenericUnit(Location location, Tactician owner) {
+    return createUnit(50, 3, location, owner);
   }
 
   @Override
-  public Sorcerer createTankUnit(Location location) {
-    return createUnit(100, 1, location);
+  public Sorcerer createTankUnit(Location location, Tactician owner) {
+    return createUnit(100, 1, location, owner);
   }
 
   @Override
-  public Sorcerer createFastUnit(Location location) {
-    return createUnit(30, 5, location);
+  public Sorcerer createFastUnit(Location location, Tactician owner) {
+    return createUnit(30, 5, location, owner);
   }
 
 }

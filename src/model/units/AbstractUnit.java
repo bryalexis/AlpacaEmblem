@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import model.items.IEquipableItem;
+import model.items.healing.Staff;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
+import model.items.weapons.Axe;
+import model.items.weapons.Bow;
+import model.items.weapons.Spear;
+import model.items.weapons.Sword;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.healers.Cleric;
 
 /**
@@ -21,6 +27,7 @@ import model.units.healers.Cleric;
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 2.3
  */
 public abstract class AbstractUnit implements IUnit {
 
@@ -36,6 +43,8 @@ public abstract class AbstractUnit implements IUnit {
   private boolean alive;
   private boolean inCombat;
 
+  private Tactician owner;
+
   /**
    * Creates a new Unit.
    *
@@ -49,7 +58,7 @@ public abstract class AbstractUnit implements IUnit {
    *     maximum amount of items this unit can carry
    */
   public AbstractUnit(final int hitPoints, final int movement,
-      final Location location, final int maxItems, final IEquipableItem... items) {
+      final Location location, final int maxItems, Tactician owner, final IEquipableItem... items) {
     this.currentHitPoints = hitPoints;
     this.maxHitPoints = hitPoints;
     this.movement = movement;
@@ -59,6 +68,7 @@ public abstract class AbstractUnit implements IUnit {
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
     this.alive = true;
     this.inCombat = false;
+    this.owner = owner;
   }
 
   @Override
@@ -208,7 +218,10 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public boolean canUseItemOn(IUnit target){
       if(hasEquippedItem() && isAlive() && target.isAlive()){
-        return getEquippedItem().isReachable(getLocation().distanceTo(target.getLocation()));
+        Location l1 = getLocation();
+        Location l2 = target.getLocation();
+        int distance = (int) l1.distanceTo(l2);
+        return getEquippedItem().isReachable(distance);
       }
       return false;
   }
@@ -221,5 +234,55 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void setAlive(){
     alive= true;
+  }
+
+  @Override
+  public void setOwner(Tactician player){
+    owner = player;
+  }
+
+  @Override
+  public Tactician getOwner(){
+    return owner;
+  }
+
+  @Override
+  public void equipStaff(Staff staff) {
+    // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipDarknessBook(Darkness darkness) {
+    // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipLightBook(Light light) {
+    // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipSpiritBook(Spirit spirit) {
+    // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipAxe(Axe axe) {
+    // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipBow(Bow bow) {
+    // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipSpear(Spear spear) {
+    // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipSword(Sword sword) {
+    // Does nothing (implemented in the respective class)
   }
 }

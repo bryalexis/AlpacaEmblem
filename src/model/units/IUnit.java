@@ -11,6 +11,7 @@ import model.items.weapons.Bow;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.healers.Cleric;
 
 /**
@@ -259,4 +260,15 @@ public interface IUnit {
    * Makes the player to be alive again
    */
   void setAlive();
+
+  /**
+   * Sets the player that owns this unit
+   * @param player owner
+   */
+  void setOwner(Tactician player);
+
+  /**
+   * @return the owner player.
+   */
+  Tactician getOwner();
 }

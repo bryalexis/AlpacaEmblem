@@ -24,7 +24,7 @@ public class ArcherTest extends AbstractTestUnit {
    */
   @Override
   public void setTestUnit() {
-    archer = new Archer(50, 2, field.getCell(0, 0));
+    archer = new Archer(50, 2, field.getCell(0, 0),null);
   }
 
   /**
@@ -59,7 +59,7 @@ public class ArcherTest extends AbstractTestUnit {
     archer.equipItem(bow);
 
     // Bow vs Staff
-    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
+    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0),null);
     cleric.addItem(staff);
     cleric.equipItem(staff);
     archer.useItemOn(cleric);
@@ -72,7 +72,7 @@ public class ArcherTest extends AbstractTestUnit {
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP,0.01);
 
-    Fighter fighter = new Fighter(50, 2, field.getCell(2, 0));
+    Fighter fighter = new Fighter(50, 2, field.getCell(2, 0),null);
     Axe axe = new Axe("owo", 10, 0, 1);
     fighter.addItem(axe);
 
@@ -86,7 +86,7 @@ public class ArcherTest extends AbstractTestUnit {
   @Test
   public void testStrongAttack(){
     // Bow vs Magic Item
-    Sorcerer target = new Sorcerer(50, 2, field.getCell(1, 1));
+    Sorcerer target = new Sorcerer(50, 2, field.getCell(1, 1),null);
     target.addItem(spirit);
     target.equipItem(spirit);
     archer.addItem(bow);

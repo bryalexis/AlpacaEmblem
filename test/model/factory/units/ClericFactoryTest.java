@@ -10,17 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ClericFactoryTest extends AbstractUnitFactoryTest {
   @Override
   public IUnit getCreatedGenericUnit() {
-    return clericF.createGenericUnit(field.getCell(0,0));
+    return clericF.createGenericUnit(field.getCell(0,0),null);
   }
 
   @Override
   public IUnit getCreatedTankUnit() {
-    return clericF.createTankUnit(field.getCell(0,0));
+    return clericF.createTankUnit(field.getCell(0,0),null);
   }
 
   @Override
   public IUnit getCreatedFastUnit() {
-    return clericF.createFastUnit(field.getCell(0,0));
+    return clericF.createFastUnit(field.getCell(0,0),null);
   }
 
   @Test

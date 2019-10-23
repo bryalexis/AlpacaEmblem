@@ -10,6 +10,7 @@ import model.items.weapons.Bow;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
@@ -22,29 +23,9 @@ import model.units.IUnit;
  */
 public class Fighter extends AbstractUnit {
 
-  public Fighter(final int hitPoints, final int movement, final Location location,
+  public Fighter(final int hitPoints, final int movement, final Location location, Tactician owner,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
-  }
-
-  @Override
-  public void equipStaff(Staff staff) {
-    // Fighter can't equip this item
-  }
-
-  @Override
-  public void equipDarknessBook(Darkness darkness) {
-    // Fighter can't equip this item
-  }
-
-  @Override
-  public void equipLightBook(Light light) {
-    // Fighter can't equip this item
-  }
-
-  @Override
-  public void equipSpiritBook(Spirit spirit) {
-    // Fighter can't equip this item
+    super(hitPoints, movement, location, 3, owner, items);
   }
 
   @Override
@@ -52,21 +33,6 @@ public class Fighter extends AbstractUnit {
     if (getItems().contains(axe)){
       setEquippedItem(axe);
     }
-  }
-
-  @Override
-  public void equipBow(Bow bow) {
-    // Fighter can't equip this item
-  }
-
-  @Override
-  public void equipSpear(Spear spear) {
-    // Fighter can't equip this item
-  }
-
-  @Override
-  public void equipSword(Sword sword) {
-    // Fighter can't equip this item
   }
 
   @Override

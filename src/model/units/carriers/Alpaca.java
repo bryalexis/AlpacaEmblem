@@ -10,6 +10,7 @@ import model.items.weapons.Bow;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
@@ -34,57 +35,9 @@ public class Alpaca extends AbstractUnit {
    * @param location
    *     current position of the unit
    */
-  public Alpaca(final int hitPoints, final int movement, final Location location,
+  public Alpaca(final int hitPoints, final int movement, final Location location, Tactician owner,
       final IEquipableItem... items) {
-    super(hitPoints, movement, location, Integer.MAX_VALUE, items);
-  }
-
-  @Override
-  public void equipStaff(Staff staff) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
-  }
-
-  @Override
-  public void equipDarknessBook(Darkness darkness) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
-  }
-
-  @Override
-  public void equipLightBook(Light light) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
-  }
-
-  @Override
-  public void equipSpiritBook(Spirit spirit) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
-  }
-
-  @Override
-  public void equipAxe(Axe axe) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
-  }
-
-  @Override
-  public void equipBow(Bow bow) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
-  }
-
-  @Override
-  public void equipSpear(Spear spear) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
-  }
-
-  @Override
-  public void equipSword(Sword sword) {
-    // Method body intentionally left empty
-    // Alpaca can't equip any item
+    super(hitPoints, movement, location, Integer.MAX_VALUE, owner, items);
   }
 
   @Override

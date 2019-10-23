@@ -34,7 +34,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   @Override
   public void setTargetAlpaca() {
-    targetAlpaca = new Alpaca(50, 2, field.getCell(2, 0));
+    targetAlpaca = new Alpaca(50, 2, field.getCell(2, 0),null);
   }
 
   /**
@@ -333,7 +333,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   @Test
   public void testHealing(){
-    Cleric cleric = new Cleric(50, 2, field.getCell(1, 0));
+    Cleric cleric = new Cleric(50, 2, field.getCell(1, 0),null);
     IUnit unit = getTestUnit();
     unit.modifyCurrentHitPoints(-unit.getMaxHitPoints()+10);
     cleric.addItem(staff);
@@ -376,7 +376,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   @Test
   public void clericAttackTest(){
-    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0));
+    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0),null);
     cleric.addItem(staff);
     cleric.equipStaff(staff);
     IUnit unit = getEquippedTestUnit();

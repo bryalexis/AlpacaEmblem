@@ -168,15 +168,22 @@ public class Field {
     if(map instanceof Field){
       for(int i=0; i<getSize(); i++){
         for(int j=0; j<getSize();j++){
-          Location l1 = getCell(i,j);
-          Location l2 = ((Field) map).getCell(i,j);
-          if(!(l1.getNeighbours().containsAll(l2.getNeighbours())
-            && l2.getNeighbours().containsAll(l1.getNeighbours())))
+          List<String> n1 = getNeighboursID(getCell(i,j));
+          List<String> n2 = getNeighboursID(((Field) map).getCell(i,j));
+          if( !(n1.containsAll(n2) && n2.containsAll(n1)) )
             return false;
         }
       }
       return true;
     }
     return false;
+  }
+
+  public List<String> getNeighboursID(Location location){
+    List<String> neighbours = new ArrayList<>();
+    for(Location l: location.getNeighbours()){
+      neighbours.add(l.toString());
+    }
+    return neighbours;
   }
 }

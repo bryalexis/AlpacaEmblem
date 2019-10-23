@@ -19,7 +19,7 @@ public class ClericTest extends AbstractTestUnit {
    */
   @Override
   public void setTestUnit() {
-    cleric = new Cleric(50, 2, field.getCell(0, 0));
+    cleric = new Cleric(50, 2, field.getCell(0, 0),null);
   }
 
   /**
@@ -52,7 +52,7 @@ public class ClericTest extends AbstractTestUnit {
   @Test
   public void counterTest(){
     IUnit unit = getEquippedTestUnit();
-    Archer target = new Archer(50, 2, field.getCell(0, 2));
+    Archer target = new Archer(50, 2, field.getCell(0, 2),null);
     target.addItem(bow);
     target.equipItem(bow);
     unit.counterAttack(target);

@@ -11,6 +11,7 @@ import model.items.weapons.Bow;
 import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.map.Location;
+import model.tactician.Tactician;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
@@ -30,14 +31,9 @@ public class Sorcerer extends AbstractUnit {
    * @param movement
    *     the number of panels a unit can move
    */
-  public Sorcerer(final int hitPoints, final int movement, final Location location,
+  public Sorcerer(final int hitPoints, final int movement, final Location location, Tactician owner,
                   IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
-  }
-
-  @Override
-  public void equipStaff(Staff staff) {
-    // Sorcerer can't equip this item
+    super(hitPoints, movement, location, 3, owner, items);
   }
 
   @Override
@@ -60,27 +56,6 @@ public class Sorcerer extends AbstractUnit {
       setEquippedItem(spirit);
     }
   }
-
-  @Override
-  public void equipAxe(Axe axe) {
-    // Sorcerer can't equip this item
-  }
-
-  @Override
-  public void equipBow(Bow bow) {
-    // Sorcerer can't equip this item
-  }
-
-  @Override
-  public void equipSpear(Spear spear) {
-    // Sorcerer can't equip this item
-  }
-
-  @Override
-  public void equipSword(Sword sword) {
-    // Sorcerer can't equip this item
-  }
-
 
   @Override
   public void useItemOn(IUnit target) {
