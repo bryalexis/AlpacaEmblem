@@ -14,17 +14,17 @@ public class AlpacaFactory implements IUnitsFactory {
 
   @Override
   public Alpaca createGenericUnit(Location location, Tactician owner) {
-    return createUnit(50, 3, location, owner);
+    return createUnit(100, 3, location, owner);
   }
 
   @Override
   public Alpaca createTankUnit(Location location, Tactician owner) {
-    return createUnit(100, 1, location, owner);
+    return createUnit(200, 1, location, owner);
   }
 
   @Override
   public Alpaca createFastUnit(Location location, Tactician owner) {
-    return createUnit(30, 5, location, owner);
+    return createUnit(70, 5, location, owner);
   }
 
 }

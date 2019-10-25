@@ -11,12 +11,12 @@ public class SwordFactory implements IItemsFactory {
 
   @Override
   public Sword createGenericItem(String name) {
-    return create(name,20,1,5);
+    return create(name,30,1,5);
   }
 
   @Override
   public Sword createPowerfulItem(String name) {
-    return create(name,30,1,3);
+    return create(name,50,1,3);
   }
 
   @Override

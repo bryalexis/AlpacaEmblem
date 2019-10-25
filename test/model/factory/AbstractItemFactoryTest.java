@@ -50,10 +50,10 @@ public abstract class AbstractItemFactoryTest {
 
   @Test
   public void createdItemsTest(){
-    assertEquals(20,getCreatedGenericItem().getPower());
+    assertEquals(30,getCreatedGenericItem().getPower());
     assertEquals(1, getCreatedGenericItem().getMinRange());
     assertEquals(5, getCreatedGenericItem().getMaxRange());
-    assertEquals(30,getCreatedPowerfulItem().getPower());
+    assertEquals(50,getCreatedPowerfulItem().getPower());
     assertEquals(1, getCreatedPowerfulItem().getMinRange());
     assertEquals(3, getCreatedPowerfulItem().getMaxRange());
     assertEquals(10,getCreatedLongDistanceItem().getPower());

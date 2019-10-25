@@ -11,12 +11,12 @@ public class LightFactory implements IItemsFactory {
 
   @Override
   public Light createGenericItem(String name) {
-    return create(name,20,1,5);
+    return create(name,30,1,5);
   }
 
   @Override
   public Light createPowerfulItem(String name) {
-    return create(name,30,1,3);
+    return create(name,50,1,3);
   }
 
   @Override

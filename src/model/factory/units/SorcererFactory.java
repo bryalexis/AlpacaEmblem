@@ -14,17 +14,17 @@ public class SorcererFactory implements IUnitsFactory {
 
   @Override
   public Sorcerer createGenericUnit(Location location, Tactician owner) {
-    return createUnit(50, 3, location, owner);
+    return createUnit(100, 3, location, owner);
   }
 
   @Override
   public Sorcerer createTankUnit(Location location, Tactician owner) {
-    return createUnit(100, 1, location, owner);
+    return createUnit(200, 1, location, owner);
   }
 
   @Override
   public Sorcerer createFastUnit(Location location, Tactician owner) {
-    return createUnit(30, 5, location, owner);
+    return createUnit(70, 5, location, owner);
   }
 
 }

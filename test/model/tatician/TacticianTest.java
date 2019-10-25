@@ -1,8 +1,10 @@
 package model.tatician;
 
-import model.factory.IItemsFactory;
-import model.factory.IUnitsFactory;
+import model.factory.items.DarknessFactory;
+import model.factory.items.SpearFactory;
+import model.factory.items.SwordFactory;
 import model.factory.units.AlpacaFactory;
+import model.factory.units.HeroFactory;
 import model.items.healing.Staff;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
@@ -25,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TacticianTest {
 
@@ -73,6 +76,61 @@ public class TacticianTest {
     player.setUnitsFactory(new AlpacaFactory());
     player.addGenericUnit(map.getCell(0,0));
     assertEquals(1, player.getUnits().size());
+    player.selectUnit(player.getUnits().get(0));
+    assertEquals(player.getUnits().get(0), player.getSelectedUnit());
+    player.moveUnitTo(1,0);
+    assertEquals(player.getSelectedUnit(), map.getCell(1,0).getUnit());
+
+    player.unselectUnit();
+    assertNull(player.getSelectedUnit());
+    player.setName("Ultra Slater");
+    assertEquals("Ultra Slater", player.getName());
+
+  }
+
+  @Test
+  public void getUnitsTest(){
+    player = new Tactician("Dave el Barbaro",map);
+    player.setUnitsFactory(new HeroFactory());
+    player.addGenericUnit(map.getCell(0,1));
+    player.setItemsFactory(new SpearFactory());
+    player.selectUnit(player.getUnits().get(0));
+    player.addPowerfulItem("Lanza del metro");
+    player.equipItem(player.getItemInInventoryByIndex(0));
+    assertEquals(player.getItemInInventoryByIndex(0), player.getEquippedItem());
+    assertEquals(player.getSelectedUnit().getEquippedItem(), player.getEquippedItem());
+  }
+
+  @Test
+  public void unSelectTest(){
+    player = new Tactician("Doggo",map);
+    player.setUnitsFactory(new AlpacaFactory());
+    player.addGenericUnit(map.getCell(0,0));
+    player.selectUnit(player.getUnits().get(0));
+    assertEquals(player.getUnits().get(0), player.getSelectedUnit());
+    player.unselectUnit();
+    assertNull(player.getSelectedUnit());
+  }
+
+  @Test
+  public void addNewUnitAndItemsTest(){
+    player = new Tactician("Doggo",map);
+    player.setUnitsFactory(new AlpacaFactory());
+    player.addNewUnit(100,3, map.getCell(0,0));
+    player.addFastUnit( map.getCell(0,0) );
+    player.selectUnit(player.getUnits().get(0));
+    assertEquals(player.getUnits().get(0), player.getSelectedUnit());
+    assertEquals(2, player.getUnits().size());
+    player.setItemsFactory(new SwordFactory());
+    player.addGenericItem("La HeZkal!Vur");
+    player.setItemsFactory(new SpearFactory());
+    player.addLongDistanceItem("Kevin");
+    player.setItemsFactory(new DarknessFactory());
+    player.addNewItem("Guia de vida de Bart Simpson",20,1,10);
+    assertEquals(3 ,player.getItems().size());
+
+    player.selectUnitFromUnitsByIndex(0);
+    assertEquals(player.getSelectedUnit(), player.getUnits().get(0));
   }
 
 }

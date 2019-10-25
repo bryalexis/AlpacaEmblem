@@ -1,10 +1,5 @@
 package controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +13,7 @@ import model.factory.items.SpearFactory;
 import model.factory.units.AlpacaFactory;
 import model.factory.units.ArcherFactory;
 import model.factory.units.HeroFactory;
+import model.factory.units.SorcererFactory;
 import model.items.weapons.Bow;
 import model.map.InvalidLocation;
 import model.map.Location;
@@ -28,6 +24,8 @@ import model.units.carriers.Alpaca;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -212,12 +210,12 @@ class GameControllerTest {
   @Test /* To Do */
   void selectUnitIn() {
     Field map = controller.getGameMap();
-    Location l = getValidLocation(1);
+    Location l = map.getCell(0,0);
     IUnit alpaca = new Alpaca(50,2, l,null);
     assertEquals(l, alpaca.getLocation());
     assertEquals(alpaca, l.getUnit());
-    assertEquals(l, map.getCell(l.getRow(), l.getColumn()));
-    controller.selectUnitIn(l.getRow(), l.getColumn());
+    assertEquals(l, map.getCell(0, 0));
+    controller.selectUnitIn(0, 0);
     assertEquals(alpaca, controller.getSelectedUnit());
   }
 
@@ -252,11 +250,12 @@ class GameControllerTest {
 
   @Test
   void equipItem() {
-    Field map = controller.getGameMap();
     Location l = getValidLocation(1);
     controller.getTurnOwner().setUnitsFactory(new ArcherFactory());
     controller.getTurnOwner().addGenericUnit(l);
     controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(0));
+
+    //controller set selected unit with observer
 
     IItemsFactory bowF = new BowFactory();
     Bow bow = (Bow) bowF.createGenericItem("uwu");
@@ -266,33 +265,38 @@ class GameControllerTest {
     assertEquals(bow, controller.getTurnOwner().getSelectedUnit().getEquippedItem());
   }
 
-  //@Test
+  @Test
   void useItemOn() {
+    controller = new GameController(4, 3);
+    randomSeed = controller.getGameMap().getSeed();
+    Field map = controller.getGameMap();
+
     Tactician player1 = controller.getTacticians().get(0);
-    Location l1 = getValidLocation(1);
-    player1.setUnitsFactory(new HeroFactory());
+    Location l1 = map.getCell(0,0);
+    player1.setUnitsFactory(new ArcherFactory());
     player1.addTankUnit(l1);
-    player1.selectUnitFromUnits(0);
-    player1.setItemsFactory(new SpearFactory());
+    player1.selectUnitFromUnitsByIndex(0);
+    player1.setItemsFactory(new BowFactory());
     player1.addPowerfulItem("uwu");
-    player1.equipItem(player1.getItemInInventory(0));
+    player1.equipItem(player1.getItemInInventoryByIndex(0));
     assertEquals(player1.getSelectedUnit(), controller.getSelectedUnit());
 
-    Location l2 = getValidLocation(2);
+    Location l2 = map.getCell(0,2);
     player1.addGenericUnit(l2);
-    double k = l1.distanceTo(l2);
-    // Muere en la linea que sigue
-    controller.useItemOn(l2.getRow(), l2.getColumn());
-    if( (l2.distanceTo(l1)<= player1.getEquippedItem().getMaxRange())
-            &&  (l2.distanceTo(l1)>= player1.getEquippedItem().getMinRange()) ){
-      double expected = player1.getUnits().get(1).getMaxHitPoints() - player1.getEquippedItem().getPower();
-      double current = player1.getUnits().get(1).getCurrentHitPoints();
-      assertEquals(expected, current);
-    } else {
-      double expected = player1.getUnits().get(1).getMaxHitPoints();
-      double current = player1.getUnits().get(1).getCurrentHitPoints();
-      assertEquals(expected, current);
-    }
+
+    List <IUnit> units = player1.getUnits();
+    controller.useItemOn(0,2);
+    double expected = units.get(1).getMaxHitPoints() - player1.getEquippedItem().getPower();
+    double current = units.get(1).getCurrentHitPoints();
+    assertEquals(expected, current);
+
+    // The controller should move the unit here
+    player1.moveUnitTo(0,1);
+    controller.useItemOn(0,2);
+
+    expected = current;
+    current = player1.getUnits().get(1).getCurrentHitPoints();
+    assertEquals(expected, current); // Out of range
   }
 
   @Test
@@ -312,23 +316,48 @@ class GameControllerTest {
 
   @Test
   void giveItemTo() {
-    Location l1 = getValidLocation(1);
-    Location l2 = getValidLocation(2);
+
+    controller = new GameController(4, 3);
+    randomSeed = controller.getGameMap().getSeed();
+    Field map = controller.getGameMap();
+
+    Location l1 = map.getCell(0,0);
+    Location l2 = map.getCell(0,1);
+    Location l3 = map.getCell(0,2);
 
     controller.getTurnOwner().setUnitsFactory(new ArcherFactory());
     controller.getTurnOwner().addGenericUnit(l1);
     controller.getTurnOwner().setUnitsFactory(new HeroFactory());
     controller.getTurnOwner().addTankUnit(l2);
+    controller.getTurnOwner().setUnitsFactory(new SorcererFactory());
+    controller.getTurnOwner().addFastUnit(l3);
+
+    // The selected unit is the Archer
     controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(0));
 
     IItemsFactory bowF = new BowFactory();
     Bow bow = (Bow) bowF.createGenericItem("uwu");
     controller.getTurnOwner().addItem(bow);
 
-    // The selected unit is the Archer
     controller.selectItem(0);
-    controller.giveItemTo(l2.getRow(), l2.getColumn());
+    controller.giveItemTo(0, 1);
 
-    assertTrue(controller.getTurnOwner().getUnits().get(1).getItems().contains(bow));
+    List<IUnit> units = controller.getTurnOwner().getUnits();
+    assertTrue(units.get(1).getItems().contains(bow));
+    assertFalse(units.get(0).getItems().contains(bow));
+
+    // The selected unit is the Hero
+    controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(1));
+    controller.selectItem(0);
+    controller.giveItemTo(0, 2);
+    assertTrue(units.get(2).getItems().contains(bow));
+    assertFalse(units.get(1).getItems().contains(bow));
+
+    // The selected unit is the Sorcerer
+    controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(2));
+    controller.selectItem(0);
+    controller.giveItemTo(0, 0);
+    assertTrue(units.get(2).getItems().contains(bow));
+    assertFalse(units.get(0).getItems().contains(bow)); // Out of range
   }
 }

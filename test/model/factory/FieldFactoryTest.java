@@ -14,7 +14,7 @@ public class FieldFactoryTest {
   public void createMapTest(){
     FieldFactory factory = new FieldFactory();
     long seed = new Random().nextLong();
-    int size = new Random().nextInt()%10;
+    int size = Math.abs(new Random().nextInt())%5+3;
     Field map1 = factory.createMap(seed, size);
     Field map2 = factory.createMap(seed, size);
     assertTrue(map1.isConnected());

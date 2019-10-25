@@ -35,6 +35,7 @@ public class Hero extends AbstractUnit {
   public Hero(final int hitPoints, final int movement, final Location location, Tactician owner,
       IEquipableItem... items) {
     super(hitPoints, movement, location, 3, owner, items);
+    if(owner!= null) owner.addHero(this);
   }
 
   @Override

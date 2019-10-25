@@ -52,11 +52,11 @@ public abstract class AbstractUnitFactoryTest {
 
   @Test
   public void createdUnitsTest(){
-    assertEquals(50,getCreatedGenericUnit().getMaxHitPoints());
+    assertEquals(100,getCreatedGenericUnit().getMaxHitPoints());
     assertEquals(3, getCreatedGenericUnit().getMovement());
-    assertEquals(100,getCreatedTankUnit().getMaxHitPoints());
+    assertEquals(200,getCreatedTankUnit().getMaxHitPoints());
     assertEquals(1, getCreatedTankUnit().getMovement());
-    assertEquals(30,getCreatedFastUnit().getMaxHitPoints());
+    assertEquals(70,getCreatedFastUnit().getMaxHitPoints());
     assertEquals(5, getCreatedFastUnit().getMovement());
   }
 

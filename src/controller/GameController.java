@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import controller.handlers.HeroDeadHandler;
+import controller.handlers.UnitSelectedHandler;
 import model.factory.FieldFactory;
 import model.map.Location;
 import model.tactician.Tactician;
@@ -47,7 +49,7 @@ public class GameController {
   private IEquipableItem selectedItem;
 
   // Property Change Listeners
-
+  private PropertyChangeListener unitSelectedPCL, heroDeadPCL;
 
   /**
    * Creates the controller for a new game.
@@ -65,6 +67,11 @@ public class GameController {
     this.random = new Random();
     this.seedPlayerSelection = random.nextLong();
     this.random.setSeed(seedPlayerSelection);
+
+    // Handlers
+    unitSelectedPCL = new UnitSelectedHandler(this);
+    heroDeadPCL = new HeroDeadHandler(this);
+
     generateMap();
     createPlayers();
     setTurnsInRound();
@@ -215,9 +222,18 @@ public class GameController {
   public void createPlayers(){
     for(int i=0; i<numberOfPlayers;i++){
       Tactician player = new Tactician("Player "+ i, map);
-      // player.addPropertyChangeListener(this);
+      player.addUnitSelectedListener(unitSelectedPCL);
+      player.addHeroDeadListener(heroDeadPCL);
       tacticians.add(player);
     }
+  }
+
+  /**
+   * Selects a specific unit
+   * @param unit selected
+   */
+  public void selectUnit(IUnit unit){
+    selectedUnit = unit;
   }
 
   /**

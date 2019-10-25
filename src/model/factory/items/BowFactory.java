@@ -12,12 +12,12 @@ public class BowFactory implements IItemsFactory {
 
   @Override
   public Bow createGenericItem(String name) {
-    return create(name,15,2,8);
+    return create(name,25,2,8);
   }
 
   @Override
   public Bow createPowerfulItem(String name) {
-    return create(name,20,2,6);
+    return create(name,40,2,6);
   }
 
   @Override
