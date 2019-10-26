@@ -277,7 +277,7 @@ public class GameController {
    */
   public void selectUnitIn(int x, int y) {
     Location loc = getGameMap().getCell(x,y);
-    selectedUnit = loc.getUnit();
+    playerInTurn.selectUnit(loc.getUnit());
   }
 
   /**
@@ -304,7 +304,7 @@ public class GameController {
   public void useItemOn(int x, int y) {
     Location loc = getGameMap().getCell(x,y);
     IUnit target = loc.getUnit();
-    selectedUnit.useItemOn(target);
+    playerInTurn.useItemOn(target);
   }
 
   /**
@@ -331,6 +331,5 @@ public class GameController {
   public IEquipableItem getSelectedItem(){
     return selectedItem;
   }
-
 
 }

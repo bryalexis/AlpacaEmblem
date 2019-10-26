@@ -8,14 +8,12 @@ import java.util.stream.IntStream;
 import model.factory.FieldFactory;
 import model.factory.IItemsFactory;
 import model.factory.IUnitsFactory;
+import model.factory.items.AxeFactory;
 import model.factory.items.BowFactory;
 import model.factory.items.SpearFactory;
-import model.factory.units.AlpacaFactory;
-import model.factory.units.ArcherFactory;
-import model.factory.units.HeroFactory;
-import model.factory.units.SorcererFactory;
+import model.factory.items.SwordFactory;
+import model.factory.units.*;
 import model.items.weapons.Bow;
-import model.map.InvalidLocation;
 import model.map.Location;
 import model.tactician.Tactician;
 import model.map.Field;
@@ -30,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Ignacio Slater Muñoz
  * @since v2.0
+ * @version 2.4
  */
 class GameControllerTest {
 
@@ -195,19 +194,20 @@ class GameControllerTest {
     assertTrue(List.of("Player 3").containsAll(controller.getWinners()));
   }
 
-  @Test /* To Do */
+  @Test
   void getSelectedUnit() {
     Field map = controller.getGameMap();
-    Location l = getValidLocation(1);
+    Location l = map.getCell(0,0);
     IUnit alpaca = new Alpaca(50,2, l,null);
     assertEquals(l, alpaca.getLocation());
     assertEquals(alpaca, l.getUnit());
-    assertEquals(l, map.getCell(l.getRow(), l.getColumn()));
-    controller.selectUnitIn(l.getRow(), l.getColumn());
+    assertEquals(l, map.getCell(0, 0));
+    controller.getTurnOwner().selectUnit(alpaca);
     assertEquals(alpaca, controller.getSelectedUnit());
+    assertEquals(alpaca, controller.getTurnOwner().getSelectedUnit());
   }
 
-  @Test /* To Do */
+  @Test
   void selectUnitIn() {
     Field map = controller.getGameMap();
     Location l = map.getCell(0,0);
@@ -217,45 +217,37 @@ class GameControllerTest {
     assertEquals(l, map.getCell(0, 0));
     controller.selectUnitIn(0, 0);
     assertEquals(alpaca, controller.getSelectedUnit());
+    assertEquals(alpaca, controller.getTurnOwner().getSelectedUnit());
   }
 
-  /**
-   * Method that search in map a valid location
-   * @return the -result- valid location that it will find
-   */
-  public Location getValidLocation(int result){
-    for (int i = 0; i<controller.getGameMap().getSize(); i++){
-      for (int j = 0; j<controller.getGameMap().getSize(); j++){
-        if (controller.getGameMap().getCell(i,j).getClass() != InvalidLocation.class){
-          result--;
-          if(result==0) return controller.getGameMap().getCell(i,j);
-        }
-      }
-    }
-    return null;
-  }
 
   @Test
   void getItems() {
-    IUnitsFactory alpacaF = new AlpacaFactory();
+    Field map = controller.getGameMap();
     IUnitsFactory archerF = new ArcherFactory();
     Tactician player = controller.getTurnOwner();
-    player.addUnit(alpacaF.createGenericUnit(getValidLocation(1),player));
-    player.addUnit(archerF.createGenericUnit(getValidLocation(2),player));
+    player.addUnit(archerF.createGenericUnit(map.getCell(0,0),player));
     player.selectUnit(player.getUnits().get(0));
 
     IUnit unit = player.getSelectedUnit();
     assertEquals(unit.getItems(), controller.getItems());
+    player.setItemsFactory(new BowFactory());
+    player.addGenericItem("cosa para disparar flechas");
+    player.setItemsFactory(new SwordFactory());
+    player.addLongDistanceItem("Espada de dave el barbaro");
+    assertEquals(unit.getItems(), controller.getItems());
+    assertEquals(2, controller.getItems().size());
+    assertEquals(2, unit.getItems().size());
   }
 
   @Test
   void equipItem() {
-    Location l = getValidLocation(1);
+    Field map = controller.getGameMap();
+    Location l = map.getCell(0,0);
     controller.getTurnOwner().setUnitsFactory(new ArcherFactory());
     controller.getTurnOwner().addGenericUnit(l);
     controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(0));
-
-    //controller set selected unit with observer
+    assertEquals(null, controller.getTurnOwner().getSelectedUnit().getEquippedItem());
 
     IItemsFactory bowF = new BowFactory();
     Bow bow = (Bow) bowF.createGenericItem("uwu");
@@ -271,7 +263,7 @@ class GameControllerTest {
     randomSeed = controller.getGameMap().getSeed();
     Field map = controller.getGameMap();
 
-    Tactician player1 = controller.getTacticians().get(0);
+    Tactician player1 = controller.getTurnOwner();
     Location l1 = map.getCell(0,0);
     player1.setUnitsFactory(new ArcherFactory());
     player1.addTankUnit(l1);
@@ -301,7 +293,8 @@ class GameControllerTest {
 
   @Test
   void selectItem() {
-    Location l = getValidLocation(1);
+    Field map = controller.getGameMap();
+    Location l = map.getCell(0,0);
     controller.getTurnOwner().setUnitsFactory(new ArcherFactory());
     controller.getTurnOwner().addGenericUnit(l);
     controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(0));
@@ -309,8 +302,8 @@ class GameControllerTest {
     IItemsFactory bowF = new BowFactory();
     Bow bow = (Bow) bowF.createGenericItem("uwu");
     controller.getTurnOwner().addItem(bow);
+    assertEquals(null, controller.getSelectedItem());
     controller.selectItem(0);
-
     assertEquals(bow, controller.getSelectedItem());
   }
 
@@ -359,5 +352,35 @@ class GameControllerTest {
     controller.giveItemTo(0, 0);
     assertTrue(units.get(2).getItems().contains(bow));
     assertFalse(units.get(0).getItems().contains(bow)); // Out of range
+  }
+
+  @Test
+  void heroDeathTest(){
+    controller = new GameController(4, 3);
+    randomSeed = controller.getGameMap().getSeed();
+    Field map = controller.getGameMap();
+
+    Tactician firstPlayer = controller.getTurnOwner();
+    Tactician anotherPlayer = controller.getTacticians().get(1);
+
+    // The first player will have a Fighter selected
+    firstPlayer.setUnitsFactory(new FighterFactory());
+    firstPlayer.addTankUnit(map.getCell(0,0));
+    firstPlayer.selectUnit(firstPlayer.getUnits().get(0));
+    firstPlayer.setItemsFactory(new AxeFactory());
+    firstPlayer.addNewItem("Super Axe", 200, 1,4);
+    firstPlayer.equipItem(firstPlayer.getItemInInventoryByIndex(0));
+
+    // The second player will have a Hero (who is supposed to die eventually)
+    anotherPlayer.setUnitsFactory(new HeroFactory());
+    anotherPlayer.addFastUnit(map.getCell(0,1));
+    anotherPlayer.selectUnit(anotherPlayer.getUnits().get(0));
+    anotherPlayer.setItemsFactory(new SpearFactory());
+    anotherPlayer.addGenericItem("Generic Spear");
+    anotherPlayer.equipItem(anotherPlayer.getItemInInventoryByIndex(0));
+
+    controller.useItemOn(0,1);
+    assertEquals(3, controller.getTacticians().size());
+    assertFalse(controller.getTacticians().contains(anotherPlayer));
   }
 }
