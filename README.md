@@ -1,8 +1,17 @@
-# Alpaca Emblem v1.1
+# Alpaca Emblem v2.5
 
 Alpaca Emblem es un juego de estrategia por turnos. En él existen distintos tipos de unidades e items equipables, los cuales permiten la interacción entre las unidades mismas. A continuación se explicará a grandes rasgos la dinámica del juego, junto con las funcionalidades implementadas hasta esta versión.
 
-## Unidades
+## ✰ Novedades de esta versión
+- Tactician: el jugador (ver sección 4).
+- Controller del Juego (ver sección 5).
+- Las unidades ahora tienen una referencia a su respectivo tactician.
+- Se modifican ligeramente los tipos de items, dejando solo 2 tipos; *attack* y *healing*, dejando a *weapon* y *spellbook* como subtipos de *attack*.
+- Se completan algunos test con poca veracidad:
+  - Restricciones de distancia al transferir items.
+  - Restricciones de distancia al contraatacar.
+
+## 1. Unidades
 El juego cuenta actualmente con 7 diferentes unidades, las cuales se clasifican en 4 grupos principales; *carrier*, *magic*, *physical* y *healer*. Todas las unidades tienen un comportamiento global similar, sin embargo, difieren en ciertas características específicas, como en la cantidad de items que pueden portar, su ataque y contraataque, los items que pueden (o no) equipar, etc. La siguiente tabla resume de manera general lo anterior:
 
 <table>
@@ -80,19 +89,21 @@ Las dinámicas e interacciones de todos las unidades son muy similares, de modo 
 
 Los campos **maxHitPoints**, **maxItems**, **alive** e **inCombat**, fueron añadidos en esta ultima versión del programa. El objetivo del primero es almacenar los máximos **hitpoints** que puede tener la unidad, para evitar *overhealing* y curaciones infinitas. La segunda nueva variable fue creada con la intención de realizar futuras validaciones para interacciones entre *item-unit* y otros. El objetivo de **alive** es facilitar el testeo de casos bordes y *setear* cuando alguien muere como un estado. Mientras que, la ultima variable pareció interesante de definir para alguna aplicación futura, donde sea importante si una unidad se encuentra en combate en cierto momento.
 
-## Items
+## 2. Items
 Existen 3 tipos de items, *weapons*, *spellbooks* y *healing*. Algunos items son fuertes (o bien débiles) contra otros y se pueden equipar a distintas unidades de acuerdo al cuadro mostrado en la sección anterior. La clasificación de los items va de acuerdo a lo que muestra el siguiente cuadro:
 
 <table>
   <tr>
     <td><b> Item </b></td>
     <td><b> Tipo </b></td>
+    <td><b> Subtipo </b></td>
     <td><b> Fuerte v/s Item </b></td>
     <td><b> Debil v/s Item </b></td>
   </tr>
   
   <tr>
     <td> Axe </td>
+    <td rowspan="7"><i> Attack </i></td>
     <td rowspan="4"><i> Weapon </i></td>
     <td> Spear </td>
     <td> Sword </td>
@@ -138,6 +149,7 @@ Existen 3 tipos de items, *weapons*, *spellbooks* y *healing*. Algunos items son
   <tr>
     <td> Staff </td>
     <td> Healing </td>
+    <td> Healing </td>
     <td> - </td>
     <td> - </td>
   </tr>
@@ -158,7 +170,7 @@ Dados los tipos de items disponibles en el juego, se crea una *interfaz* para ay
 
 Se usan clases abstractas para definir métodos en común entre los items del mismo tipo. Por ejemplo, recibir el ataque de una espada puede ser diferente a recibir el de un acha si el arma receptora es una lanza, pero da exactamente lo mismo si el arma receptora es un *darkness book*.
 
-## Interacciones
+## 3. Interacciones
 
 ### Equipar Item
 Cada unidad puede equipar (o no) cierto tipo de items específicos, tal como se mostró en el cuadro de unidades. Para que una unidad no se equipe un tipo de item incorrecto, se utiliza *double dispatch*, haciendo que el item se equipe a la unidad, desambiguando así el tipo de item y la unidad en cuestión.
@@ -191,6 +203,11 @@ Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades qu
 
 ##### Diseño
 El uso de un item para atacar o curar a otra unidad depende principalmente de los items involucrados en el encuentro. Por lo anterior, la implementación del uso de items, junto con los daños a otras unidades, curaciones, ataques fuertes, ataques débiles, etc, está delegado al ítem mismo. Cuando una unidad usa su item contra otra, dado que cada unidad porta un tipo de item específico, no se sabe a priori con qué arma se está realizando el *ataque/curación*, pero el arma sí sabe que tipo de arma es. De modo que el método *useItemOn* de las unidades, se delega al metodo *useOn* del item. El ítem sí sabe que es, de modo que es posible usar *double dispatch* para que el ítem del enemigo (*unknown*), reciba el *ataque/curación* del primer ítem (*known*).
+
+## 4. Tactician
+
+## 5. Game Controller
+
 
 ### Ejecución y Tests
 Las funcionalidades de Alpaca Emblem v1.1 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Se cuenta con un 99% de *coverage* donde se intentó testear casos borde que se espera haber resuelto en la implementación.
