@@ -3,8 +3,9 @@
 Alpaca Emblem es un juego de estrategia por turnos. En él existen distintos tipos de unidades e items equipables, los cuales permiten la interacción entre las unidades mismas. A continuación se explicará a grandes rasgos la dinámica del juego, junto con las funcionalidades implementadas hasta esta versión.
 
 ## ✰ Novedades de esta versión
-- Tactician: el jugador (ver sección 4).
-- Controller del Juego (ver sección 5).
+- Factories, una nueva forma de crear objetos. (ver [secc. 4](./#Factory)(ver sec. 4).
+- Tactician: el jugador (ver sec. 5).
+- Controller del Juego (ver sec. 6).
 - Las unidades ahora tienen una referencia a su respectivo tactician.
 - Se modifican ligeramente los tipos de items, dejando solo 2 tipos; *attack* y *healing*, dejando a *weapon* y *spellbook* como subtipos de *attack*.
 - Se completan algunos test con poca veracidad:
@@ -204,9 +205,16 @@ Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades qu
 ##### Diseño
 El uso de un item para atacar o curar a otra unidad depende principalmente de los items involucrados en el encuentro. Por lo anterior, la implementación del uso de items, junto con los daños a otras unidades, curaciones, ataques fuertes, ataques débiles, etc, está delegado al ítem mismo. Cuando una unidad usa su item contra otra, dado que cada unidad porta un tipo de item específico, no se sabe a priori con qué arma se está realizando el *ataque/curación*, pero el arma sí sabe que tipo de arma es. De modo que el método *useItemOn* de las unidades, se delega al metodo *useOn* del item. El ítem sí sabe que es, de modo que es posible usar *double dispatch* para que el ítem del enemigo (*unknown*), reciba el *ataque/curación* del primer ítem (*known*).
 
-## 4. Tactician
+## 4. Factory
+Una factory es un patrón de diseño en el cual una clase "fabrica" instancias de objetos, haciendo más facil la creación de estos y pudiendo fijar métodos que retornen cierto objeto con parámetros predeterminados.
+Para facilitar la futura creación de unidades por parte de un *Tactician*, se implementarán *factories* de unidades e items, se verá cada caso por separado a continuación.
 
-## 5. Game Controller
+### Units Factory
+A nivel implementación, toda clase fábrica de unidades que implemente la interfaz 
+
+## 5. Tactician
+
+## 6. Game Controller
 
 
 ### Ejecución y Tests
@@ -216,4 +224,4 @@ Los *tests* de ataque se implementan en cada unidad por separado, ya que existen
 
 Los *test* de interacciones entre items, se prueban en las clases abstractas del tipo de item si es una interacción general (por ejemplo, recibir el efecto de una arma fisica siendo un arma mágica), y si es una interacción más específica, el testeo se realiza para el item en particular (recibir un ataque de *darkness* siendo *light*).
 
-# Alpaca Emblem v1.1
+# Alpaca Emblem v2.5
