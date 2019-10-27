@@ -3,7 +3,7 @@
 Alpaca Emblem es un juego de estrategia por turnos. En él existen distintos tipos de unidades e items equipables, los cuales permiten la interacción entre las unidades mismas. A continuación se explicará a grandes rasgos la dinámica del juego, junto con las funcionalidades implementadas hasta esta versión.
 
 ## ✰ Novedades de esta versión
-- Factories, una nueva forma de crear objetos. (ver [secc. 4](./#Factory)(ver sec. 4).
+- Factories, una nueva forma de crear objetos. (ver [secc. 4](./README.md#4-factory)).
 - Tactician: el jugador (ver sec. 5).
 - Controller del Juego (ver sec. 6).
 - Las unidades ahora tienen una referencia a su respectivo tactician.
