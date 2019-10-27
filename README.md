@@ -3,9 +3,9 @@
 Alpaca Emblem es un juego de estrategia por turnos. En él existen distintos tipos de unidades e items equipables, los cuales permiten la interacción entre las unidades mismas. A continuación se explicará a grandes rasgos la dinámica del juego, junto con las funcionalidades implementadas hasta esta versión.
 
 ## ✰ Novedades de esta versión
-- Factories, una nueva forma de crear objetos. (ver [secc. 4](./README.md#4-factory)).
-- Tactician: el jugador (ver sec. 5).
-- Controller del Juego (ver sec. 6).
+- Factories, una nueva forma de crear objetos (ver [sec. 4](./README.md#4-factory)).
+- Tactician: el jugador (ver [sec. 5](./README.md#5-tactician)).
+- Controller del Juego (ver [sec. 6](./README.md#6-game-controller)).
 - Las unidades ahora tienen una referencia a su respectivo tactician.
 - Se modifican ligeramente los tipos de items, dejando solo 2 tipos; *attack* y *healing*, dejando a *weapon* y *spellbook* como subtipos de *attack*.
 - Se completan algunos test con poca veracidad:
@@ -210,7 +210,23 @@ Una factory es un patrón de diseño en el cual una clase "fabrica" instancias d
 Para facilitar la futura creación de unidades por parte de un *Tactician*, se implementarán *factories* de unidades e items, se verá cada caso por separado a continuación.
 
 ### Units Factory
-A nivel implementación, toda clase fábrica de unidades que implemente la interfaz 
+A nivel implementación, toda clase fábrica de unidades que implemente la interfaz `IUnitsFactory` debe implementar los siguientes 4 métodos:
+- `createUnit`: metodo que recibe todos los parámetros necesarios para crear una unidad.
+- `createGenericUnit`: crea una unidad genérica, con 100 de HP y 3 de movimiento.
+- `createTankUnit`: crea una unidad tanque, con 200 de HP y 1 de movimiento.
+- `createFastUnit`: crea una unidad de largo desplazamiento, con 70 de HP y 5 de movimiento.
+La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí.
+
+### Items Factory
+Al igual que para las unidades, se desarrolla una interfaz común para todas las fábricas de items, llamada `IItemsFactory`, la exige la implementación de los métodos:
+- `create`: metodo que recibe todos los parámetros necesarios para crear un nuevo item.
+- `createGenericItem`: crea un item genérico, con 30 de poder, 1 de rango mínimo y 5 de rango máximo.
+- `createPowerfullItem`: crea un item con alto poder, con 50 de poder, 1 de rango mínimo y 3 de rango máximo.
+- `createLongDistanceItem`: crea un item para larga distancia, con 10 de poder, 3 de rango mínimo y 10 de rango máximo.
+
+**Nota:** Un arco tiene de por sí distancia mínima 2, de modo que es una excepcion para el rango mínimo en los items genericos y de alto nivel de poder.
+
+Al igual que para las units, la idea de esta distribución de parámetros es generar items balanceados.
 
 ## 5. Tactician
 
