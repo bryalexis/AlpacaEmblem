@@ -40,14 +40,14 @@ public class BowFactoryTest {
 
   @Test
   public void createdItemsTest(){
-    assertEquals(25,getCreatedGenericItem().getPower());
+    assertEquals(30,getCreatedGenericItem().getPower());
     assertEquals(2, getCreatedGenericItem().getMinRange());
-    assertEquals(8, getCreatedGenericItem().getMaxRange());
-    assertEquals(40,getCreatedPowerfulItem().getPower());
+    assertEquals(5, getCreatedGenericItem().getMaxRange());
+    assertEquals(50,getCreatedPowerfulItem().getPower());
     assertEquals(2, getCreatedPowerfulItem().getMinRange());
-    assertEquals(6, getCreatedPowerfulItem().getMaxRange());
+    assertEquals(3, getCreatedPowerfulItem().getMaxRange());
     assertEquals(10,getCreatedLongDistanceItem().getPower());
-    assertEquals(2, getCreatedLongDistanceItem().getMinRange());
+    assertEquals(3, getCreatedLongDistanceItem().getMinRange());
     assertEquals(10, getCreatedLongDistanceItem().getMaxRange());
   }
 }

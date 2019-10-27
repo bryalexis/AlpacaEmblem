@@ -1,9 +1,10 @@
 package model.factory.items;
 
+import model.factory.AbstractItemsFactory;
 import model.factory.IItemsFactory;
 import model.items.spellbooks.Spirit;
 
-public class SpiritFactory implements IItemsFactory {
+public class SpiritFactory extends AbstractItemsFactory {
   @Override
   public Spirit create(String name, int power, int minRange, int maxRange) {
     return new Spirit(name,power,minRange,maxRange);
@@ -11,16 +12,16 @@ public class SpiritFactory implements IItemsFactory {
 
   @Override
   public Spirit createGenericItem(String name) {
-    return create(name,30,1,5);
+    return create(name,genericPower,genericMinRange,genericMaxRange);
   }
 
   @Override
   public Spirit createPowerfulItem(String name) {
-    return create(name,50,1,3);
+    return create(name,powerfulPower,powerfulMinRange,powerfulMaxRange);
   }
 
   @Override
   public Spirit createLongDistanceItem(String name) {
-    return create(name,10,1,10);
+    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
   }
 }

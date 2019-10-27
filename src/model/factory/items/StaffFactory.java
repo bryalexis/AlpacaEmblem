@@ -1,9 +1,10 @@
 package model.factory.items;
 
+import model.factory.AbstractItemsFactory;
 import model.factory.IItemsFactory;
 import model.items.healing.Staff;
 
-public class StaffFactory implements IItemsFactory {
+public class StaffFactory extends AbstractItemsFactory {
 
   @Override
   public Staff create(String name, int power, int minRange, int maxRange) {
@@ -12,16 +13,16 @@ public class StaffFactory implements IItemsFactory {
 
   @Override
   public Staff createGenericItem(String name) {
-    return create(name,30,1,5);
+    return create(name,genericPower,genericMinRange,genericMaxRange);
   }
 
   @Override
   public Staff createPowerfulItem(String name) {
-    return create(name,50,1,3);
+    return create(name,powerfulPower,powerfulMinRange,powerfulMaxRange);
   }
 
   @Override
   public Staff createLongDistanceItem(String name) {
-    return create(name,10,1,10);
+    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
   }
 }

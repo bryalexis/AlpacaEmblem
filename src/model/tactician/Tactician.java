@@ -163,8 +163,8 @@ public class Tactician {
    * @param target unit that will receive the attack (can be a unit of the same tactician)
    */
   public void useItemOn(IUnit target){
-    if (isMyUnit()) getSelectedUnit().useItemOn(target);
     Tactician targetOwner = target.getOwner();
+    if (isMyUnit() && !this.equals(targetOwner)) getSelectedUnit().useItemOn(target);
     if(aHeroWasKilled())
       fireHeroDeath(this);
     if(targetOwner.aHeroWasKilled())

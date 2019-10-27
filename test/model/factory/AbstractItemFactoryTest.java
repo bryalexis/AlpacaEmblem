@@ -57,7 +57,7 @@ public abstract class AbstractItemFactoryTest {
     assertEquals(1, getCreatedPowerfulItem().getMinRange());
     assertEquals(3, getCreatedPowerfulItem().getMaxRange());
     assertEquals(10,getCreatedLongDistanceItem().getPower());
-    assertEquals(1, getCreatedLongDistanceItem().getMinRange());
+    assertEquals(3, getCreatedLongDistanceItem().getMinRange());
     assertEquals(10, getCreatedLongDistanceItem().getMaxRange());
   }
 

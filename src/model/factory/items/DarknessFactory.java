@@ -1,9 +1,10 @@
 package model.factory.items;
 
+import model.factory.AbstractItemsFactory;
 import model.factory.IItemsFactory;
 import model.items.spellbooks.Darkness;
 
-public class DarknessFactory implements IItemsFactory {
+public class DarknessFactory extends AbstractItemsFactory {
   @Override
   public Darkness create(String name, int power, int minRange, int maxRange) {
     return new Darkness(name,power,minRange,maxRange);
@@ -11,16 +12,16 @@ public class DarknessFactory implements IItemsFactory {
 
   @Override
   public Darkness createGenericItem(String name) {
-    return create(name,30,1,5);
+    return create(name,genericPower,genericMinRange,genericMaxRange);
   }
 
   @Override
   public Darkness createPowerfulItem(String name) {
-    return create(name,50,1,3);
+    return create(name,powerfulPower,powerfulMinRange,powerfulMaxRange);
   }
 
   @Override
   public Darkness createLongDistanceItem(String name) {
-    return create(name,10,1,10);
+    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
   }
 }

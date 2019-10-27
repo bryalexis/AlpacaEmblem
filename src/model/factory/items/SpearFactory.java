@@ -1,9 +1,10 @@
 package model.factory.items;
 
+import model.factory.AbstractItemsFactory;
 import model.factory.IItemsFactory;
 import model.items.weapons.Spear;
 
-public class SpearFactory implements IItemsFactory {
+public class SpearFactory extends AbstractItemsFactory {
   @Override
   public Spear create(String name, int power, int minRange, int maxRange) {
     return new Spear(name,power,minRange,maxRange);
@@ -11,16 +12,16 @@ public class SpearFactory implements IItemsFactory {
 
   @Override
   public Spear createGenericItem(String name) {
-    return create(name,30,1,5);
+    return create(name,genericPower,genericMinRange,genericMaxRange);
   }
 
   @Override
   public Spear createPowerfulItem(String name) {
-    return create(name,50,1,3);
+    return create(name,powerfulPower,powerfulMinRange,powerfulMaxRange);
   }
 
   @Override
   public Spear createLongDistanceItem(String name) {
-    return create(name,10,1,10);
+    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
   }
 }

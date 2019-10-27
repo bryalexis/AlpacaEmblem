@@ -149,7 +149,6 @@ class GameControllerTest {
     return new Tactician("Player "+turns.get(turns.size()-1), controller.getGameMap());
   }
 
-
   @Test
   void removeTactician() {
     assertEquals(4, controller.getTacticians().size());
@@ -220,7 +219,6 @@ class GameControllerTest {
     assertEquals(alpaca, controller.getTurnOwner().getSelectedUnit());
   }
 
-
   @Test
   void getItems() {
     Field map = controller.getGameMap();
@@ -263,6 +261,10 @@ class GameControllerTest {
     randomSeed = controller.getGameMap().getSeed();
     Field map = controller.getGameMap();
 
+    Random random = new Random();
+    random.setSeed(controller.getSeedPlayerSelection());
+    List<Integer> lista = new ArrayList<>();
+
     Tactician player1 = controller.getTurnOwner();
     Location l1 = map.getCell(0,0);
     player1.setUnitsFactory(new ArcherFactory());
@@ -273,13 +275,16 @@ class GameControllerTest {
     player1.equipItem(player1.getItemInInventoryByIndex(0));
     assertEquals(player1.getSelectedUnit(), controller.getSelectedUnit());
 
-    Location l2 = map.getCell(0,2);
-    player1.addGenericUnit(l2);
+    Tactician player2 = getPlayer(random, lista, 2);
 
-    List <IUnit> units = player1.getUnits();
+    Location l2 = map.getCell(0,2);
+    player2.setUnitsFactory(new SorcererFactory());
+    player2.addGenericUnit(l2);
+
+    List <IUnit> units = player2.getUnits();
     controller.useItemOn(0,2);
-    double expected = units.get(1).getMaxHitPoints() - player1.getEquippedItem().getPower();
-    double current = units.get(1).getCurrentHitPoints();
+    double expected = units.get(0).getMaxHitPoints() - player1.getEquippedItem().getPower();
+    double current = units.get(0).getCurrentHitPoints();
     assertEquals(expected, current);
 
     // The controller should move the unit here
@@ -287,7 +292,7 @@ class GameControllerTest {
     controller.useItemOn(0,2);
 
     expected = current;
-    current = player1.getUnits().get(1).getCurrentHitPoints();
+    current = player2.getUnits().get(0).getCurrentHitPoints();
     assertEquals(expected, current); // Out of range
   }
 
@@ -302,7 +307,8 @@ class GameControllerTest {
     IItemsFactory bowF = new BowFactory();
     Bow bow = (Bow) bowF.createGenericItem("uwu");
     controller.getTurnOwner().addItem(bow);
-    assertEquals(null, controller.getSelectedItem());
+    assertNull(controller.getSelectedItem());
+
     controller.selectItem(0);
     assertEquals(bow, controller.getSelectedItem());
   }

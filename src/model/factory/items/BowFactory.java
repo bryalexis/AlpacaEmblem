@@ -1,9 +1,10 @@
 package model.factory.items;
 
+import model.factory.AbstractItemsFactory;
 import model.factory.IItemsFactory;
 import model.items.weapons.Bow;
 
-public class BowFactory implements IItemsFactory {
+public class BowFactory extends AbstractItemsFactory {
 
   @Override
   public Bow create(String name, int power, int minRange, int maxRange) {
@@ -12,16 +13,16 @@ public class BowFactory implements IItemsFactory {
 
   @Override
   public Bow createGenericItem(String name) {
-    return create(name,25,2,8);
+    return create(name,genericPower,genericMinRange,genericMaxRange);
   }
 
   @Override
   public Bow createPowerfulItem(String name) {
-    return create(name,40,2,6);
+    return create(name,powerfulPower,2,powerfulMaxRange);
   }
 
   @Override
   public Bow createLongDistanceItem(String name) {
-    return create(name,10,2,10);
+    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
   }
 }
