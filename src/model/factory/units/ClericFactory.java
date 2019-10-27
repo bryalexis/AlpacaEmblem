@@ -10,7 +10,8 @@ import model.units.healers.Cleric;
 public class ClericFactory extends AbstractUnitsFactory {
   @Override
   public Cleric createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
-    return new Cleric(hp,movement,location, owner, items);
+    if (location.getUnit()==null) return new Cleric(hp,movement,location, owner, items);
+    return null;
   }
 
   @Override

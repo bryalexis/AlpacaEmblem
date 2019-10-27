@@ -15,12 +15,12 @@ public class FighterFactoryTest extends AbstractUnitFactoryTest {
 
   @Override
   public IUnit getCreatedTankUnit() {
-    return fighterF.createTankUnit(field.getCell(0,0), null);
+    return fighterF.createTankUnit(field.getCell(1,0), null);
   }
 
   @Override
   public IUnit getCreatedFastUnit() {
-    return fighterF.createFastUnit(field.getCell(0,0), null);
+    return fighterF.createFastUnit(field.getCell(2,0), null);
   }
 
   @Test

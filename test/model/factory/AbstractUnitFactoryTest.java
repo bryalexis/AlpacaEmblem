@@ -7,6 +7,8 @@ import model.units.IUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -41,10 +43,9 @@ public abstract class AbstractUnitFactoryTest {
     heroF = new HeroFactory();
     sorcererF = new SorcererFactory();
     swordMasterF = new SwordMasterFactory();
-    this.field = new Field();
-    this.field.addCells(true, new Location(0, 0), new Location(0, 1), new Location(0, 2),
-            new Location(1, 0), new Location(1, 1), new Location(1, 2), new Location(2, 0),
-            new Location(2, 1), new Location(2, 2));
+    FieldFactory factory= new FieldFactory();
+    Random r = new Random();
+    this.field = factory.createMap(r.nextLong(), 10);
   }
 
   @Test
@@ -52,12 +53,15 @@ public abstract class AbstractUnitFactoryTest {
 
   @Test
   public void createdUnitsTest(){
-    assertEquals(100,getCreatedGenericUnit().getMaxHitPoints());
-    assertEquals(3, getCreatedGenericUnit().getMovement());
-    assertEquals(200,getCreatedTankUnit().getMaxHitPoints());
-    assertEquals(1, getCreatedTankUnit().getMovement());
-    assertEquals(70,getCreatedFastUnit().getMaxHitPoints());
-    assertEquals(5, getCreatedFastUnit().getMovement());
+    IUnit generic = getCreatedGenericUnit();
+    IUnit tank = getCreatedTankUnit();
+    IUnit fast = getCreatedFastUnit();
+    assertEquals(100,generic.getMaxHitPoints());
+    assertEquals(3, generic.getMovement());
+    assertEquals(200,tank.getMaxHitPoints());
+    assertEquals(1, tank.getMovement());
+    assertEquals(70,fast.getMaxHitPoints());
+    assertEquals(5, fast.getMovement());
   }
 
 }

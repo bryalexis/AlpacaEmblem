@@ -15,12 +15,12 @@ public class SwordMasterFactoryTest extends AbstractUnitFactoryTest {
 
   @Override
   public IUnit getCreatedTankUnit() {
-    return swordMasterF.createTankUnit(field.getCell(0,0), null);
+    return swordMasterF.createTankUnit(field.getCell(1,0), null);
   }
 
   @Override
   public IUnit getCreatedFastUnit() {
-    return swordMasterF.createFastUnit(field.getCell(0,0), null);
+    return swordMasterF.createFastUnit(field.getCell(2,0), null);
   }
 
   @Test

@@ -10,7 +10,8 @@ import model.units.warriors.Hero;
 public class HeroFactory extends AbstractUnitsFactory {
   @Override
   public Hero createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
-    return new Hero(hp,movement,location, owner, items);
+    if (location.getUnit()==null) return new Hero(hp,movement,location, owner, items);
+    return null;
   }
 
   @Override

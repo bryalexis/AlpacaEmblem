@@ -10,7 +10,8 @@ import model.units.carriers.Alpaca;
 public class AlpacaFactory extends AbstractUnitsFactory {
   @Override
   public Alpaca createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
-    return new Alpaca(hp,movement,location, owner, items);
+    if (location.getUnit()==null) return new Alpaca(hp,movement,location, owner, items);
+    return null;
   }
 
   @Override

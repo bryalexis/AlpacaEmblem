@@ -10,7 +10,8 @@ import model.units.magic.Sorcerer;
 public class SorcererFactory extends AbstractUnitsFactory {
   @Override
   public Sorcerer createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
-    return new Sorcerer(hp,movement,location, owner, items);
+    if (location.getUnit()==null) return new Sorcerer(hp,movement,location, owner, items);
+    return null;
   }
 
   @Override

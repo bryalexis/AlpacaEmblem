@@ -390,4 +390,46 @@ class GameControllerTest {
     assertEquals(3, controller.getTacticians().size());
     assertFalse(controller.getTacticians().contains(anotherPlayer));
   }
+
+  @Test
+  void moveTheSameUnitInATurn(){
+    controller = new GameController(4, 3);
+    randomSeed = controller.getGameMap().getSeed();
+    Field map = controller.getGameMap();
+
+    Tactician tactician = controller.getTurnOwner();
+    tactician.setUnitsFactory(new AlpacaFactory());
+    tactician.addGenericUnit(map.getCell(0,0));
+    tactician.setUnitsFactory(new ArcherFactory());
+    tactician.addGenericUnit(map.getCell(0,2));
+    tactician.setUnitsFactory(new FighterFactory());
+    tactician.addGenericUnit(map.getCell(2,2));
+
+    IUnit unit1 = tactician.getUnits().get(0);
+    IUnit unit2 = tactician.getUnits().get(1);
+    IUnit unit3 = tactician.getUnits().get(2);
+
+    controller.selectUnitIn(0,0);
+    controller.moveTo(1,0);
+    assertEquals(unit1,map.getCell(1,0).getUnit());
+    assertNull(map.getCell(0,0).getUnit());
+    controller.moveTo(2,0);
+    assertEquals(unit1,map.getCell(1,0).getUnit());
+    assertNull(map.getCell(2,0).getUnit());
+
+    controller.selectUnitIn(0,2);
+    controller.moveTo(0,1);
+    assertEquals(unit2,map.getCell(0,1).getUnit());
+    assertNull(map.getCell(0,2).getUnit());
+    controller.moveTo(0,0);
+    assertEquals(unit2,map.getCell(0,1).getUnit());
+    assertNull(map.getCell(0,0).getUnit());
+
+    controller.endTurn();
+    // Move the unit from another player
+    controller.selectUnitIn(2,2);
+    controller.moveTo(1,2);
+    assertEquals(unit3,map.getCell(2,2).getUnit());
+    assertNull(map.getCell(1,2).getUnit());
+  }
 }

@@ -15,12 +15,12 @@ public class AlpacaFactoryTest extends AbstractUnitFactoryTest {
 
   @Override
   public IUnit getCreatedTankUnit() {
-    return alpacaF.createTankUnit(field.getCell(0,0),null);
+    return alpacaF.createTankUnit(field.getCell(0,1),null);
   }
 
   @Override
   public IUnit getCreatedFastUnit() {
-    return alpacaF.createFastUnit(field.getCell(0,0),null);
+    return alpacaF.createFastUnit(field.getCell(0,2),null);
   }
 
   @Test

@@ -11,7 +11,8 @@ public class FighterFactory extends AbstractUnitsFactory {
 
   @Override
   public Fighter createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
-    return new Fighter(hp,movement,location, owner, items);
+    if (location.getUnit()==null) return new Fighter(hp,movement,location, owner, items);
+    return null;
   }
 
   @Override

@@ -15,12 +15,12 @@ public class ClericFactoryTest extends AbstractUnitFactoryTest {
 
   @Override
   public IUnit getCreatedTankUnit() {
-    return clericF.createTankUnit(field.getCell(0,0),null);
+    return clericF.createTankUnit(field.getCell(0,1),null);
   }
 
   @Override
   public IUnit getCreatedFastUnit() {
-    return clericF.createFastUnit(field.getCell(0,0),null);
+    return clericF.createFastUnit(field.getCell(0,2),null);
   }
 
   @Test

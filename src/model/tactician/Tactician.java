@@ -126,7 +126,7 @@ public class Tactician {
    * @param unit to be added
    */
   public void addUnit(IUnit unit){
-    units.add(unit);
+    if(unit!=null) units.add(unit);
   }
 
   /**

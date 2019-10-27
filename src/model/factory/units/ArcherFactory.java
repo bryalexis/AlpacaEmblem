@@ -1,7 +1,6 @@
 package model.factory.units;
 
 import model.factory.AbstractUnitsFactory;
-import model.factory.IUnitsFactory;
 import model.items.IEquipableItem;
 import model.map.Location;
 import model.tactician.Tactician;
@@ -11,7 +10,8 @@ import model.units.warriors.Archer;
 public class ArcherFactory extends AbstractUnitsFactory {
   @Override
   public Archer createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
-    return new Archer(hp,movement,location, owner, items);
+    if (location.getUnit()==null) return new Archer(hp,movement,location, owner, items);
+    return null;
   }
 
   @Override

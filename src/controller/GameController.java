@@ -336,4 +336,12 @@ public class GameController {
     return selectedItem;
   }
 
+  /**
+   * Moves the selected unit if it hasn't moved in the turn yet
+   * @param x row
+   * @param y column
+   */
+  public void moveTo(int x, int y){
+    playerInTurn.moveUnitTo(x,y);
+  }
 }

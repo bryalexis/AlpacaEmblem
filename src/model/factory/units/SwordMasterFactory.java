@@ -10,7 +10,8 @@ import model.units.warriors.SwordMaster;
 public class SwordMasterFactory extends AbstractUnitsFactory {
   @Override
   public SwordMaster createUnit(int hp, int movement, Location location, Tactician owner, IEquipableItem... items) {
-    return new SwordMaster(hp,movement,location,owner,items);
+    if (location.getUnit()==null) return new SwordMaster(hp,movement,location,owner,items);
+    return null;
   }
 
   @Override

@@ -52,7 +52,8 @@ public class TacticianTest {
 
   // Map
   private Field map;
-  Tactician player;
+  private Tactician player;
+
   @BeforeEach
   public void setUp(){
     map = new Field();
@@ -120,7 +121,7 @@ public class TacticianTest {
     player.addFastUnit( map.getCell(0,0) );
     player.selectUnit(player.getUnits().get(0));
     assertEquals(player.getUnits().get(0), player.getSelectedUnit());
-    assertEquals(2, player.getUnits().size());
+    assertEquals(1, player.getUnits().size());
     player.setItemsFactory(new SwordFactory());
     player.addGenericItem("La HeZkal!Vur");
     player.setItemsFactory(new SpearFactory());
@@ -131,6 +132,17 @@ public class TacticianTest {
 
     player.selectUnitFromUnitsByIndex(0);
     assertEquals(player.getSelectedUnit(), player.getUnits().get(0));
+  }
+
+  @Test
+  public void addUnitInNonEmptyCellTest(){
+    player = new Tactician("Edward Elric",map);
+    player.setUnitsFactory(new AlpacaFactory());
+    player.addGenericUnit(map.getCell(0,0));
+    assertEquals( player.getUnits().get(0), map.getCell(0,0).getUnit() );
+    player.addFastUnit(map.getCell(0,0));
+    assertEquals(1,player.getUnits().size());
+    assertEquals( player.getUnits().get(0),map.getCell(0,0).getUnit() );
   }
 
 }
