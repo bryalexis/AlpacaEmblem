@@ -271,4 +271,19 @@ public interface IUnit {
    * @return the owner player.
    */
   Tactician getOwner();
+
+  /**
+   * Sets the unit moved, to not move it again in the same turn
+   */
+  void setUnitMovedInTurn();
+
+  /**
+   * Resets the variable
+   */
+  void resetMovedUnit();
+
+  /**
+   * @return true if a unit was already moved on this turn
+   */
+  boolean wasMoved();
 }

@@ -366,7 +366,7 @@ class GameControllerTest {
     randomSeed = controller.getGameMap().getSeed();
     Field map = controller.getGameMap();
 
-    Tactician firstPlayer = controller.getTurnOwner();
+    Tactician firstPlayer = controller.getTacticians().get(0);
     Tactician anotherPlayer = controller.getTacticians().get(1);
 
     // The first player will have a Fighter selected
@@ -374,7 +374,7 @@ class GameControllerTest {
     firstPlayer.addTankUnit(map.getCell(0,0));
     firstPlayer.selectUnit(firstPlayer.getUnits().get(0));
     firstPlayer.setItemsFactory(new AxeFactory());
-    firstPlayer.addNewItem("Super Axe", 200, 1,4);
+    firstPlayer.addNewItem("Super Axe", 2000, 1,10);
     firstPlayer.equipItem(firstPlayer.getItemInInventoryByIndex(0));
 
     // The second player will have a Hero (who is supposed to die eventually)
@@ -384,8 +384,9 @@ class GameControllerTest {
     anotherPlayer.setItemsFactory(new SpearFactory());
     anotherPlayer.addGenericItem("Generic Spear");
     anotherPlayer.equipItem(anotherPlayer.getItemInInventoryByIndex(0));
+    controller.selectUnitIn(0,0);
 
-    controller.useItemOn(0,1);
+    firstPlayer.useItemOn(map.getCell(0,1).getUnit());
     assertEquals(3, controller.getTacticians().size());
     assertFalse(controller.getTacticians().contains(anotherPlayer));
   }

@@ -142,6 +142,10 @@ public class GameController {
       roundNumber++;
     }
     playerInTurn = orderRound.get(turnNumber);
+    // Resets all the units
+    for(IUnit unit: playerInTurn.getUnits()){
+      unit.resetMovedUnit();
+    }
     checkEndGame();
   }
 

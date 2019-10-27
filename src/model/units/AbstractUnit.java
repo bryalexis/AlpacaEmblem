@@ -44,6 +44,7 @@ public abstract class AbstractUnit implements IUnit {
   private boolean inCombat;
 
   private Tactician owner;
+  private boolean moved = false;
 
   /**
    * Creates a new Unit.
@@ -284,5 +285,20 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void equipSword(Sword sword) {
     // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void resetMovedUnit() {
+    moved = false;
+  }
+
+  @Override
+  public void setUnitMovedInTurn() {
+    moved = true;
+  }
+
+  @Override
+  public boolean wasMoved(){
+    return moved;
   }
 }

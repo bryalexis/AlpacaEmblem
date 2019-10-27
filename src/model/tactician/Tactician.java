@@ -153,8 +153,10 @@ public class Tactician {
    */
   public void moveUnitTo(int x, int y){
     int size = field.getSize();
-    if( x < size && y < size && isMyUnit())
-      selectedUnit.moveTo(field.getCell(x,y));
+    if( x < size && y < size && isMyUnit() && !selectedUnit.wasMoved()) {
+      selectedUnit.moveTo(field.getCell(x, y));
+      selectedUnit.setUnitMovedInTurn();
+    }
   }
 
   /**
