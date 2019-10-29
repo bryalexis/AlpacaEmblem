@@ -83,7 +83,7 @@ Cada item se compone de las siguientes variables:
 - **alive:** Indicador de si la unidad está viva (una unidad muere cuando alcanza los 0 *hitpoints*).
 - **inCombat:** Indicador de si una unidad se encuentra en combate con otra.
 
-### Implementación General de las Unidades
+### 1.1 Implementación General de las Unidades
 En esta versión se añadió una nueva unidad, el *sorcerer*, el cual puede usar libros de magia para atacar a sus oponentes. 
 
 Las dinámicas e interacciones de todos las unidades son muy similares, de modo que cada unidad solo desciende de un *AbstractUnit*, clase abstracta que define los metodos en común entre las unidades.
@@ -166,27 +166,27 @@ Cada item se compone de las siguientes variables:
 - **maxRange:** rango máximo.
 - **owner:** unidad que es dueña del item.
 
-### Implementación General de los Items
+### 2.1 Implementación General de los Items
 Dados los tipos de items disponibles en el juego, se crea una *interfaz* para ayudar a identificar ciertos tipos de ellos, de modo que existen las interfaces **ISpellBook** y **IHealing**,  donde la utilidad del primero es poder identificar todos los items tipo mágico junto con los metodos que podrían tener en común, mientras que la segunda no otorga una utilidad muy clara de momento, pues solo existe un objeto de tipo *healing*, pero podría ser útil si eventualmente se añade otro item de este tipo.
 
 Se usan clases abstractas para definir métodos en común entre los items del mismo tipo. Por ejemplo, recibir el ataque de una espada puede ser diferente a recibir el de un acha si el arma receptora es una lanza, pero da exactamente lo mismo si el arma receptora es un *darkness book*.
 
 ## 3. Interacciones
 
-### Equipar Item
+### 3.1 Equipar Item
 Cada unidad puede equipar (o no) cierto tipo de items específicos, tal como se mostró en el cuadro de unidades. Para que una unidad no se equipe un tipo de item incorrecto, se utiliza *double dispatch*, haciendo que el item se equipe a la unidad, desambiguando así el tipo de item y la unidad en cuestión.
 
-### Dar Item
+### 3.2 Dar Item
 Una unidad puede entregar un item que esté portando siempre y cuando la unidad receptora porte menos de su máximo de items y ambas unidades esten a distancia 1. Si se regala un ítem que esté equipado, la unidad quedará sin item equipado. Además, cada vez que un item cambie de unidad, su dueño será la unidad que lo porte consigo.
 
-### Usar Items
+### 3.3 Usar Items
 
 Todas las unidades que puedan tener un item equipado, pueden utilizarlo para interactuar con otra unidad bajo ciertas restricciones:
 - Ambas unidades participantes  deben estar vivas.
 - El item **debe** estar equipado.
 - La unidad objetivo a recibir la interacción debe estar a una distancia que se encuentre dentro del rango del item.
 
-#### Ataque
+#### 3.3.1 Ataque
 Se rige bajo las reglas del uso de items. Cada ataque desencadena a su vez un contraataque inmediato por parte de la unidad atacada, siempre y cuando cumpla con las mismas restricciones necesarias para cualquier uso de items. Las alpacas y los *clerics* no pueden ni atacar ni contraatacar, por lo que al ser atacados, solo reciben daño y el combate finaliza de inmediato sin respuesta alguna.
 
 Si en el ataque, una unidad recibe más daño que sus *currentHitPoints*, esta muere y pasa a estar fuera de combate.
@@ -199,7 +199,7 @@ El daño recibido por un ataque puede variar según las armas de los participant
 
 En caso de que el daño recibido sea mayor a la vida de la unidad, sus *currentHitPoints* sólo disminuirán a 0, impidiendo niveles menores a 0.
 
-#### Curaciones
+#### 3.3.2 Curaciones
 Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *staff*, y sólo puede ser equipado por un *cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
 
 ##### Diseño
@@ -209,15 +209,16 @@ El uso de un item para atacar o curar a otra unidad depende principalmente de lo
 Una factory es un patrón de diseño en el cual una clase "fabrica" instancias de objetos, haciendo más facil la creación de estos y pudiendo fijar métodos que retornen cierto objeto con parámetros predeterminados.
 Para facilitar la futura creación de unidades por parte de un *Tactician*, se implementarán *factories* de unidades e items, se verá cada caso por separado a continuación.
 
-### Units Factory
+### 4.1 Units Factory
 A nivel implementación, toda clase fábrica de unidades que implemente la interfaz `IUnitsFactory` debe implementar los siguientes 4 métodos:
 - `createUnit`: metodo que recibe todos los parámetros necesarios para crear una unidad.
 - `createGenericUnit`: crea una unidad genérica, con 100 de HP y 3 de movimiento.
 - `createTankUnit`: crea una unidad tanque, con 200 de HP y 1 de movimiento.
 - `createFastUnit`: crea una unidad de largo desplazamiento, con 70 de HP y 5 de movimiento.
+
 La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí.
 
-### Items Factory
+### 4.1 Items Factory
 Al igual que para las unidades, se desarrolla una interfaz común para todas las fábricas de items, llamada `IItemsFactory`, la exige la implementación de los métodos:
 - `create`: metodo que recibe todos los parámetros necesarios para crear un nuevo item.
 - `createGenericItem`: crea un item genérico, con 30 de poder, 1 de rango mínimo y 5 de rango máximo.
@@ -229,6 +230,20 @@ Al igual que para las unidades, se desarrolla una interfaz común para todas las
 Al igual que para las units, la idea de esta distribución de parámetros es generar items balanceados.
 
 ## 5. Tactician
+Un *Tactician* representa a un jugador. La misión de esta entidad es manejar las instrucciones que podría dar un usuario y delegarlas al modelo, de este modo, se evita que quien usa la aplicación interactúe con este úlimo de forma directa.
+
+Cada *Tactician* tiene las siguientes variables:
+- `units`: Una lista con todas las unidades que pertenecen a ese jugador.
+- `selectedUnit`: Unidad seleccionada por el tactician.
+- `equippedItem`: Item equipado por la unidad seleccionada.
+- `field`: Mapa del juego.
+- `name`: Nombre del jugador.
+- `heroes`: Una referencia a los heroes que tenga el jugador (útil para funcionalidad específica).
+- `selectedUnitPCS`: Avisa al controlador (sec 6), sobre un cambio en la unidad seleccionada por el jugador.
+- `heroDeadPCS`: Avisa al controlador sobre la muerte de un heroe en la lista de unidades del jugador.
+- `unitsFactory`: Una fabrica de unidades.
+- `itemsFactory`: Una fabrica de items.
+
 
 ## 6. Game Controller
 
