@@ -10,7 +10,7 @@ import model.units.IUnit;
  *
  * @author Bryan Ortiz P
  * @since 1.1
- * @version 2.2
+ * @version 2.5
  */
 public class Light extends AbstractBook {
 
@@ -37,7 +37,7 @@ public class Light extends AbstractBook {
   }
 
   @Override
-  public void useOn(IUnit target) {
+  public void attack(IUnit target) {
     target.getEquippedItem().takeInLightSpell(this);
   }
 

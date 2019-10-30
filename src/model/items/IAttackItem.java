@@ -19,4 +19,13 @@ public interface IAttackItem extends IEquipableItem{
    * @param target who will receive the attack
    */
   void attack(IUnit target);
+
+  /**
+   * It tells if a the item can attack the target unit
+   * If the owner of the unit that owns the item is also the target
+   * unit, the attack is refused.
+   * @param target unit that will receive the attack
+   * @return if the attack can be made.
+   */
+  boolean allowedToAttack(IUnit target);
 }

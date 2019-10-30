@@ -19,4 +19,13 @@ public interface IHealingItem extends IEquipableItem {
      * @param target who will receive the healing
      */
     void heal(IUnit target);
+
+    /**
+     * It tells if a the item can heal the target unit
+     * If the owner of the unit that owns the item is different to the target
+     * unit, the healing is refused.
+     * @param target unit that will receive the healing
+     * @return if the healing can be made.
+     */
+    boolean allowedToHeal(IUnit target);
 }

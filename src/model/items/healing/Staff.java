@@ -10,6 +10,7 @@ import model.units.IUnit;
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 2.5
  */
 public class Staff extends AbstractHealingItem {
 
@@ -35,7 +36,7 @@ public class Staff extends AbstractHealingItem {
   }
 
   @Override
-  public void useOn(IUnit target) {
+  public void heal(IUnit target) {
     target.modifyCurrentHitPoints(getPower());
   }
 }

@@ -1,5 +1,6 @@
 package model.items;
 
+import jdk.jfr.Percentage;
 import model.units.IUnit;
 
 /**
@@ -81,14 +82,17 @@ public abstract class AbstractItem implements IEquipableItem {
     minRange = value;
   }
 
+  @Override
   public void takeInStrongAttack(double power){
     getOwner().modifyCurrentHitPoints(- power*1.5);
   }
 
+  @Override
   public void takeInWeakAttack(double power){
     getOwner().modifyCurrentHitPoints(Math.min(- power + 20, 0));
   }
 
+  @Override
   public void takeInNormalAttack(double power){
     getOwner().modifyCurrentHitPoints(- power);
   }

@@ -136,7 +136,6 @@ public class Tactician {
       units.add(unit);
       unit.addDeadListener(unitDiePCL);
       unit.addHeroDeadListener(heroDiePCL);
-      selectedUnit = unit;
     }
   }
 
@@ -177,7 +176,7 @@ public class Tactician {
    */
   public void useItemOn(IUnit target){
     Tactician targetOwner = target.getOwner();
-    if (isMyUnit() && !this.equals(targetOwner)) getSelectedUnit().useItemOn(target);
+    if (isMyUnit()) getSelectedUnit().useItemOn(target);
   }
 
   /**

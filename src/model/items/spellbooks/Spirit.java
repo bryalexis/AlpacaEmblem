@@ -11,7 +11,7 @@ import model.units.IUnit;
  *
  * @author Bryan Ortiz P
  * @since 1.1
- * @version 2.2
+ * @version 2.5
  */
 public class Spirit extends AbstractBook {
 
@@ -38,7 +38,7 @@ public class Spirit extends AbstractBook {
     }
 
     @Override
-    public void useOn(IUnit target) {
+    public void attack(IUnit target) {
         target.getEquippedItem().takeInSpiritSpell(this);
     }
 

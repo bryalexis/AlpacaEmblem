@@ -2,6 +2,7 @@ package model.tatician;
 
 import model.factory.items.DarknessFactory;
 import model.factory.items.SpearFactory;
+import model.factory.items.StaffFactory;
 import model.factory.items.SwordFactory;
 import model.factory.units.*;
 import model.items.healing.Staff;
@@ -150,18 +151,69 @@ public class TacticianTest {
     player1.setUnitsFactory(new SwordMasterFactory());
     player1.addTankUnit(map.getCell(0,0));
     player1.setItemsFactory(new SwordFactory());
+    player1.selectUnitFromUnitsByIndex(0);
     player1.addNewItem("Lost Vaine", 10000, 1, 100); // OP
     player1.equipItem(player1.getItemInInventoryByIndex(0));
 
     Tactician player2 = new Tactician("Rasputin",map);
     player2.setUnitsFactory(new SorcererFactory());
     player2.addGenericUnit(map.getCell(1,0));
+    player2.selectUnitFromUnitsByIndex(0);
     player2.setItemsFactory(new DarknessFactory());
     player2.addGenericItem("Libro de Alquimia");
     player2.equipItem(player2.getItemInInventoryByIndex(0));
 
     player1.useItemOn(player2.getSelectedUnit());
     assertEquals(0,player2.getUnits().size());
+  }
+
+  @Test
+  public void attackTest(){
+    Tactician player1 = new Tactician("Brownie",map);
+    // Cleric
+    player1.setUnitsFactory(new ClericFactory());
+    player1.addGenericUnit(map.getCell(0,1));
+    player1.selectUnitFromUnitsByIndex(0);
+    player1.setItemsFactory(new StaffFactory());
+    player1.addPowerfulItem("Palito Curandero");
+    player1.equipItem(player1.getItemInInventoryByIndex(0));
+    // SwordMaster
+    player1.setUnitsFactory(new SwordMasterFactory());
+    player1.addTankUnit(map.getCell(0,0));
+    player1.selectUnitFromUnitsByIndex(1);
+    player1.setItemsFactory(new SwordFactory());
+    player1.addGenericItem("Espadita");
+    player1.equipItem(player1.getItemInInventoryByIndex(0));
+
+    Tactician player2 = new Tactician("Rasputin",map);
+    player2.setUnitsFactory(new SorcererFactory());
+    player2.addGenericUnit(map.getCell(1,0));
+    player2.selectUnitFromUnitsByIndex(0);
+    player2.setItemsFactory(new DarknessFactory());
+    player2.addGenericItem("Libro de Alquimia");
+    player2.equipItem(player2.getItemInInventoryByIndex(0));
+
+    player1.useItemOn(player2.getSelectedUnit());
+    double expected =
+            player2.getSelectedUnit().getMaxHitPoints() -
+            player1.getEquippedItem().getPower()*1.5;
+    assertEquals(expected, player2.getSelectedUnit().getCurrentHitPoints());
+
+    player1.useItemOn(player1.getUnits().get(0));
+    assertEquals(player1.getUnits().get(0).getMaxHitPoints(),player1.getUnits().get(0).getCurrentHitPoints());
+
+    player1.selectUnitFromUnitsByIndex(0);
+    player1.useItemOn(player2.getSelectedUnit());
+    // Doesn't heal 'cause the tactician owner of the cleric is different to the owner
+    // of the Sorcerer
+    assertEquals(expected, player2.getSelectedUnit().getCurrentHitPoints());
+
+    player1.getUnits().get(1).modifyCurrentHitPoints(-60);
+    assertEquals(95, player1.getUnits().get(1).getCurrentHitPoints());
+    player1.useItemOn(player1.getUnits().get(1));
+    expected = 95 + player1.getEquippedItem().getPower();
+    // On this case it should heal
+    assertEquals(expected, player1.getUnits().get(1).getCurrentHitPoints());
   }
 
 }

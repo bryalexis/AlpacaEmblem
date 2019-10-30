@@ -5,7 +5,7 @@ import model.units.IUnit;
 /**
  * @author Ignacio Slater Muñoz
  * @since 1.0
- * @version 1.1
+ * @version 2.5
  */
 public class Bow extends AbstractWeapon {
 
@@ -52,7 +52,7 @@ public class Bow extends AbstractWeapon {
   }
 
   @Override
-  public void useOn(IUnit target) {
+  public void attack(IUnit target) {
     target.getEquippedItem().takeInPhysicalAttack(this);
   }
 }
