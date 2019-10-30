@@ -73,15 +73,16 @@ El juego cuenta actualmente con 7 diferentes unidades, las cuales se clasifican 
 
 Los distintos tipos de items se describen en la sección siguiente.
 Cada item se compone de las siguientes variables:
-- **maxHitPoints:** Máxima cantidad de puntos de vida que puede alcanzar la unidad.
-- **currentHitPoints:** Puntos de vida que tiene la unidad, por conveniencia y comodidad en la implementación, corresponde a un  *double*.
-- **items:** Lista de items que porta la unidad.
-- **equippedItem:** Item equipado, debe pertenecer a la lista de items.
-- **maxItems:** Máxima cantidad de items que puede portar la unidad.
-- **movement:** Distancia máxima que se puede desplazar la unidad.
-- **location:** Ubicación de la unidad
-- **alive:** Indicador de si la unidad está viva (una unidad muere cuando alcanza los 0 *hitpoints*).
-- **inCombat:** Indicador de si una unidad se encuentra en combate con otra.
+- `maxHitPoints`: Máxima cantidad de puntos de vida que puede alcanzar la unidad.
+- `currentHitPoints`: Puntos de vida que tiene la unidad, por conveniencia y comodidad en la implementación, corresponde a un  *double*.
+- `items:` Lista de items que porta la unidad.
+- `equippedItem`: Item equipado, debe pertenecer a la lista de items.
+- `maxItems`: Máxima cantidad de items que puede portar la unidad.
+- `movement`: Distancia máxima que se puede desplazar la unidad.
+- `location`: Ubicación de la unidad
+- `alive`: Indicador de si la unidad está viva (una unidad muere cuando alcanza los 0 *hitpoints*).
+- `inCombat:` Indicador de si una unidad se encuentra en combate con otra.
+- `owner`: *Tactician* dueña de la unidad.
 
 ### 1.1 Implementación General de las Unidades
 En esta versión se añadió una nueva unidad, el *sorcerer*, el cual puede usar libros de magia para atacar a sus oponentes. 
@@ -160,11 +161,12 @@ Existen 3 tipos de items, *weapons*, *spellbooks* y *healing*. Algunos items son
 A su vez, todos los items de tipo *spellbook* son fuertes contra los no-*spellbook* y viceversa. 
 Cada item se compone de las siguientes variables:
 
-- **name:** nombre del item.
-- **power:** poder del item (cuanto daño hace o cuanto logra curar a otra unidad).
-- **minRange:** rango mínimo.
-- **maxRange:** rango máximo.
-- **owner:** unidad que es dueña del item.
+- `name`: nombre del item.
+- `power`: poder del item (cuanto daño hace o cuanto logra curar a otra unidad).
+- `minRange`: rango mínimo.
+- `maxRange`: rango máximo.
+- `owner`: unidad que es dueña del item.
+- `moved`: Si es que fue movida dentro del turno.
 
 ### 2.1 Implementación General de los Items
 Dados los tipos de items disponibles en el juego, se crea una *interfaz* para ayudar a identificar ciertos tipos de ellos, de modo que existen las interfaces **ISpellBook** y **IHealing**,  donde la utilidad del primero es poder identificar todos los items tipo mágico junto con los metodos que podrían tener en común, mientras que la segunda no otorga una utilidad muy clara de momento, pues solo existe un objeto de tipo *healing*, pero podría ser útil si eventualmente se añade otro item de este tipo.
@@ -244,6 +246,9 @@ Cada *Tactician* tiene las siguientes variables:
 - `unitsFactory`: Una fabrica de unidades.
 - `itemsFactory`: Una fabrica de items.
 
+Dentro de las posibilidades de un jugador estan añadir unidades y seleccionar (o deseleccionar) una unidad. Si la unidad seleccionada pertenece a sus unidades (esto no tiene por qué pasar necesariamente), puede añadirles items, equiparles un item (adecuado a la unidad), intercambiar items entre esta y otra unidad cualquiera, atacar o curar a otra unidad (cualquiera de momento). Un *tactician* puede saber si la unidad seleccionada es suya, de modo que si intenta hacer algo con una unidad de otra persona, no podrá hacer nada. A su vez, un tactician puede conocer los items de sus unidades y el item equipado por cualquier unidad seleccionada. 
+
+En particular, si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en game controller).
 
 ## 6. Game Controller
 
