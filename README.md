@@ -83,13 +83,17 @@ Cada item se compone de las siguientes variables:
 - `alive`: Indicador de si la unidad está viva (una unidad muere cuando alcanza los 0 *hitpoints*).
 - `inCombat:` Indicador de si una unidad se encuentra en combate con otra.
 - `owner`: *Tactician* dueña de la unidad.
+- `isDeadPCS`: avisa al tactician si es que la unidad fue derrotada en combate y ha muerto.
+- `moved`: indica si es que fue movida dentro del turno.
 
 ### 1.1 Implementación General de las Unidades
 En esta versión se añadió una nueva unidad, el *sorcerer*, el cual puede usar libros de magia para atacar a sus oponentes. 
 
 Las dinámicas e interacciones de todos las unidades son muy similares, de modo que cada unidad solo desciende de un *AbstractUnit*, clase abstracta que define los metodos en común entre las unidades.
 
-Los campos **maxHitPoints**, **maxItems**, **alive** e **inCombat**, fueron añadidos en esta ultima versión del programa. El objetivo del primero es almacenar los máximos **hitpoints** que puede tener la unidad, para evitar *overhealing* y curaciones infinitas. La segunda nueva variable fue creada con la intención de realizar futuras validaciones para interacciones entre *item-unit* y otros. El objetivo de **alive** es facilitar el testeo de casos bordes y *setear* cuando alguien muere como un estado. Mientras que, la ultima variable pareció interesante de definir para alguna aplicación futura, donde sea importante si una unidad se encuentra en combate en cierto momento.
+Los campos `maxHitPoints`, `maxItems`, `alive` e `inCombat`, fueron añadidos en la versión 1.1 del juego. El objetivo del primero es almacenar los máximos **hitpoints** que puede tener la unidad, para evitar *overhealing* y curaciones infinitas. La segunda nueva variable fue creada con la intención de realizar futuras validaciones para interacciones entre *item-unit* y otros. El objetivo de `alive` es facilitar el testeo de casos bordes y *setear* cuando alguien muere como un estado. Por otro lado, pareció interesante de definir la variable `inCombat` para alguna aplicación futura, donde sea importante si una unidad se encuentra en combate en cierto momento.
+
+En la versión 2.5 además se añaden los campos `owner`, `isDeadPCS` y `moved`. La funcionalidad de estos se explica a continuación, el primero sirve para identificar una unit en el contexto de que ahora existen *Tacticians* que son quienes manejarán sus respectivas unidades, de modo que resulta útil conocer a quién pertenece una unidad en caso de combate o movimiento. El segundo, sigue el patrón de diseño *Observer* donde la unit es el objeto observado y (de terminos practicos) su *Tactician* es el observador, esto con el fin de que cuando una unidad muera, como es imposible de revivirla, simplemente sea eliminada del juego. Por último, dentro del contexto de un **turno** (se explica mas en la sección de Game Controller), un *Tactician* solo puede mover a cada una de sus unidades una vez, de modo que `moved` permite *checkear* si la unidad ya fue movida, para que no sea posible moverla de nuevo.
 
 ## 2. Items
 Existen 3 tipos de items, *weapons*, *spellbooks* y *healing*. Algunos items son fuertes (o bien débiles) contra otros y se pueden equipar a distintas unidades de acuerdo al cuadro mostrado en la sección anterior. La clasificación de los items va de acuerdo a lo que muestra el siguiente cuadro:
@@ -166,7 +170,6 @@ Cada item se compone de las siguientes variables:
 - `minRange`: rango mínimo.
 - `maxRange`: rango máximo.
 - `owner`: unidad que es dueña del item.
-- `moved`: Si es que fue movida dentro del turno.
 
 ### 2.1 Implementación General de los Items
 Dados los tipos de items disponibles en el juego, se crea una *interfaz* para ayudar a identificar ciertos tipos de ellos, de modo que existen las interfaces **ISpellBook** y **IHealing**,  donde la utilidad del primero es poder identificar todos los items tipo mágico junto con los metodos que podrían tener en común, mientras que la segunda no otorga una utilidad muy clara de momento, pues solo existe un objeto de tipo *healing*, pero podría ser útil si eventualmente se añade otro item de este tipo.
@@ -218,7 +221,7 @@ A nivel implementación, toda clase fábrica de unidades que implemente la inter
 - `createTankUnit`: crea una unidad tanque, con 200 de HP y 1 de movimiento.
 - `createFastUnit`: crea una unidad de largo desplazamiento, con 70 de HP y 5 de movimiento.
 
-La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí.
+La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí. Una unit con parámetros ya fijados (generic, tank y fast) pide como argumento la ubicación en el mapa donde se creará la unidad. Si esta *Location* ya contiene una unidad, se cancela el proceso de creación y se crea una entidad nula.
 
 ### 4.1 Items Factory
 Al igual que para las unidades, se desarrolla una interfaz común para todas las fábricas de items, llamada `IItemsFactory`, la exige la implementación de los métodos:
@@ -229,7 +232,7 @@ Al igual que para las unidades, se desarrolla una interfaz común para todas las
 
 **Nota:** Un arco tiene de por sí distancia mínima 2, de modo que es una excepcion para el rango mínimo en los items genericos y de alto nivel de poder.
 
-Al igual que para las units, la idea de esta distribución de parámetros es generar items balanceados.
+Al igual que para las units, la idea de esta distribución de parámetros es generar items balanceados. Los items con parametros preseteados sólo solician el nombre para la creación.
 
 ## 5. Tactician
 Un *Tactician* representa a un jugador. La misión de esta entidad es manejar las instrucciones que podría dar un usuario y delegarlas al modelo, de este modo, se evita que quien usa la aplicación interactúe con este úlimo de forma directa.
@@ -240,7 +243,6 @@ Cada *Tactician* tiene las siguientes variables:
 - `equippedItem`: Item equipado por la unidad seleccionada.
 - `field`: Mapa del juego.
 - `name`: Nombre del jugador.
-- `heroes`: Una referencia a los heroes que tenga el jugador (útil para funcionalidad específica).
 - `selectedUnitPCS`: Avisa al controlador (sec 6), sobre un cambio en la unidad seleccionada por el jugador.
 - `heroDeadPCS`: Avisa al controlador sobre la muerte de un heroe en la lista de unidades del jugador.
 - `unitsFactory`: Una fabrica de unidades.
