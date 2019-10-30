@@ -5,6 +5,8 @@ import model.factory.IUnitsFactory;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
+import model.tactician.handlers.HeroDieListener;
+import model.tactician.handlers.UnitDieListener;
 import model.units.IUnit;
 import model.units.warriors.Hero;
 
@@ -31,13 +33,16 @@ public class Tactician {
   private IEquipableItem equippedItem;
   private Field field;
   private String name;
-  // Additionally we save a reference to all the heroes in the list of units
-  private List<Hero> heroes;
 
   /**
    * Property change Supports
    */
   private PropertyChangeSupport selectedUnitPCS, heroDeadPCS;
+
+  /**
+   * Property Change Listeners
+   */
+  private PropertyChangeListener unitDiePCL, heroDiePCL;
 
   /**
    * Builders for units and items
@@ -54,9 +59,10 @@ public class Tactician {
     this.units = new ArrayList<>();
     this.name = name;
     this.field = map;
-    this.heroes = new ArrayList<>();
     this.selectedUnitPCS = new PropertyChangeSupport(this);
     this.heroDeadPCS = new PropertyChangeSupport(this);
+    this.unitDiePCL = new UnitDieListener(this);
+    this.heroDiePCL = new HeroDieListener(this);
   }
 
   /**
@@ -126,7 +132,11 @@ public class Tactician {
    * @param unit to be added
    */
   public void addUnit(IUnit unit){
-    if(unit!=null) units.add(unit);
+    if(unit!=null){
+      units.add(unit);
+      unit.addDeadListener(unitDiePCL);
+      unit.addHeroDeadListener(heroDiePCL);
+    }
   }
 
   /**
@@ -167,30 +177,13 @@ public class Tactician {
   public void useItemOn(IUnit target){
     Tactician targetOwner = target.getOwner();
     if (isMyUnit() && !this.equals(targetOwner)) getSelectedUnit().useItemOn(target);
-    if(aHeroWasKilled())
-      fireHeroDeath(this);
-    if(targetOwner.aHeroWasKilled())
-      fireHeroDeath(targetOwner);
   }
 
   /**
-   * Launch a property change when a hero die.
-   * @param tactician owner of the hero.
+   * When a hero die, the tactician lose the game.
    */
-  private void fireHeroDeath(Tactician tactician){
-    heroDeadPCS.firePropertyChange(
-            new PropertyChangeEvent(this, "Death of a Hero", null, tactician)
-    );
-  }
-
-  /**
-   * @return if a hero was killed during an attack
-   */
-  private boolean aHeroWasKilled(){
-    for(Hero hero: heroes){
-      if(!hero.isAlive()) return true;
-    }
-    return false;
+  public void fireHeroDeath(){
+    heroDeadPCS.firePropertyChange("Death of a Hero", null, this);
   }
 
   /**
@@ -232,15 +225,6 @@ public class Tactician {
     if (isMyUnit()) return selectedUnit.getItems().get(index);
     return null;
   }
-
-  /**
-   * Saves a reference to the heroes that the unit will have
-   * @param hero to be saved
-   */
-  public void addHero(Hero hero) {
-    heroes.add(hero);
-  }
-
 
 
   // ==============================================================================

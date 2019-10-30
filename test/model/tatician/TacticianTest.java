@@ -145,4 +145,6 @@ public class TacticianTest {
     assertEquals( player.getUnits().get(0),map.getCell(0,0).getUnit() );
   }
 
+
+
 }

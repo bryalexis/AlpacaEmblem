@@ -14,6 +14,8 @@ import model.tactician.Tactician;
 import model.units.AbstractUnit;
 import model.units.IUnit;
 
+import java.beans.PropertyChangeListener;
+
 /**
  * A <i>Hero</i> is a special kind of unit, the player that defeats this unit wins the game.
  * <p>
@@ -21,6 +23,7 @@ import model.units.IUnit;
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
+ * @version 2.5
  */
 public class Hero extends AbstractUnit {
 
@@ -35,7 +38,6 @@ public class Hero extends AbstractUnit {
   public Hero(final int hitPoints, final int movement, final Location location, Tactician owner,
       IEquipableItem... items) {
     super(hitPoints, movement, location, 3, owner, items);
-    if(owner!= null) owner.addHero(this);
   }
 
   @Override
@@ -62,6 +64,11 @@ public class Hero extends AbstractUnit {
       getEquippedItem().useOn(aggressor);
     }
     endCombatWith(aggressor);
+  }
+
+  @Override
+  public void addHeroDeadListener(PropertyChangeListener heroDiePCL){
+    getIsDeadPCS().addPropertyChangeListener(heroDiePCL);
   }
 
 }

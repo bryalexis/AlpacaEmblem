@@ -2,6 +2,8 @@ package model.units;
 
 import static java.lang.Math.min;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +29,7 @@ import model.units.healers.Cleric;
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
- * @version 2.3
+ * @version 2.5
  */
 public abstract class AbstractUnit implements IUnit {
 
@@ -44,6 +46,7 @@ public abstract class AbstractUnit implements IUnit {
   private boolean inCombat;
 
   private Tactician owner;
+  private PropertyChangeSupport isDeadPCS;
   private boolean moved = false;
 
   /**
@@ -70,6 +73,7 @@ public abstract class AbstractUnit implements IUnit {
     this.alive = true;
     this.inCombat = false;
     this.owner = owner;
+    this.isDeadPCS = new PropertyChangeSupport(this);
   }
 
   @Override
@@ -177,6 +181,7 @@ public abstract class AbstractUnit implements IUnit {
     this.alive = false;
     this.currentHitPoints = 0;
     endCombat();
+    isDeadPCS.firePropertyChange("The unit died",null, this);
   }
 
   @Override
@@ -300,5 +305,20 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public boolean wasMoved(){
     return moved;
+  }
+
+  @Override
+  public void addDeadListener(PropertyChangeListener deadUnitPCL) {
+    isDeadPCS.addPropertyChangeListener(deadUnitPCL);
+  }
+
+  @Override
+  public PropertyChangeSupport getIsDeadPCS(){
+    return isDeadPCS;
+  }
+
+  @Override
+  public void addHeroDeadListener(PropertyChangeListener heroDiePCL){
+    // It does nothing in a generic unit
   }
 }

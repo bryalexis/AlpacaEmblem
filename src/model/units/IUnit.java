@@ -1,5 +1,7 @@
 package model.units;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
@@ -286,4 +288,21 @@ public interface IUnit {
    * @return true if a unit was already moved on this turn
    */
   boolean wasMoved();
+
+  /**
+   * Adds a new listener for when the unit dies (a tactician)
+   * @param deadUnitPCL the listener
+   */
+  void addDeadListener(PropertyChangeListener deadUnitPCL);
+
+  /**
+   * Adds a new listener for when a hero dies (a tactician)
+   * @param heroDiePCL the listener
+   */
+  void addHeroDeadListener(PropertyChangeListener heroDiePCL);
+
+  /**
+   * @return the property change support for when a unit is dead;
+   */
+  PropertyChangeSupport getIsDeadPCS();
 }
