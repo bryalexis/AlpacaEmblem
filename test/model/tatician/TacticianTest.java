@@ -3,8 +3,7 @@ package model.tatician;
 import model.factory.items.DarknessFactory;
 import model.factory.items.SpearFactory;
 import model.factory.items.SwordFactory;
-import model.factory.units.AlpacaFactory;
-import model.factory.units.HeroFactory;
+import model.factory.units.*;
 import model.items.healing.Staff;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
@@ -145,6 +144,24 @@ public class TacticianTest {
     assertEquals( player.getUnits().get(0),map.getCell(0,0).getUnit() );
   }
 
+  @Test
+  public void deadOfUnit(){
+    Tactician player1 = new Tactician("Meliodas",map);
+    player1.setUnitsFactory(new SwordMasterFactory());
+    player1.addTankUnit(map.getCell(0,0));
+    player1.setItemsFactory(new SwordFactory());
+    player1.addNewItem("Lost Vaine", 10000, 1, 100); // OP
+    player1.equipItem(player1.getItemInInventoryByIndex(0));
 
+    Tactician player2 = new Tactician("Rasputin",map);
+    player2.setUnitsFactory(new SorcererFactory());
+    player2.addGenericUnit(map.getCell(1,0));
+    player2.setItemsFactory(new DarknessFactory());
+    player2.addGenericItem("Libro de Alquimia");
+    player2.equipItem(player2.getItemInInventoryByIndex(0));
+
+    player1.useItemOn(player2.getSelectedUnit());
+    assertEquals(0,player2.getUnits().size());
+  }
 
 }

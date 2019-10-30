@@ -136,6 +136,7 @@ public class Tactician {
       units.add(unit);
       unit.addDeadListener(unitDiePCL);
       unit.addHeroDeadListener(heroDiePCL);
+      selectedUnit = unit;
     }
   }
 
