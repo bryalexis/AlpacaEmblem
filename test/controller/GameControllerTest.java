@@ -269,10 +269,10 @@ class GameControllerTest {
     Location l1 = map.getCell(0,0);
     player1.setUnitsFactory(new ArcherFactory());
     player1.addTankUnit(l1);
-    player1.selectUnitFromUnitsByIndex(0);
+    player1.selectUnitByIndex(0);
     player1.setItemsFactory(new BowFactory());
     player1.addPowerfulItem("uwu");
-    player1.equipItem(player1.getItemInInventoryByIndex(0));
+    player1.equipItem(player1.getItemByIndex(0));
     assertEquals(player1.getSelectedUnit(), controller.getSelectedUnit());
 
     Tactician player2 = getPlayer(random, lista, 2);
@@ -375,7 +375,7 @@ class GameControllerTest {
     firstPlayer.selectUnit(firstPlayer.getUnits().get(0));
     firstPlayer.setItemsFactory(new AxeFactory());
     firstPlayer.addNewItem("Super Axe", 2000, 1,10);
-    firstPlayer.equipItem(firstPlayer.getItemInInventoryByIndex(0));
+    firstPlayer.equipItem(firstPlayer.getItemByIndex(0));
 
     // The second player will have a Hero (who is supposed to die eventually)
     anotherPlayer.setUnitsFactory(new HeroFactory());
@@ -383,7 +383,7 @@ class GameControllerTest {
     anotherPlayer.selectUnit(anotherPlayer.getUnits().get(0));
     anotherPlayer.setItemsFactory(new SpearFactory());
     anotherPlayer.addGenericItem("Generic Spear");
-    anotherPlayer.equipItem(anotherPlayer.getItemInInventoryByIndex(0));
+    anotherPlayer.equipItem(anotherPlayer.getItemByIndex(0));
     controller.selectUnitIn(0,0);
 
     firstPlayer.useItemOn(map.getCell(0,1).getUnit());

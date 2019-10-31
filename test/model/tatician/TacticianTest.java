@@ -1,28 +1,10 @@
 package model.tatician;
 
-import model.factory.items.DarknessFactory;
-import model.factory.items.SpearFactory;
-import model.factory.items.StaffFactory;
-import model.factory.items.SwordFactory;
+import model.factory.items.*;
 import model.factory.units.*;
-import model.items.healing.Staff;
-import model.items.spellbooks.Darkness;
-import model.items.spellbooks.Light;
-import model.items.spellbooks.Spirit;
-import model.items.weapons.Axe;
-import model.items.weapons.Bow;
-import model.items.weapons.Spear;
-import model.items.weapons.Sword;
 import model.map.Field;
 import model.map.Location;
 import model.tactician.Tactician;
-import model.units.carriers.Alpaca;
-import model.units.healers.Cleric;
-import model.units.magic.Sorcerer;
-import model.units.warriors.Archer;
-import model.units.warriors.Fighter;
-import model.units.warriors.Hero;
-import model.units.warriors.SwordMaster;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,25 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TacticianTest {
-
-  // Units
-  private Alpaca alpaca;
-  private Archer archer;
-  private Cleric cleric;
-  private Hero hero;
-  private Fighter fighter;
-  private Sorcerer sorcerer;
-  private SwordMaster swordMaster;
-
-  // Items
-  private Axe axe;
-  private Bow bow;
-  private Darkness darkness;
-  private Light light;
-  private Spear spear;
-  private Spirit spirit;
-  private Staff staff;
-  private Sword sword;
 
   // Map
   private Field map;
@@ -97,8 +60,8 @@ public class TacticianTest {
     player.setItemsFactory(new SpearFactory());
     player.selectUnit(player.getUnits().get(0));
     player.addPowerfulItem("Lanza del metro");
-    player.equipItem(player.getItemInInventoryByIndex(0));
-    assertEquals(player.getItemInInventoryByIndex(0), player.getEquippedItem());
+    player.equipItem(player.getItemByIndex(0));
+    assertEquals(player.getItemByIndex(0), player.getEquippedItem());
     assertEquals(player.getSelectedUnit().getEquippedItem(), player.getEquippedItem());
   }
 
@@ -130,7 +93,7 @@ public class TacticianTest {
     player.addNewItem("Guia de vida de Bart Simpson",20,1,10);
     assertEquals(3 ,player.getItems().size());
 
-    player.selectUnitFromUnitsByIndex(0);
+    player.selectUnitByIndex(0);
     assertEquals(player.getSelectedUnit(), player.getUnits().get(0));
   }
 
@@ -151,17 +114,17 @@ public class TacticianTest {
     player1.setUnitsFactory(new SwordMasterFactory());
     player1.addTankUnit(map.getCell(0,0));
     player1.setItemsFactory(new SwordFactory());
-    player1.selectUnitFromUnitsByIndex(0);
+    player1.selectUnitByIndex(0);
     player1.addNewItem("Lost Vaine", 10000, 1, 100); // OP
-    player1.equipItem(player1.getItemInInventoryByIndex(0));
+    player1.equipItem(player1.getItemByIndex(0));
 
     Tactician player2 = new Tactician("Rasputin",map);
     player2.setUnitsFactory(new SorcererFactory());
     player2.addGenericUnit(map.getCell(1,0));
-    player2.selectUnitFromUnitsByIndex(0);
+    player2.selectUnitByIndex(0);
     player2.setItemsFactory(new DarknessFactory());
     player2.addGenericItem("Libro de Alquimia");
-    player2.equipItem(player2.getItemInInventoryByIndex(0));
+    player2.equipItem(player2.getItemByIndex(0));
 
     player1.useItemOn(player2.getSelectedUnit());
     assertEquals(0,player2.getUnits().size());
@@ -170,50 +133,83 @@ public class TacticianTest {
   @Test
   public void attackTest(){
     Tactician player1 = new Tactician("Brownie",map);
+
     // Cleric
     player1.setUnitsFactory(new ClericFactory());
     player1.addGenericUnit(map.getCell(0,1));
-    player1.selectUnitFromUnitsByIndex(0);
+    player1.selectUnitByIndex(0);
     player1.setItemsFactory(new StaffFactory());
     player1.addPowerfulItem("Palito Curandero");
-    player1.equipItem(player1.getItemInInventoryByIndex(0));
+    player1.equipItem(player1.getItemByIndex(0));
+
     // SwordMaster
     player1.setUnitsFactory(new SwordMasterFactory());
     player1.addTankUnit(map.getCell(0,0));
-    player1.selectUnitFromUnitsByIndex(1);
+    player1.selectUnitByIndex(1);
     player1.setItemsFactory(new SwordFactory());
     player1.addGenericItem("Espadita");
-    player1.equipItem(player1.getItemInInventoryByIndex(0));
+    player1.equipItem(player1.getItemByIndex(0));
 
     Tactician player2 = new Tactician("Rasputin",map);
     player2.setUnitsFactory(new SorcererFactory());
     player2.addGenericUnit(map.getCell(1,0));
-    player2.selectUnitFromUnitsByIndex(0);
+    player2.selectUnitByIndex(0);
     player2.setItemsFactory(new DarknessFactory());
     player2.addGenericItem("Libro de Alquimia");
-    player2.equipItem(player2.getItemInInventoryByIndex(0));
+    player2.equipItem(player2.getItemByIndex(0));
 
     player1.useItemOn(player2.getSelectedUnit());
-    double expected =
-            player2.getSelectedUnit().getMaxHitPoints() -
-            player1.getEquippedItem().getPower()*1.5;
-    assertEquals(expected, player2.getSelectedUnit().getCurrentHitPoints());
+    double expected = player2.getMaxHP() - player1.getPowerEquippedItem()*1.5;
+    assertEquals(expected, player2.getHP());
 
-    player1.useItemOn(player1.getUnits().get(0));
-    assertEquals(player1.getUnits().get(0).getMaxHitPoints(),player1.getUnits().get(0).getCurrentHitPoints());
+    player1.useItemOn(player1.getUnitByIndex(0));
+    assertEquals(player1.getMaxHPOfUnit(0), player1.getHPOfUnit(0));
 
-    player1.selectUnitFromUnitsByIndex(0);
+    player1.selectUnitByIndex(0);
     player1.useItemOn(player2.getSelectedUnit());
     // Doesn't heal 'cause the tactician owner of the cleric is different to the owner
     // of the Sorcerer
-    assertEquals(expected, player2.getSelectedUnit().getCurrentHitPoints());
+    assertEquals(expected, player2.getHP());
 
-    player1.getUnits().get(1).modifyCurrentHitPoints(-60);
-    assertEquals(95, player1.getUnits().get(1).getCurrentHitPoints());
-    player1.useItemOn(player1.getUnits().get(1));
-    expected = 95 + player1.getEquippedItem().getPower();
+    player1.getUnitByIndex(1).modifyCurrentHitPoints(-60);
+    assertEquals(95, player1.getHPOfUnit(1));
+    player1.useItemOn(player1.getUnitByIndex(1));
+    expected = 95 + player1.getPowerEquippedItem();
     // On this case it should heal
-    assertEquals(expected, player1.getUnits().get(1).getCurrentHitPoints());
+    assertEquals(expected, player1.getHPOfUnit(1));
+  }
+
+  @Test
+  public void permissionsOnSelectedUnitTest(){
+    player = new Tactician("Jackie Chan", map);
+
+    player.setUnitsFactory(new SorcererFactory());
+    player.addTankUnit(map.getCell(0,0));
+    player.setItemsFactory(new LightFactory());
+    player.addPowerfulItem("Librito");
+
+    player.setUnitsFactory(new FighterFactory());
+    player.addGenericUnit(map.getCell(2,0));
+
+    player.selectUnitByIndex(0);
+
+    Tactician anotherOne = new Tactician("Bites the dust", map);
+    anotherOne.setUnitsFactory(new SwordMasterFactory());
+    anotherOne.addGenericUnit(map.getCell(0,1));
+
+    anotherOne.selectUnit(player.getUnitByIndex(0));
+    anotherOne.useItemOn(anotherOne.getUnitByIndex(0));
+
+    assertEquals(anotherOne.getMaxHPOfUnit(0), anotherOne.getHPOfUnit(0));
+
+    anotherOne.moveUnitTo(1,0);
+    assertNull(map.getCell(1,1).getUnit());
+    assertEquals(anotherOne.getSelectedUnit(), map.getCell(0,0).getUnit());
+
+    assertEquals(0, anotherOne.getMovement());
+    assertNull(anotherOne.getItems());
+    assertEquals(0, anotherOne.getPowerEquippedItem());
+    assertNull(anotherOne.getItemByIndex(0));
   }
 
 }

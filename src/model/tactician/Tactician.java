@@ -175,7 +175,6 @@ public class Tactician {
    * @param target unit that will receive the attack (can be a unit of the same tactician)
    */
   public void useItemOn(IUnit target){
-    Tactician targetOwner = target.getOwner();
     if (isMyUnit()) getSelectedUnit().useItemOn(target);
   }
 
@@ -189,7 +188,7 @@ public class Tactician {
   /**
    * Equips an item to the selected unit
    * (only if the selected unit belongs to the tactician)
-   * @param item
+   * @param item to be equipped
    */
   public void equipItem(IEquipableItem item){
     if(isMyUnit()){
@@ -199,12 +198,21 @@ public class Tactician {
   }
 
   /**
+   * Gives a specific unit un the list of units of the tactician
+   * @param index of the unit
+   * @return the unit
+   */
+  public IUnit getUnitByIndex(int index){
+    return getUnits().get(index);
+  }
+
+  /**
    * Set the selected unit to one of the units in the list
    * It search the unit by its index.
    * @param index of the unit
    */
-  public void selectUnitFromUnitsByIndex(int index){
-    selectUnit(getUnits().get(index));
+  public void selectUnitByIndex(int index){
+    selectUnit(getUnitByIndex(index));
   }
 
   /**
@@ -216,13 +224,75 @@ public class Tactician {
   }
 
   /**
+   * @return the maximum amount of HitPoints the selected unit can have
+   */
+  public double getMaxHP(){
+    return selectedUnit.getMaxHitPoints();
+  }
+
+  /**
+   * Gives the maximum amount of HitPoints that a specific unit in inventory have
+   * @param index of the unit
+   * @return the max HP
+   */
+  public double getMaxHPOfUnit(int index){
+    return getUnits().get(index).getMaxHitPoints();
+  }
+
+  /**
+   * Gives the current amount of HitPoints that a specific unit in inventory have
+   * @param index of the unit
+   * @return the current HP
+   */
+  public double getHPOfUnit(int index){
+    return getUnits().get(index).getCurrentHitPoints();
+  }
+
+  /**
+   * @return the current amount of HitPoints the selected unit can have
+   */
+  public double getHP(){
+    return selectedUnit.getCurrentHitPoints();
+  }
+
+  /**
+   * @return how much the selected unit can moves
+   */
+  public int getMovement(){
+    if (isMyUnit()) return selectedUnit.getMovement();
+    return 0;
+  }
+
+  /**
+   * @return the location of the selected unit
+   */
+  public Location getLocation(){
+    return selectedUnit.getLocation();
+  }
+
+  /**
+   * @return the Tactician owner of the selected unit
+   */
+  public Tactician getOwner(){
+    return selectedUnit.getOwner();
+  }
+
+  /**
+   * @return the power of the item equipped by the selected unit
+   */
+  public int getPowerEquippedItem(){
+    if(isMyUnit()) return selectedUnit.getEquippedItem().getPower();
+    return 0;
+  }
+
+  /**
    * Gets an item from the inventory of the selected unit
    * (Only if the selected unit belongs to the tactician)
    * @param index of the item in inventory
    * @return the item
    */
-  public IEquipableItem getItemInInventoryByIndex(int index){
-    if (isMyUnit()) return selectedUnit.getItems().get(index);
+  public IEquipableItem getItemByIndex(int index){
+    if (isMyUnit()) return getItems().get(index);
     return null;
   }
 
