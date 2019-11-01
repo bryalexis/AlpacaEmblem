@@ -207,7 +207,7 @@ En caso de que el daño recibido sea mayor a la vida de la unidad, sus *currentH
 #### 3.3.2 Curaciones
 Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *staff*, y sólo puede ser equipado por un *cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
 
-##### Diseño
+#### 3.3.3 Diseño
 El uso de un item para atacar o curar a otra unidad depende principalmente de los items involucrados en el encuentro. Por lo anterior, la implementación del uso de items, junto con los daños a otras unidades, curaciones, ataques fuertes, ataques débiles, etc, está delegado al ítem mismo. Cuando una unidad usa su item contra otra, dado que cada unidad porta un tipo de item específico, no se sabe a priori con qué arma se está realizando el *ataque/curación*, pero el arma sí sabe que tipo de arma es. De modo que el método *useItemOn* de las unidades, se delega al metodo *useOn* del item. El ítem sí sabe que es, de modo que es posible usar *double dispatch* para que el ítem del enemigo (*unknown*), reciba el *ataque/curación* del primer ítem (*known*).
 
 ## 4. Factory
@@ -248,9 +248,19 @@ Cada *Tactician* tiene las siguientes variables:
 - `unitsFactory`: Una fabrica de unidades.
 - `itemsFactory`: Una fabrica de items.
 
-Dentro de las posibilidades de un jugador estan añadir unidades y seleccionar (o deseleccionar) una unidad. Si la unidad seleccionada pertenece a sus unidades (esto no tiene por qué pasar necesariamente), puede añadirles items, equiparles un item (adecuado a la unidad), intercambiar items entre esta y otra unidad cualquiera, atacar a una unidad de otro tactician o curar una unidad propia. Un *tactician* puede saber si la unidad seleccionada es suya, de modo que si intenta hacer algo con una unidad de otra persona, no podrá hacer nada. A su vez, un tactician puede conocer los items de sus unidades y el item equipado por cualquier unidad seleccionada. 
+### 5.1 Responsabilidades
+Dentro de las posibilidades de un jugador estan añadir unidades y seleccionar (o deseleccionar) una unidad. Si la unidad seleccionada pertenece a sus unidades (esto no tiene por qué pasar necesariamente), puede añadirles items, equiparles un item (adecuado a la unidad), intercambiar items entre esta y otra unidad cualquiera, atacar a una unidad de otro tactician o curar una unidad propia. 
 
-En particular, si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en game controller).
+Un *tactician* puede saber si la unidad seleccionada es suya, de modo que si intenta hacer algo con una unidad de otra persona, no podrá hacer nada. A su vez, un tactician puede conocer los items de sus unidades y el item equipado por cualquier unidad seleccionada. Además, puede conocer toda la información de sus propias unidades (hay métodos directos para ello), siempre y cuando la unidad sea seleccionada previamente.
+
+### 5.2 Sobre las Factories
+Como se observa en las variables que tiene un *Tactician*, este tiene tanto una *Factory* de *Items* como de *Units*. El funcionamiento es como sigue. Primero, es necesario setear la factory correspondiente pues la variable de instancia correspondiente es genérica. Por lo tanto, si queremos añadir un *SwordMaster* genérico a un *Tactictan*, primero es necesario fijar que `unitsFactory` sea una nueva `SwordMasterFactory`, y luego crear un *GenericSwordMaster*. El proceso para añadir un item es similar, solo que antes de añadir un item, es necesario seleccionar la unidad a la que se le añadirá el ítem.
+
+Por otro lado, antes se mencionó que si se intenta crear por medio de una *Factory* una unidad en una ubicación ya ocupada, esta entrega un `null`. Un tactician, al añadir una unidad, verifica que lo creado no sea un `null`, evitando así posibles errores. De modo que si se intenta añadir una unidad en una *Location* ocupada, esta no se añadirá y habrá que hacer el proceso de creación de nuevo.
+
+### 5.3 Cuida tus Heros
+
+Si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en Game Controller).
 
 ## 6. Game Controller
 
