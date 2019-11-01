@@ -3,6 +3,7 @@ package model.tatician;
 import model.factory.items.*;
 import model.factory.units.*;
 import model.map.Field;
+import model.map.InvalidLocation;
 import model.map.Location;
 import model.tactician.Tactician;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,8 @@ public class TacticianTest {
     assertEquals(map, player.getField());
     assertEquals(0, player.getUnits().size());
     player.setUnitsFactory(new AlpacaFactory());
-    player.addGenericUnit(map.getCell(0,0));
+    player.addGenericUnit();
+    player.setLastAddedLocation(map.getCell(0,0));
     assertEquals(1, player.getUnits().size());
     player.selectUnit(player.getUnits().get(0));
     assertEquals(player.getUnits().get(0), player.getSelectedUnit());
@@ -56,7 +58,8 @@ public class TacticianTest {
   public void getUnitsTest(){
     player = new Tactician("Dave el Barbaro",map);
     player.setUnitsFactory(new HeroFactory());
-    player.addGenericUnit(map.getCell(0,1));
+    player.addGenericUnit();
+    player.setLastAddedLocation(map.getCell(0,1));
     player.setItemsFactory(new SpearFactory());
     player.selectUnit(player.getUnits().get(0));
     player.addPowerfulItem("Lanza del metro");
@@ -69,7 +72,8 @@ public class TacticianTest {
   public void unSelectTest(){
     player = new Tactician("Doggo",map);
     player.setUnitsFactory(new AlpacaFactory());
-    player.addGenericUnit(map.getCell(0,0));
+    player.addGenericUnit();
+    player.setLastAddedLocation(map.getCell(0,0));
     player.selectUnit(player.getUnits().get(0));
     assertEquals(player.getUnits().get(0), player.getSelectedUnit());
     player.unselectUnit();
@@ -81,10 +85,16 @@ public class TacticianTest {
     player = new Tactician("Doggo",map);
     player.setUnitsFactory(new AlpacaFactory());
     player.addNewUnit(100,3, map.getCell(0,0));
-    player.addFastUnit( map.getCell(0,0) );
+    player.addFastUnit();
+    player.setLastAddedLocation(map.getCell(0,0));
     player.selectUnit(player.getUnits().get(0));
+
     assertEquals(player.getUnits().get(0), player.getSelectedUnit());
-    assertEquals(1, player.getUnits().size());
+    assertEquals(player.getUnits().get(1).getLocation().getClass(), InvalidLocation.class);
+    assertEquals(player.getUnits().get(0), map.getCell(0,0).getUnit());
+    assertEquals(2, player.getUnits().size());
+
+
     player.setItemsFactory(new SwordFactory());
     player.addGenericItem("La HeZkal!Vur");
     player.setItemsFactory(new SpearFactory());
@@ -101,10 +111,14 @@ public class TacticianTest {
   public void addUnitInNonEmptyCellTest(){
     player = new Tactician("Edward Elric",map);
     player.setUnitsFactory(new AlpacaFactory());
-    player.addGenericUnit(map.getCell(0,0));
+    player.addGenericUnit();
+    player.setLastAddedLocation(map.getCell(0,0));
     assertEquals( player.getUnits().get(0), map.getCell(0,0).getUnit() );
-    player.addFastUnit(map.getCell(0,0));
-    assertEquals(1,player.getUnits().size());
+
+    player.addFastUnit();
+    player.setLastAddedLocation(map.getCell(0,0));
+    assertEquals(2,player.getUnits().size());
+    assertEquals(InvalidLocation.class, player.getUnits().get(1).getLocation().getClass());
     assertEquals( player.getUnits().get(0),map.getCell(0,0).getUnit() );
   }
 
@@ -112,7 +126,8 @@ public class TacticianTest {
   public void deadOfUnit(){
     Tactician player1 = new Tactician("Meliodas",map);
     player1.setUnitsFactory(new SwordMasterFactory());
-    player1.addTankUnit(map.getCell(0,0));
+    player1.addTankUnit();
+    player1.setLastAddedLocation(map.getCell(0,0));
     player1.setItemsFactory(new SwordFactory());
     player1.selectUnitByIndex(0);
     player1.addNewItem("Lost Vaine", 10000, 1, 100); // OP
@@ -120,7 +135,8 @@ public class TacticianTest {
 
     Tactician player2 = new Tactician("Rasputin",map);
     player2.setUnitsFactory(new SorcererFactory());
-    player2.addGenericUnit(map.getCell(1,0));
+    player2.addGenericUnit();
+    player2.setLastAddedLocation(map.getCell(1,0));
     player2.selectUnitByIndex(0);
     player2.setItemsFactory(new DarknessFactory());
     player2.addGenericItem("Libro de Alquimia");
@@ -136,7 +152,8 @@ public class TacticianTest {
 
     // Cleric
     player1.setUnitsFactory(new ClericFactory());
-    player1.addGenericUnit(map.getCell(0,1));
+    player1.addGenericUnit();
+    player1.setLastAddedLocation(map.getCell(0,1));
     player1.selectUnitByIndex(0);
     player1.setItemsFactory(new StaffFactory());
     player1.addPowerfulItem("Palito Curandero");
@@ -144,7 +161,8 @@ public class TacticianTest {
 
     // SwordMaster
     player1.setUnitsFactory(new SwordMasterFactory());
-    player1.addTankUnit(map.getCell(0,0));
+    player1.addTankUnit();
+    player1.setLastAddedLocation(map.getCell(0,0));
     player1.selectUnitByIndex(1);
     player1.setItemsFactory(new SwordFactory());
     player1.addGenericItem("Espadita");
@@ -152,7 +170,8 @@ public class TacticianTest {
 
     Tactician player2 = new Tactician("Rasputin",map);
     player2.setUnitsFactory(new SorcererFactory());
-    player2.addGenericUnit(map.getCell(1,0));
+    player2.addGenericUnit();
+    player2.setLastAddedLocation(map.getCell(1,0));
     player2.selectUnitByIndex(0);
     player2.setItemsFactory(new DarknessFactory());
     player2.addGenericItem("Libro de Alquimia");
@@ -184,18 +203,21 @@ public class TacticianTest {
     player = new Tactician("Jackie Chan", map);
 
     player.setUnitsFactory(new SorcererFactory());
-    player.addTankUnit(map.getCell(0,0));
+    player.addTankUnit();
+    player.setLastAddedLocation(map.getCell(0,0));
     player.setItemsFactory(new LightFactory());
     player.addPowerfulItem("Librito");
 
     player.setUnitsFactory(new FighterFactory());
-    player.addGenericUnit(map.getCell(2,0));
+    player.addGenericUnit();
+    player.setLastAddedLocation(map.getCell(2,0));
 
     player.selectUnitByIndex(0);
 
     Tactician anotherOne = new Tactician("Bites the dust", map);
     anotherOne.setUnitsFactory(new SwordMasterFactory());
-    anotherOne.addGenericUnit(map.getCell(0,1));
+    anotherOne.addGenericUnit();
+    anotherOne.setLastAddedLocation(map.getCell(0,1));
 
     anotherOne.selectUnit(player.getUnitByIndex(0));
     anotherOne.useItemOn(anotherOne.getUnitByIndex(0));

@@ -27,26 +27,20 @@ public interface IUnitsFactory {
 
   /**
    * Creates a generic instance of unit
-   * @param location where the unit will be set
-   * @param owner of the unit
    * @return the unit
    */
-  IUnit createGenericUnit(Location location, Tactician owner);
+  IUnit createGenericUnit();
 
   /**
    * Creates a instance of unit with high levels of hit points and low movement
-   * @param location where the unit will be set
-   * @param owner of the unit
    * @return the unit
    */
-  IUnit createTankUnit(Location location, Tactician owner);
+  IUnit createTankUnit();
 
   /**
    * Creates a instance of unit with high movement and low hit points
-   * @param location where the unit will be set
-   * @param owner of the unit
    * @return the unit
    */
-  IUnit createFastUnit(Location location, Tactician owner);
+  IUnit createFastUnit();
 
 }

@@ -260,6 +260,10 @@ public class GameController {
   }
 
 
+  public void setLastAddedUnitLocation(Location location){
+    playerInTurn.setLastAddedLocation(location);
+  }
+
   /**
    * @return the winner of this game, if the match ends in a draw returns a list of all the winners
    */

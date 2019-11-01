@@ -123,8 +123,8 @@ public class Tactician {
    * @return the item equipped by the unit selected
    */
   public IEquipableItem getEquippedItem(){
-    // Should we check that we can only see the item equipped by our own units ?
-    return equippedItem;
+    if(isMyUnit()) return equippedItem;
+    return null;
   }
 
   /**
@@ -134,6 +134,7 @@ public class Tactician {
   public void addUnit(IUnit unit){
     if(unit!=null){
       units.add(unit);
+      unit.setOwner(this);
       unit.addDeadListener(unitDiePCL);
       unit.addHeroDeadListener(heroDiePCL);
     }
@@ -213,6 +214,22 @@ public class Tactician {
    */
   public void selectUnitByIndex(int index){
     selectUnit(getUnitByIndex(index));
+  }
+
+  /**
+   * @return the last added unit
+   */
+  public IUnit getLastAddedUnit(){
+    return getUnitByIndex(getUnits().size()-1);
+  }
+
+  /**
+   * Sets the location of the last added unit
+   * @param location where it will be placed
+   */
+  public void setLastAddedLocation(Location location){
+    if(location.getUnit()==null)
+      getLastAddedUnit().setLocation(location);
   }
 
   /**
@@ -323,30 +340,27 @@ public class Tactician {
    * Adds a new generic unit, a generic unit has:
    *  - 100 hit points
    *  - 3 movement
-   * @param location in the map where the unit will be placed by default
    */
-  public void addGenericUnit(Location location) {
-    addUnit(unitsFactory.createGenericUnit(location,this));
+  public void addGenericUnit() {
+    addUnit(unitsFactory.createGenericUnit());
   }
 
   /**
    * Adds a new tank unit, a tank unit has:
    *  - 200 hit points
    *  - 1 movement
-   * @param location in the map where the unit will be placed by default
    */
-  public void addTankUnit(Location location) {
-    addUnit(unitsFactory.createTankUnit(location,this));
+  public void addTankUnit() {
+    addUnit(unitsFactory.createTankUnit());
   }
 
   /**
    * Adds a new tank unit, a fast unit has:
    *  - 70 hit points
    *  - 5 movement
-   * @param location in the map where the unit will be placed by default
    */
-  public void addFastUnit(Location location){
-    addUnit(unitsFactory.createFastUnit(location,this));
+  public void addFastUnit(){
+    addUnit(unitsFactory.createFastUnit());
   }
 
   /**

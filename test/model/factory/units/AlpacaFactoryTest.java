@@ -10,17 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AlpacaFactoryTest extends AbstractUnitFactoryTest {
   @Override
   public IUnit getCreatedGenericUnit() {
-    return alpacaF.createGenericUnit(field.getCell(0,0),null);
+    return alpacaF.createGenericUnit();
   }
 
   @Override
   public IUnit getCreatedTankUnit() {
-    return alpacaF.createTankUnit(field.getCell(0,1),null);
+    return alpacaF.createTankUnit();
   }
 
   @Override
   public IUnit getCreatedFastUnit() {
-    return alpacaF.createFastUnit(field.getCell(0,2),null);
+    return alpacaF.createFastUnit();
   }
 
   @Test

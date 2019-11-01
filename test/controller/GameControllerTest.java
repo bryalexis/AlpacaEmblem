@@ -224,7 +224,8 @@ class GameControllerTest {
     Field map = controller.getGameMap();
     IUnitsFactory archerF = new ArcherFactory();
     Tactician player = controller.getTurnOwner();
-    player.addUnit(archerF.createGenericUnit(map.getCell(0,0),player));
+    player.addUnit(archerF.createGenericUnit());
+    player.setLastAddedLocation(map.getCell(0,0));
     player.selectUnit(player.getUnits().get(0));
 
     IUnit unit = player.getSelectedUnit();
@@ -243,9 +244,10 @@ class GameControllerTest {
     Field map = controller.getGameMap();
     Location l = map.getCell(0,0);
     controller.getTurnOwner().setUnitsFactory(new ArcherFactory());
-    controller.getTurnOwner().addGenericUnit(l);
+    controller.getTurnOwner().addGenericUnit();
+    controller.setLastAddedUnitLocation(l);
     controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(0));
-    assertEquals(null, controller.getTurnOwner().getSelectedUnit().getEquippedItem());
+    assertNull(controller.getTurnOwner().getSelectedUnit().getEquippedItem());
 
     IItemsFactory bowF = new BowFactory();
     Bow bow = (Bow) bowF.createGenericItem("uwu");
@@ -268,7 +270,8 @@ class GameControllerTest {
     Tactician player1 = controller.getTurnOwner();
     Location l1 = map.getCell(0,0);
     player1.setUnitsFactory(new ArcherFactory());
-    player1.addTankUnit(l1);
+    player1.addTankUnit();
+    player1.setLastAddedLocation(l1);
     player1.selectUnitByIndex(0);
     player1.setItemsFactory(new BowFactory());
     player1.addPowerfulItem("uwu");
@@ -279,7 +282,8 @@ class GameControllerTest {
 
     Location l2 = map.getCell(0,2);
     player2.setUnitsFactory(new SorcererFactory());
-    player2.addGenericUnit(l2);
+    player2.addGenericUnit();
+    player2.setLastAddedLocation(l2);
 
     List <IUnit> units = player2.getUnits();
     controller.useItemOn(0,2);
@@ -301,7 +305,8 @@ class GameControllerTest {
     Field map = controller.getGameMap();
     Location l = map.getCell(0,0);
     controller.getTurnOwner().setUnitsFactory(new ArcherFactory());
-    controller.getTurnOwner().addGenericUnit(l);
+    controller.getTurnOwner().addGenericUnit();
+    controller.setLastAddedUnitLocation(l);
     controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(0));
 
     IItemsFactory bowF = new BowFactory();
@@ -325,11 +330,14 @@ class GameControllerTest {
     Location l3 = map.getCell(0,2);
 
     controller.getTurnOwner().setUnitsFactory(new ArcherFactory());
-    controller.getTurnOwner().addGenericUnit(l1);
+    controller.getTurnOwner().addGenericUnit();
+    controller.setLastAddedUnitLocation(l1);
     controller.getTurnOwner().setUnitsFactory(new HeroFactory());
-    controller.getTurnOwner().addTankUnit(l2);
+    controller.getTurnOwner().addTankUnit();
+    controller.setLastAddedUnitLocation(l2);
     controller.getTurnOwner().setUnitsFactory(new SorcererFactory());
-    controller.getTurnOwner().addFastUnit(l3);
+    controller.getTurnOwner().addFastUnit();
+    controller.setLastAddedUnitLocation(l3);
 
     // The selected unit is the Archer
     controller.getTurnOwner().selectUnit(controller.getTurnOwner().getUnits().get(0));
@@ -371,7 +379,8 @@ class GameControllerTest {
 
     // The first player will have a Fighter selected
     firstPlayer.setUnitsFactory(new FighterFactory());
-    firstPlayer.addTankUnit(map.getCell(0,0));
+    firstPlayer.addTankUnit();
+    firstPlayer.setLastAddedLocation(map.getCell(0,0));
     firstPlayer.selectUnit(firstPlayer.getUnits().get(0));
     firstPlayer.setItemsFactory(new AxeFactory());
     firstPlayer.addNewItem("Super Axe", 2000, 1,10);
@@ -379,7 +388,8 @@ class GameControllerTest {
 
     // The second player will have a Hero (who is supposed to die eventually)
     anotherPlayer.setUnitsFactory(new HeroFactory());
-    anotherPlayer.addFastUnit(map.getCell(0,1));
+    anotherPlayer.addFastUnit();
+    anotherPlayer.setLastAddedLocation(map.getCell(0,1));
     anotherPlayer.selectUnit(anotherPlayer.getUnits().get(0));
     anotherPlayer.setItemsFactory(new SpearFactory());
     anotherPlayer.addGenericItem("Generic Spear");
@@ -399,11 +409,14 @@ class GameControllerTest {
 
     Tactician tactician = controller.getTurnOwner();
     tactician.setUnitsFactory(new AlpacaFactory());
-    tactician.addGenericUnit(map.getCell(0,0));
+    tactician.addGenericUnit();
+    tactician.setLastAddedLocation(map.getCell(0,0));
     tactician.setUnitsFactory(new ArcherFactory());
-    tactician.addGenericUnit(map.getCell(0,2));
+    tactician.addGenericUnit();
+    tactician.setLastAddedLocation(map.getCell(0,2));
     tactician.setUnitsFactory(new FighterFactory());
-    tactician.addGenericUnit(map.getCell(2,2));
+    tactician.addGenericUnit();
+    tactician.setLastAddedLocation(map.getCell(2,2));
 
     IUnit unit1 = tactician.getUnits().get(0);
     IUnit unit2 = tactician.getUnits().get(1);
