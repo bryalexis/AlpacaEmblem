@@ -93,7 +93,7 @@ public class GameController {
    */
   private void generateMap(){
     FieldFactory ff = new FieldFactory();
-    map = ff.createMap(new Random().nextLong(), mapSize);
+    map = ff.createMap(new Random().nextLong(), mapSize,false);
   }
 
   /**

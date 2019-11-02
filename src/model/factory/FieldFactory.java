@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class FieldFactory {
 
-  public Field createMap(long seed, int mapSize){
+  public Field createMap(long seed, int mapSize, boolean connectAll){
     Field field = new Field();
     field.setSeed(seed);
     Location locations[] = new Location[mapSize*mapSize];
@@ -23,7 +23,7 @@ public class FieldFactory {
         locations[j+mapSize*i] = new Location(i,j);
       }
     }
-    field.addCells(false, locations);
+    field.addCells(connectAll, locations);
     return field;
   }
 }

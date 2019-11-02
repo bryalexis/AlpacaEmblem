@@ -59,7 +59,7 @@ class GameControllerTest {
     assertEquals(7, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
     FieldFactory ff = new FieldFactory();
-    Field testMap = ff.createMap(randomSeed, 7); // map with the same seed
+    Field testMap = ff.createMap(randomSeed, 7,false); // map with the same seed
     assertTrue(testMap.isConnected());
     assertEquals(testMap, gameMap);
   }

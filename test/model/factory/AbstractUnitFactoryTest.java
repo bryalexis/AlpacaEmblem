@@ -45,7 +45,7 @@ public abstract class AbstractUnitFactoryTest {
     swordMasterF = new SwordMasterFactory();
     FieldFactory factory= new FieldFactory();
     Random r = new Random();
-    this.field = factory.createMap(r.nextLong(), 10);
+    this.field = factory.createMap(r.nextLong(), 10, false);
   }
 
   @Test
