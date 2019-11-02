@@ -221,9 +221,9 @@ A nivel implementación, toda clase fábrica de unidades que implemente la inter
 - `createTankUnit`: crea una unidad tanque, con 200 de HP y 1 de movimiento.
 - `createFastUnit`: crea una unidad de largo desplazamiento, con 70 de HP y 5 de movimiento.
 
-La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí. Una unit con parámetros ya fijados (generic, tank y fast) pide como argumento la ubicación en el mapa donde se creará la unidad. Si esta *Location* ya contiene una unidad, se cancela el proceso de creación y se crea una entidad nula.
+La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí. Una unit con parámetros ya fijados (generic, tank y fast) se crea en una invalid Location, para luego poder ser fijadas dentro del mapa del juego por un tactician o de forma manual interactuando con el modelo.
 
-### 4.1 Items Factory
+### 4.2 Items Factory
 Al igual que para las unidades, se desarrolla una interfaz común para todas las fábricas de items, llamada `IItemsFactory`, la exige la implementación de los métodos:
 - `create`: metodo que recibe todos los parámetros necesarios para crear un nuevo item.
 - `createGenericItem`: crea un item genérico, con 30 de poder, 1 de rango mínimo y 5 de rango máximo.
@@ -233,6 +233,11 @@ Al igual que para las unidades, se desarrolla una interfaz común para todas las
 **Nota:** Un arco tiene de por sí distancia mínima 2, de modo que es una excepcion para el rango mínimo en los items genericos y de alto nivel de poder.
 
 Al igual que para las units, la idea de esta distribución de parámetros es generar items balanceados. Los items con parametros preseteados sólo solician el nombre para la creación.
+
+### 4.3 Field Factory
+Para crear un mapa es necesaria una *seed* de tipo `long`, un tamaño, y saber si se quieren conectar todas las ubicaciones o no. Si se desea que cada nodo esté conectado a todos sus vecinos, la semilla no tiene mucho sentido de ser aplicada; pero si se quiere que se conecten al azar, la *seed* ayuda a obtener una secuencia "aleatoria" replicable.
+
+Las dimensiones del mapa son cuadradas, es decir, con tamaño nos referimos a cantidad de filas y columnas.
 
 ## 5. Tactician
 Un *Tactician* representa a un jugador. La misión de esta entidad es manejar las instrucciones que podría dar un usuario y delegarlas al modelo, de este modo, se evita que quien usa la aplicación interactúe con este úlimo de forma directa.
@@ -256,9 +261,9 @@ Un *tactician* puede saber si la unidad seleccionada es suya, de modo que si int
 ### 5.2 Sobre las Factories
 Como se observa en las variables que tiene un *Tactician*, este tiene tanto una *Factory* de *Items* como de *Units*. El funcionamiento es como sigue. Primero, es necesario setear la factory correspondiente pues la variable de instancia correspondiente es genérica. Por lo tanto, si queremos añadir un *SwordMaster* genérico a un *Tactictan*, primero es necesario fijar que `unitsFactory` sea una nueva `SwordMasterFactory`, y luego crear un *GenericSwordMaster*. El proceso para añadir un item es similar, solo que antes de añadir un item, es necesario seleccionar la unidad a la que se le añadirá el ítem.
 
-Por otro lado, antes se mencionó que si se intenta crear por medio de una *Factory* una unidad en una ubicación ya ocupada, esta entrega un `null`. Un tactician, al añadir una unidad, verifica que lo creado no sea un `null`, evitando así posibles errores. De modo que si se intenta añadir una unidad en una *Location* ocupada, esta no se añadirá y habrá que hacer el proceso de creación de nuevo.
+Como al crear una unidad por medio de una *Factory*, se setea en una *Location* invalida, hay que setearle de forma manual donde se le quiere ubicar dentro del mapa.
 
-### 5.3 Cuida tus Heros
+### 5.3 Cuida tus Heroes
 
 Si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en Game Controller).
 
