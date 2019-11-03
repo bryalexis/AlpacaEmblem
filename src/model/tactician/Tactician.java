@@ -65,6 +65,10 @@ public class Tactician {
     this.heroDiePCL = new HeroDieListener(this);
   }
 
+  // ==============================================================================
+  //                        TACTICIAN SELF METHODS
+  // ==============================================================================
+
   /**
    * @return the name of the player
    */
@@ -120,14 +124,6 @@ public class Tactician {
   }
 
   /**
-   * @return the item equipped by the unit selected
-   */
-  public IEquipableItem getEquippedItem(){
-    if(isMyUnit()) return equippedItem;
-    return null;
-  }
-
-  /**
    * Adds a new unit to the tactician
    * @param unit to be added
    */
@@ -145,66 +141,6 @@ public class Tactician {
    */
   public boolean isMyUnit(){
     return getUnits().contains(getSelectedUnit());
-  }
-
-  /**
-   * Adds a new item to the selected unit (only if the selected unit belongs to the tactician)
-   * @param item to be added
-   */
-  public void addItem(IEquipableItem item){
-    if(isMyUnit()) getSelectedUnit().addItem(item);
-  }
-
-  /**
-   * Moves the selected unit to a specific position in the field
-   * (Only if the position exists)
-   * (only if the selected unit belongs to the tactician)
-   * @param x row
-   * @param y column
-   */
-  public void moveUnitTo(int x, int y){
-    int size = field.getSize();
-    if( x < size && y < size && isMyUnit() && !selectedUnit.wasMoved()) {
-      selectedUnit.moveTo(field.getCell(x, y));
-      selectedUnit.setUnitMovedInTurn();
-    }
-  }
-
-  /**
-   * Use the equipped item of the selected unit to attack another unit
-   * (only if the selected unit belongs to the tactician)
-   * @param target unit that will receive the attack (can be a unit of the same tactician)
-   */
-  public void useItemOn(IUnit target){
-    if (isMyUnit()) getSelectedUnit().useItemOn(target);
-  }
-
-  /**
-   * When a hero die, the tactician lose the game.
-   */
-  public void fireHeroDeath(){
-    heroDeadPCS.firePropertyChange("Death of a Hero", null, this);
-  }
-
-  /**
-   * Equips an item to the selected unit
-   * (only if the selected unit belongs to the tactician)
-   * @param item to be equipped
-   */
-  public void equipItem(IEquipableItem item){
-    if(isMyUnit()){
-      getSelectedUnit().equipItem(item);
-      equippedItem = item;
-    }
-  }
-
-  /**
-   * Gives a specific unit un the list of units of the tactician
-   * @param index of the unit
-   * @return the unit
-   */
-  public IUnit getUnitByIndex(int index){
-    return getUnits().get(index);
   }
 
   /**
@@ -233,6 +169,81 @@ public class Tactician {
   }
 
   /**
+   * Gives a specific unit un the list of units of the tactician
+   * @param index of the unit
+   * @return the unit
+   */
+  public IUnit getUnitByIndex(int index){
+    return getUnits().get(index);
+  }
+
+
+  // ==============================================================================
+  //                        SELECTED UNIT METHODS
+  // ==============================================================================
+
+  /**
+   * @return the item equipped by the unit selected
+   */
+  public IEquipableItem getEquippedItem(){
+    if(isMyUnit()) return equippedItem;
+    return null;
+  }
+
+  /**
+   * Adds a new item to the selected unit (only if the selected unit belongs to the tactician)
+   * @param item to be added
+   */
+  public void addItem(IEquipableItem item){
+    if(isMyUnit()) getSelectedUnit().addItem(item);
+  }
+
+  /**
+   * Sets the Location of a unit in the map
+   * @param x row
+   * @param y column
+   */
+  public void setUnitLocation(int x, int y){
+    if(isMyUnit()) getSelectedUnit().setLocation(field.getCell(x,y));
+  }
+
+  /**
+   * Moves the selected unit to a specific position in the field
+   * (Only if the position exists)
+   * (only if the selected unit belongs to the tactician)
+   * @param x row
+   * @param y column
+   */
+  public void moveUnitTo(int x, int y){
+    int size = field.getSize();
+    if( x < size && y < size && isMyUnit() && !selectedUnit.wasMoved()) {
+      selectedUnit.moveTo(field.getCell(x, y));
+      selectedUnit.setUnitMovedInTurn();
+    }
+  }
+
+  /**
+   * Use the equipped item of the selected unit to attack another unit
+   * (only if the selected unit belongs to the tactician)
+   * @param target unit that will receive the attack (can be a unit of the same tactician)
+   */
+  public void useItemOn(IUnit target){
+    if (isMyUnit()) getSelectedUnit().useItemOn(target);
+  }
+
+  /**
+   * Equips an item to the selected unit
+   * (only if the selected unit belongs to the tactician)
+   * @param item to be equipped
+   */
+  public void equipItem(IEquipableItem item){
+    if(isMyUnit()){
+      getSelectedUnit().equipItem(item);
+      equippedItem = item;
+    }
+  }
+
+  /**
    * @return the items of the selected unit
    */
   public List<IEquipableItem> getItems(){
@@ -245,6 +256,13 @@ public class Tactician {
    */
   public double getMaxHP(){
     return selectedUnit.getMaxHitPoints();
+  }
+
+  /**
+   * @return the current amount of HitPoints the selected unit can have
+   */
+  public double getHP(){
+    return selectedUnit.getCurrentHitPoints();
   }
 
   /**
@@ -263,13 +281,6 @@ public class Tactician {
    */
   public double getHPOfUnit(int index){
     return getUnits().get(index).getCurrentHitPoints();
-  }
-
-  /**
-   * @return the current amount of HitPoints the selected unit can have
-   */
-  public double getHP(){
-    return selectedUnit.getCurrentHitPoints();
   }
 
   /**
@@ -313,6 +324,61 @@ public class Tactician {
     return null;
   }
 
+  /**
+   * Gets an item from the inventory of the selected unit
+   * (Only if the selected unit belongs to the tactician)
+   * @param name of the item
+   * @return the item
+   */
+  public IEquipableItem getItemByName(String name){
+    if(isMyUnit()){
+      for(IEquipableItem item: getItems()){
+        if(item.getName().equals(name)) return item;
+      }
+    }
+    return null;
+  }
+
+
+  /**
+   * Shows the power of a item of the selected unit, searching by item in inventory
+   * @param name of the item
+   * @return the power
+   */
+  public int getItemPowerByName(String name){
+    if (isMyUnit()) return getItemByName(name).getPower();
+    return 0;
+  }
+
+  /**
+   * Shows the min range of a item of the selected unit, searching by item in inventory
+   * @param name of the item
+   * @return the min range
+   */
+  public int getItemMinRangeByName(String name){
+    if (isMyUnit()) return getItemByName(name).getMinRange();
+    return 0;
+  }
+
+  /**
+   * Shows the max range of a item of the selected unit, searching by item in inventory
+   * @param name of the item
+   * @return the max range
+   */
+  public int getItemMaxRangeByName(String name){
+    if (isMyUnit()) return getItemByName(name).getMaxRange();
+    return 0;
+  }
+
+  /**
+   * Shows the max range of a item of the selected unit, searching by item in inventory
+   * @param name of the item
+   * @return the max range
+   */
+  public IUnit getItemTacticianByName(String name){
+    if (isMyUnit()) return getItemByName(name).getOwner();
+    return null;
+  }
 
   // ==============================================================================
   //                        FACTORY AND BUILDER METHOD
@@ -438,6 +504,13 @@ public class Tactician {
    */
   public void addHeroDeadListener(PropertyChangeListener heroDeadPCL) {
     heroDeadPCS.addPropertyChangeListener(heroDeadPCL);
+  }
+
+  /**
+   * When a hero die, the tactician lose the game.
+   */
+  public void fireHeroDeath(){
+    heroDeadPCS.firePropertyChange("Death of a Hero", null, this);
   }
 
 }

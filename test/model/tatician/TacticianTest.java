@@ -2,12 +2,15 @@ package model.tatician;
 
 import model.factory.items.*;
 import model.factory.units.*;
+import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.InvalidLocation;
 import model.map.Location;
 import model.tactician.Tactician;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.lang.management.PlatformLoggingMXBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -232,6 +235,67 @@ public class TacticianTest {
     assertNull(anotherOne.getItems());
     assertEquals(0, anotherOne.getPowerEquippedItem());
     assertNull(anotherOne.getItemByIndex(0));
+  }
+
+  @Test
+  public void itemMethodsTest(){
+    player = new Tactician("Chefcito",map);
+    player.setUnitsFactory(new SorcererFactory());
+    player.addTankUnit();
+    player.selectUnitByIndex(0);
+    player.setItemsFactory(new DarknessFactory());
+    player.addGenericItem("AvaraKedabra");
+    player.setItemsFactory(new LightFactory());
+    player.addGenericItem("Patronum");
+    player.setItemsFactory(new SpiritFactory());
+    player.addPowerfulItem("Espiritito");
+    player.setUnitLocation(0,0);
+
+    player.equipItem(player.getItemByName("Espiritito"));
+    assertEquals(player,player.getOwner());
+    assertEquals(map.getCell(0,0), player.getLocation());
+
+    IEquipableItem avarakedabra = player.getItemByIndex(0);
+    assertEquals(avarakedabra, player.getItemByName("AvaraKedabra"));
+    IEquipableItem patronum = player.getItemByIndex(1);
+    assertEquals(patronum, player.getItemByName("Patronum"));
+    IEquipableItem espiritito = player.getItemByIndex(2);
+    assertEquals(espiritito, player.getItemByName("Espiritito"));
+
+    assertEquals(espiritito, player.getEquippedItem());
+    assertEquals(espiritito.getPower(), player.getPowerEquippedItem());
+    assertEquals(30, player.getItemPowerByName("AvaraKedabra"));
+    assertEquals(30, player.getItemPowerByName("Patronum"));
+    assertEquals(50, player.getItemPowerByName("Espiritito"));
+
+    assertEquals(player.getSelectedUnit() , player.getItemTacticianByName("AvaraKedabra"));
+    assertEquals(player.getSelectedUnit() , player.getItemTacticianByName("Patronum"));
+    assertEquals(player.getSelectedUnit() , player.getItemTacticianByName("Espiritito"));
+
+    assertEquals(1, player.getItemMinRangeByName("AvaraKedabra"));
+    assertEquals(5, player.getItemMaxRangeByName("AvaraKedabra"));
+    assertEquals(1, player.getItemMinRangeByName("Patronum"));
+    assertEquals(5, player.getItemMaxRangeByName("Patronum"));
+    assertEquals(1, player.getItemMinRangeByName("Espiritito"));
+    assertEquals(3, player.getItemMaxRangeByName("Espiritito"));
+
+    Tactician anotherPlayer = new Tactician("Tramposo", map);
+    anotherPlayer.selectUnit(player.getSelectedUnit());
+
+    assertEquals(0, anotherPlayer.getItemMinRangeByName("AvaraKedabra"));
+    assertEquals(0, anotherPlayer.getItemMaxRangeByName("AvaraKedabra"));
+    assertEquals(0, anotherPlayer.getItemMinRangeByName("Patronum"));
+    assertEquals(0, anotherPlayer.getItemMaxRangeByName("Patronum"));
+    assertEquals(0, anotherPlayer.getItemMinRangeByName("Espiritito"));
+    assertEquals(0, anotherPlayer.getItemMaxRangeByName("Espiritito"));
+
+    assertNull(anotherPlayer.getItemTacticianByName("AvaraKedabra"));
+    assertNull(anotherPlayer.getItemTacticianByName("Patronum"));
+    assertNull(anotherPlayer.getItemTacticianByName("Espiritito"));
+
+    assertEquals(0, anotherPlayer.getItemPowerByName("AvaraKedabra"));
+    assertEquals(0, anotherPlayer.getItemPowerByName("Patronum"));
+    assertEquals(0, anotherPlayer.getItemPowerByName("Espiritito"));
   }
 
 }
