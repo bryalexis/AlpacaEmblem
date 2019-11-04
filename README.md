@@ -3,11 +3,11 @@
 Alpaca Emblem es un juego de estrategia por turnos. En él existen distintos tipos de unidades e items equipables, los cuales permiten la interacción entre las unidades mismas. A continuación se explicará a grandes rasgos la dinámica del juego, junto con las funcionalidades implementadas hasta esta versión.
 
 ## ✰ Novedades de esta versión
-- Factories, una nueva forma de crear objetos (ver [sec. 4](./README.md#4-factory)).
-- Tactician: el jugador (ver [sec. 5](./README.md#5-tactician)).
-- Controller del Juego (ver [sec. 6](./README.md#6-game-controller)).
-- Las unidades ahora tienen una referencia a su respectivo tactician.
-- Se modifican ligeramente los tipos de items, dejando solo 2 tipos; *attack* y *healing*, dejando a *weapon* y *spellbook* como subtipos de *attack*.
+- [Factory](./CC3002_Alpaca_Emblem#4-factory), una nueva forma de crear objetos.
+- [Tactician](./CC3002_Alpaca_Emblem#5-tactician), el jugador.
+- [Game Controller](./CC3002_Alpaca_Emblem#6-game-controller), el controlador.
+- Las [unidades](./CC3002_Alpaca_Emblem#1-unidades) ahora tienen una referencia a su respectivo tactician.
+- Se modifican ligeramente los tipos de [items](./CC3002_Alpaca_Emblem#2-items), dejando solo 2 tipos; *attack* y *healing*, dejando a *weapon* y *spellbook* como subtipos de *attack*.
 - Se completan algunos test con poca veracidad:
   - Restricciones de distancia al transferir items.
   - Restricciones de distancia al contraatacar.
@@ -72,7 +72,8 @@ El juego cuenta actualmente con 7 diferentes unidades, las cuales se clasifican 
 </table>
 
 Los distintos tipos de items se describen en la sección siguiente.
-Cada item se compone de las siguientes variables:
+
+Cada unidad se compone de las siguientes variables:
 - `maxHitPoints`: Máxima cantidad de puntos de vida que puede alcanzar la unidad.
 - `currentHitPoints`: Puntos de vida que tiene la unidad, por conveniencia y comodidad en la implementación, corresponde a un  *double*.
 - `items:` Lista de items que porta la unidad.
@@ -205,14 +206,20 @@ El daño recibido por un ataque puede variar según las armas de los participant
 En caso de que el daño recibido sea mayor a la vida de la unidad, sus *currentHitPoints* sólo disminuirán a 0, impidiendo niveles menores a 0.
 
 #### 3.3.2 Curaciones
-Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *staff*, y sólo puede ser equipado por un *cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
+Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *Staff*, y sólo puede ser equipado por un *Cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. 
+
+Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
 
 #### 3.3.3 Diseño
-El uso de un item para atacar o curar a otra unidad depende principalmente de los items involucrados en el encuentro. Por lo anterior, la implementación del uso de items, junto con los daños a otras unidades, curaciones, ataques fuertes, ataques débiles, etc, está delegado al ítem mismo. Cuando una unidad usa su item contra otra, dado que cada unidad porta un tipo de item específico, no se sabe a priori con qué arma se está realizando el *ataque/curación*, pero el arma sí sabe que tipo de arma es. De modo que el método *useItemOn* de las unidades, se delega al metodo *useOn* del item. El ítem sí sabe que es, de modo que es posible usar *double dispatch* para que el ítem del enemigo (*unknown*), reciba el *ataque/curación* del primer ítem (*known*).
+El uso de un item para atacar o curar a otra unidad depende principalmente de los items involucrados en el encuentro. Por lo tanto, la implementación del uso de items, junto con los daños a otras unidades, curaciones, ataques fuertes, ataques débiles, etc, está delegado al item mismo. 
+
+Los items de tipo *AttackItem* implementan un método `attack`, mientras que los de tipo *HealingItem* implementan un método `heal`. Además, todos los items implementan `useOn`, el cual llama a `attack` o `heal` según el tipo de item.
+
+Cuando una unidad usa su item contra otra, dado que cada unidad porta un tipo de item específico, no se sabe a priori con qué arma se está realizando el *ataque/curación*, pero el arma sí sabe que tipo de arma es. De modo que el método *useItemOn* de las unidades, se delega al metodo *useOn* del item. El ítem sí sabe que es, de modo que es posible usar *double dispatch* para que el ítem del enemigo (*unknown*), reciba el *ataque/curación* del primer ítem (*known*).
 
 ## 4. Factory
 Una factory es un patrón de diseño en el cual una clase "fabrica" instancias de objetos, haciendo más facil la creación de estos y pudiendo fijar métodos que retornen cierto objeto con parámetros predeterminados.
-Para facilitar la futura creación de unidades por parte de un *Tactician*, se implementarán *factories* de unidades e items, se verá cada caso por separado a continuación.
+Para facilitar la futura creación de unidades por parte de un [*Tactician*](./CC3002_Alpaca_Emblem#5-tactician), se implementarán *factories* de unidades, items y del mapa, se verá cada caso por separado a continuación.
 
 ### 4.1 Units Factory
 A nivel implementación, toda clase fábrica de unidades que implemente la interfaz `IUnitsFactory` debe implementar los siguientes 4 métodos:
@@ -243,15 +250,15 @@ Las dimensiones del mapa son cuadradas, es decir, con tamaño nos referimos a ca
 Un *Tactician* representa a un jugador. La misión de esta entidad es manejar las instrucciones que podría dar un usuario y delegarlas al modelo, de este modo, se evita que quien usa la aplicación interactúe con este úlimo de forma directa.
 
 Cada *Tactician* tiene las siguientes variables:
-- `units`: Una lista con todas las unidades que pertenecen a ese jugador.
-- `selectedUnit`: Unidad seleccionada por el tactician.
-- `equippedItem`: Item equipado por la unidad seleccionada.
+- `units`: corresponde a una lista con todas las unidades que pertenecen a ese jugador. Un jugador puede añadir unidades a la lista, ya sea definiendolas de forma completa, o usando las predefinidas en las [*UnitsFactory*](./CC3002_Alpaca_Emblem#41-units-factory).
+- `selectedUnit`: Unidad seleccionada, es a esta unidad a la cual podrá ver sus parámetros específicos y con la cual podrá interactuar con otras unidades (uso de items, intercambios, etc). Cabe destacar que las acciones sobre la unidad seleccionada están restringidas a que la unidad pertenezca al propio *Tactician* (esto no tiene por qué suceder necesariamente). El jugador puede seleccionar otra unidad o desseleccionar una unidad cuando estime conveniente.
+- `equippedItem`: Item equipado por la unidad seleccionada, se guarda la referencia para mayor comodidad en la implementación.
 - `field`: Mapa del juego.
 - `name`: Nombre del jugador.
-- `selectedUnitPCS`: Avisa al controlador (sec 6), sobre un cambio en la unidad seleccionada por el jugador.
-- `heroDeadPCS`: Avisa al controlador sobre la muerte de un heroe en la lista de unidades del jugador.
-- `unitsFactory`: Una fabrica de unidades.
-- `itemsFactory`: Una fabrica de items.
+- `selectedUnitPCS`: Avisa al [controlador](./CC3002_Alpaca_Emblem#6-game-controller), sobre un cambio en la unidad seleccionada por el jugador.
+- `heroDeadPCS`: Avisa al [controlador](./CC3002_Alpaca_Emblem#6-game-controller) sobre la muerte de un heroe en la lista de unidades del jugador.
+- `unitsFactory`: Su propia fabrica de unidades.
+- `itemsFactory`: Su propia fabrica de items.
 
 ### 5.1 Responsabilidades
 Dentro de las posibilidades de un jugador estan añadir unidades y seleccionar (o deseleccionar) una unidad. Si la unidad seleccionada pertenece a sus unidades (esto no tiene por qué pasar necesariamente), puede añadirles items, equiparles un item (adecuado a la unidad), intercambiar items entre esta y otra unidad cualquiera, atacar a una unidad de otro tactician o curar una unidad propia. 
@@ -264,8 +271,10 @@ Como se observa en las variables que tiene un *Tactician*, este tiene tanto una 
 Como al crear una unidad por medio de una *Factory*, se setea en una *Location* invalida, hay que setearle de forma manual donde se le quiere ubicar dentro del mapa.
 
 ### 5.3 Cuida tus Heroes
+Si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en [Game Controller](./CC3002_Alpaca_Emblem#6-game-controller).
 
-Si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en Game Controller).
+### 5.4 Observer Pattern
+Un *Tactician* es **observador** de sus *Units*, de modo que cuando una de ellas muere, es "avisado" por medio de un *handler* que ocurrió tal evento. De este modo puede eliminar de su lista las unidades que ya no se pueden usar. Un caso específico es el *Hero*, como se mencionó en el apartado previo, si un héroe muere, el jugador pierde la partida. Por lo tanto, la muerte de un *Hero* llama a dos *Handlers*, el mencionado anteriormente y uno que llama a un método de tactician, que a su vez "avisa" a un *handler* del Controlador, que debe ser eliminado de la partida. 
 
 ## 6. Game Controller
 
