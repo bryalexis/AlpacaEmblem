@@ -10,6 +10,9 @@ import java.util.Random;
 import controller.handlers.HeroDeadHandler;
 import controller.handlers.UnitSelectedHandler;
 import model.factory.FieldFactory;
+import model.factory.IItemsFactory;
+import model.factory.IUnitsFactory;
+import model.factory.units.*;
 import model.map.Location;
 import model.tactician.Tactician;
 import model.items.IEquipableItem;
@@ -21,7 +24,7 @@ import model.units.IUnit;
  * The controller manages all the input received from de game's GUI.
  *
  * @author Ignacio Slater Muñoz
- * @version 2.1
+ * @version 2.5
  * @since 2.0
  */
 public class GameController {
@@ -45,11 +48,13 @@ public class GameController {
 
   // Things of the unit selected
   private IUnit selectedUnit;
-  private List<IEquipableItem> selectedUnitItems;
   private IEquipableItem selectedItem;
 
   // Property Change Listeners
   private PropertyChangeListener unitSelectedPCL, heroDeadPCL;
+
+  private IUnitsFactory unitsFactory;
+  private IItemsFactory itemsFactory;
 
   /**
    * Creates the controller for a new game.
@@ -348,4 +353,5 @@ public class GameController {
   public void moveTo(int x, int y){
     playerInTurn.moveUnitTo(x,y);
   }
+
 }
