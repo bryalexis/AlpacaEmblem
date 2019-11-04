@@ -1,9 +1,14 @@
 package model.factory.items;
 
 import model.factory.AbstractItemsFactory;
-import model.factory.IItemsFactory;
 import model.items.weapons.Bow;
 
+/**
+ * This class creates instances of Bows
+ * @author Bryan Ortiz P
+ * @since 2.1
+ * @version 2.3
+ */
 public class BowFactory extends AbstractItemsFactory {
 
   @Override
@@ -11,18 +16,4 @@ public class BowFactory extends AbstractItemsFactory {
     return new Bow(name,power,minRange,maxRange);
   }
 
-  @Override
-  public Bow createGenericItem(String name) {
-    return create(name,genericPower,genericMinRange,genericMaxRange);
-  }
-
-  @Override
-  public Bow createPowerfulItem(String name) {
-    return create(name,powerfulPower,2,powerfulMaxRange);
-  }
-
-  @Override
-  public Bow createLongDistanceItem(String name) {
-    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
-  }
 }

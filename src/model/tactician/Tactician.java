@@ -20,7 +20,7 @@ import java.util.List;
  * Represents a player.
  * Handle all user instructions and delegate messages to model objects
  * @author Bryan Ortiz P
- * @version 2.4
+ * @version 2.5
  * @since 2.1
  */
 public class Tactician {

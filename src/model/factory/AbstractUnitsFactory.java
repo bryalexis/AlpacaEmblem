@@ -4,7 +4,11 @@ import model.map.InvalidLocation;
 import model.units.IUnit;
 
 /**
- * This class defines the constants for generic, powerful and long-distance items
+ * This class defines the constants and methods for generic,
+ * tank and fast units.
+ * @author Bryan Ortiz P
+ * @since 2.1
+ * @version 2.3
  */
 public abstract class AbstractUnitsFactory implements IUnitsFactory{
   protected final int genericHP = 100;

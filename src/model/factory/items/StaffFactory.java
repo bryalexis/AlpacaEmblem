@@ -1,9 +1,14 @@
 package model.factory.items;
 
 import model.factory.AbstractItemsFactory;
-import model.factory.IItemsFactory;
 import model.items.healing.Staff;
 
+/**
+ * This class creates instances of Staffs
+ * @author Bryan Ortiz P
+ * @since 2.1
+ * @version 2.3
+ */
 public class StaffFactory extends AbstractItemsFactory {
 
   @Override
@@ -11,18 +16,4 @@ public class StaffFactory extends AbstractItemsFactory {
     return new Staff(name,power,minRange,maxRange);
   }
 
-  @Override
-  public Staff createGenericItem(String name) {
-    return create(name,genericPower,genericMinRange,genericMaxRange);
-  }
-
-  @Override
-  public Staff createPowerfulItem(String name) {
-    return create(name,powerfulPower,powerfulMinRange,powerfulMaxRange);
-  }
-
-  @Override
-  public Staff createLongDistanceItem(String name) {
-    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
-  }
 }

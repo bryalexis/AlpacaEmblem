@@ -180,6 +180,7 @@ public abstract class AbstractUnit implements IUnit {
   public void die(){
     this.alive = false;
     this.currentHitPoints = 0;
+    this.getLocation().setUnit(null); // The Location is now available
     endCombat();
     isDeadPCS.firePropertyChange("The unit died",null, this);
   }

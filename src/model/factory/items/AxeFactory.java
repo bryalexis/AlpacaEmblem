@@ -1,9 +1,14 @@
 package model.factory.items;
 
 import model.factory.AbstractItemsFactory;
-import model.factory.IItemsFactory;
 import model.items.weapons.Axe;
 
+/**
+ * This class creates instances of Axes
+ * @author Bryan Ortiz P
+ * @since 2.1
+ * @version 2.3
+ */
 public class AxeFactory extends AbstractItemsFactory {
 
   @Override
@@ -11,18 +16,4 @@ public class AxeFactory extends AbstractItemsFactory {
     return new Axe(name,power,minRange,maxRange);
   }
 
-  @Override
-  public Axe createGenericItem(String name) {
-    return create(name,genericPower,genericMinRange,genericMaxRange);
-  }
-
-  @Override
-  public Axe createPowerfulItem(String name) {
-    return create(name,powerfulPower,powerfulMinRange,powerfulMaxRange);
-  }
-
-  @Override
-  public Axe createLongDistanceItem(String name) {
-    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
-  }
 }
