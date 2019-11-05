@@ -265,19 +265,18 @@ Dentro de las posibilidades de un jugador estan añadir unidades y seleccionar (
 
 Un *tactician* puede saber si la unidad seleccionada es suya, de modo que si intenta hacer algo con una unidad de otra persona, no podrá hacer nada. A su vez, un tactician puede conocer los items de sus unidades y el item equipado por cualquier unidad seleccionada. Además, puede conocer toda la información de sus propias unidades (hay métodos directos para ello), siempre y cuando la unidad sea seleccionada previamente.
 
-### 5.2 Sobre las Factories
-Como se observa en las variables que tiene un *Tactician*, este tiene tanto una *Factory* de *Items* como de *Units*. El funcionamiento es como sigue. Primero, es necesario setear la factory correspondiente pues la variable de instancia correspondiente es genérica. Por lo tanto, si queremos añadir un *SwordMaster* genérico a un *Tactictan*, primero es necesario fijar que `unitsFactory` sea una nueva `SwordMasterFactory`, y luego crear un *GenericSwordMaster*. El proceso para añadir un item es similar, solo que antes de añadir un item, es necesario seleccionar la unidad a la que se le añadirá el ítem.
-
-Como al crear una unidad por medio de una *Factory*, se setea en una *Location* invalida, hay que setearle de forma manual donde se le quiere ubicar dentro del mapa.
-
-### 5.3 Cuida tus Heroes
+### 5.2 Cuida tus Heroes
 Si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en [Game Controller](./CC3002_Alpaca_Emblem#6-game-controller).
 
-### 5.4 Observer Pattern
+### 5.3 Observer Pattern
 Un *Tactician* es **observador** de sus *Units*, de modo que cuando una de ellas muere, es "avisado" por medio de un *handler* que ocurrió tal evento. De este modo puede eliminar de su lista las unidades que ya no se pueden usar. Un caso específico es el *Hero*, como se mencionó en el apartado previo, si un héroe muere, el jugador pierde la partida. Por lo tanto, la muerte de un *Hero* llama a dos *Handlers*, el mencionado anteriormente y uno que llama a un método de tactician, que a su vez "avisa" a un *handler* del Controlador, que debe ser eliminado de la partida. 
 
 ## 6. Game Controller
 
+### 6.X Sobre las Factories
+Como se observa en las variables que tiene el *Controller*, este tiene tanto una *Factory* de *Items* como de *Units*. El funcionamiento es como sigue. Primero, es necesario setear la factory correspondiente pues la variable de instancia correspondiente es genérica. Por lo tanto, si queremos añadir un *SwordMaster* genérico a un *Tactictan*, primero es necesario fijar que `unitsFactory` sea una `SwordMasterFactory` (con el metodo réspectivo), y luego añadir un *GenericSwordMaster* al *Tactician* en turno. El proceso para añadir un item es similar, solo que antes de añadir un item, es necesario seleccionar la unidad a la que se le añadirá el ítem.
+
+Como al crear una unidad por medio de una *Factory*, se setea en una *Location* invalida, hay que setearle de forma manual donde se le quiere ubicar dentro del mapa.
 
 ### Ejecución y Tests
 Las funcionalidades de Alpaca Emblem v1.1 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Se cuenta con un 99% de *coverage* donde se intentó testear casos borde que se espera haber resuelto en la implementación.
