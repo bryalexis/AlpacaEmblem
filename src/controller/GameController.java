@@ -12,6 +12,7 @@ import controller.handlers.UnitSelectedHandler;
 import model.factory.FieldFactory;
 import model.factory.IItemsFactory;
 import model.factory.IUnitsFactory;
+import model.factory.items.*;
 import model.factory.units.*;
 import model.map.Location;
 import model.tactician.Tactician;
@@ -354,4 +355,224 @@ public class GameController {
     playerInTurn.moveUnitTo(x,y);
   }
 
+
+
+  public IEquipableItem getEquippedItem(){
+    return playerInTurn.getEquippedItem();
+  }
+
+  public IEquipableItem getItemByName(String name){
+    return playerInTurn.getItemByName(name);
+  }
+
+  public void equipItemByName(String name){
+    playerInTurn.equipItem(playerInTurn.getItemByName(name));
+  }
+
+  public void addItem(IEquipableItem item){
+    playerInTurn.addItem(item);
+  }
+
+  public void addUnit(IUnit unit){
+    playerInTurn.addUnit(unit);
+  }
+
+  public void selectLastAddedUnit(){
+    playerInTurn.selectUnit(playerInTurn.getUnitByIndex(playerInTurn.getUnits().size()-1));
+  }
+  public void setLocation(int x, int y){
+    playerInTurn.setUnitLocation(x,y);
+  }
+
+
+  // ==============================================================================
+  //                          UNITS FACTORY METHODS
+  // ==============================================================================
+
+
+  /**
+   * Sets the factory for units
+   * @param factory to be set
+   */
+  public void setUnitsFactory(IUnitsFactory factory){
+    unitsFactory = factory;
+  }
+
+  /**
+   * Sets the units factory as an Alpaca Factory
+   */
+  public void setAlpacaFactory(){
+    setUnitsFactory(new AlpacaFactory());
+  }
+
+  /**
+   * Sets the units factory as an Archer Factory
+   */
+  public void setArcherFactory(){
+    setUnitsFactory(new ArcherFactory());
+  }
+
+  /**
+   * Sets the units factory as a Cleric Factory
+   */
+  public void setClericFactory(){
+    setUnitsFactory(new ClericFactory());
+  }
+
+  /**
+   * Sets the units factory as a Fighter Factory
+   */
+  public void setFighterFactory(){
+    setUnitsFactory(new FighterFactory());
+  }
+
+  /**
+   * Sets the units factory as a Hero Factory
+   */
+  public void setHeroFactory(){
+    setUnitsFactory(new HeroFactory());
+  }
+
+  /**
+   * Sets the units factory as a Sorcerer Factory
+   */
+  public void setSorcererFactory(){
+    setUnitsFactory(new SorcererFactory());
+  }
+
+  /**
+   * Sets the units factory as a SwordMaster Factory
+   */
+  public void setSwordMasterFactory(){
+    setUnitsFactory(new SwordMasterFactory());
+  }
+
+  /**
+   * Adds a completely configurable new unit
+   * @param hp hit points of the unit
+   * @param movement how much it can move
+   * @param location in the map where the unit will be placed by default
+   */
+  public void addNewUnit(int hp, int movement, Location location) {
+    addUnit(unitsFactory.createUnit(hp, movement, location, playerInTurn));
+  }
+
+  /**
+   * Adds a new generic unit, a generic unit has:
+   *  - 100 hit points
+   *  - 3 movement
+   */
+  public void addGenericUnit() {
+    addUnit(unitsFactory.createGenericUnit());
+  }
+
+  /**
+   * Adds a new tank unit, a tank unit has:
+   *  - 200 hit points
+   *  - 1 movement
+   */
+  public void addTankUnit() {
+    addUnit(unitsFactory.createTankUnit());
+  }
+
+  /**
+   * Adds a new tank unit, a fast unit has:
+   *  - 70 hit points
+   *  - 5 movement
+   */
+  public void addFastUnit(){
+    addUnit(unitsFactory.createFastUnit());
+  }
+
+
+
+
+
+  // ==============================================================================
+  //                          ITEMS FACTORY METHODS
+  // ==============================================================================
+
+
+  /**
+   * Sets the factory for items
+   * @param factory to be set
+   */
+  public void setItemsFactory(IItemsFactory factory){
+    itemsFactory = factory;
+  }
+
+  public void setAxeFactory(){
+    setItemsFactory(new AxeFactory());
+  }
+
+  public void setBowFactory(){
+    setItemsFactory(new BowFactory());
+  }
+
+  public void setDarknessFactory(){
+    setItemsFactory(new DarknessFactory());
+  }
+
+  public void setLightFactory(){
+    setItemsFactory(new LightFactory());
+  }
+
+  public void setSpiritFactory(){
+    setItemsFactory(new SpiritFactory());
+  }
+
+  public void setStaffFactory(){
+    setItemsFactory(new StaffFactory());
+  }
+
+  public void setSwordFactory(){
+    setItemsFactory(new SwordFactory());
+  }
+
+  /**
+   * Adds a completely configurable new item to the selected unit
+   * @param name of the item
+   * @param power of the item
+   * @param minRange of the item
+   * @param maxRange of the item
+   */
+  public void addNewItem(String name, int power, int minRange, int maxRange){
+    addItem(itemsFactory.create(name,power,minRange,maxRange));
+  }
+
+  /**
+   * Adds a generic item to the selected unit, a generic item has:
+   *  - 30 power
+   *  - 1 minRange
+   *  - 5 maxRange
+   *  (Exception are bows, with 25 power, 2 minRange, 8 maxRange)
+   * @param name of the item
+   */
+  public void addGenericItem(String name){
+    addItem(itemsFactory.createGenericItem(name));
+  }
+
+  /**
+   * Adds a powerful item to the selected unit, a powerful item has:
+   *  - 50 power
+   *  - 1 minRange
+   *  - 3 maxRange
+   *  (Exception are bows, with 40 power, 2 minRange, 6 maxRange)
+   * @param name of the item
+   */
+  public void addPowerfulItem(String name){
+    addItem(itemsFactory.createPowerfulItem(name));
+  }
+
+  /**
+   * Adds a long-distance item to the selected unit, a long-distance item has:
+   *  - 10 power
+   *  - 1 minRange
+   *  - 10 maxRange
+   *  (Exception are bows, with 10 power, 2 minRange, 10 maxRange)
+   * @param name of the item
+   */
+  public void addLongDistanceItem(String name){
+    addItem(itemsFactory.createLongDistanceItem(name));
+  }
 }
