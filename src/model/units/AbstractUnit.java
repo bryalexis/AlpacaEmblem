@@ -152,7 +152,7 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void addItem(IEquipableItem item){
-    if (items.size() < maxItems ) {
+    if (items.size() < maxItems && item.getOwner() == null ) {
       items.add(item);
       item.setOwner(this);
     }
@@ -161,18 +161,27 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void removeItem(IEquipableItem item){
       items.remove(item);
+      item.setOwner(null);
+  }
+
+  @Override
+  public boolean canGiveItem(IUnit receptor, IEquipableItem item){
+    boolean receptorHasSpace = receptor.getItems().size() < receptor.getMaxItems();
+    boolean distance1 = getLocation().distanceTo(receptor.getLocation())==1;
+    boolean esSuItem = getItems().contains(item);
+    boolean sameTactician = getOwner() == receptor.getOwner();
+    return receptorHasSpace && distance1 && esSuItem && sameTactician;
   }
 
   @Override
   public void giveItem(IUnit receptor, IEquipableItem item){
-    if (receptor.getItems().size() < receptor.getMaxItems() &&
-            getLocation().distanceTo(receptor.getLocation())==1){
+    if (canGiveItem(receptor,item)) {
+      removeItem(item);
       receptor.addItem(item);
       item.setOwner(receptor);
       if(equippedItem == item){
         equippedItem = null;
       }
-      removeItem(item);
     }
   }
 

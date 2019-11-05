@@ -54,16 +54,15 @@ public class GameController {
   // Property Change Listeners
   private PropertyChangeListener unitSelectedPCL, heroDeadPCL;
 
+  // Factories
   private IUnitsFactory unitsFactory;
   private IItemsFactory itemsFactory;
 
   /**
    * Creates the controller for a new game.
    *
-   * @param numberOfPlayers
-   *     the number of players for this game
-   * @param mapSize
-   *     the dimensions of the map, for simplicity, all maps are squares
+   * @param numberOfPlayers the number of players for this game
+   * @param mapSize         the dimensions of the map, for simplicity, all maps are squares
    */
   public GameController(int numberOfPlayers, int mapSize) {
     this.tacticians = new ArrayList<>();
@@ -87,9 +86,10 @@ public class GameController {
   /**
    * To generate the order in the turns of the game, we will
    * use a random method that uses a seed
+   *
    * @return the random seed to select players
    */
-  public long getSeedPlayerSelection(){
+  public long getSeedPlayerSelection() {
     return seedPlayerSelection;
   }
 
@@ -97,9 +97,9 @@ public class GameController {
    * This method generates the map of the game, using a random seed
    * to ensure that every game will have a random map.
    */
-  private void generateMap(){
+  private void generateMap() {
     FieldFactory ff = new FieldFactory();
-    map = ff.createMap(new Random().nextLong(), mapSize,false);
+    map = ff.createMap(new Random().nextLong(), mapSize, false);
   }
 
   /**
@@ -142,14 +142,14 @@ public class GameController {
    */
   public void endTurn() {
     turnNumber++;
-    turnNumber%=numberOfPlayers;
-    if(turnNumber == 0){
+    turnNumber %= numberOfPlayers;
+    if (turnNumber == 0) {
       setTurnsInRound();
       roundNumber++;
     }
     playerInTurn = orderRound.get(turnNumber);
     // Resets all the units
-    for(IUnit unit: playerInTurn.getUnits()){
+    for (IUnit unit : playerInTurn.getUnits()) {
       unit.resetMovedUnit();
     }
     checkEndGame();
@@ -158,10 +158,10 @@ public class GameController {
   /**
    * Finishes the game and set the winners if the conditions are appropriated
    */
-  public void checkEndGame(){
-    boolean lastRoundReached = roundNumber > getMaxRounds() && getMaxRounds()!=-1;
+  private void checkEndGame() {
+    boolean lastRoundReached = roundNumber > getMaxRounds() && getMaxRounds() != -1;
     boolean onlyOnePlayer = tacticians.size() == 1;
-    if (lastRoundReached || onlyOnePlayer){
+    if (lastRoundReached || onlyOnePlayer) {
       playerInTurn = null;
       setWinners();
     }
@@ -170,15 +170,15 @@ public class GameController {
   /**
    * Sets the order of the turns on the current round
    */
-  private void setTurnsInRound(){
+  private void setTurnsInRound() {
     orderRound = new ArrayList<>();
     List<Integer> selected = new ArrayList<>();
     int k, n;
-    while (orderRound.size()!=numberOfPlayers){
+    while (orderRound.size() != numberOfPlayers) {
       k = random.nextInt();
-      n = Math.abs(k)%numberOfPlayers;
+      n = Math.abs(k) % numberOfPlayers;
       Tactician player = tacticians.get(n);
-      if(playerCanBeSelectedThisOrder(player,selected,n)){
+      if (playerCanBeSelectedThisOrder(player, selected, n)) {
         orderRound.add(player);
         selected.add(n);
       }
@@ -190,15 +190,16 @@ public class GameController {
    * restricted by the norms of the game (the last player of the last round
    * can't be the first player of the next round, and just one turn per player
    * on each round)
-   * @param player to be inserted in the order list
+   *
+   * @param player   to be inserted in the order list
    * @param selected players that are currently selected
-   * @param n index of the player
+   * @param n        index of the player
    * @return if the player can be selected
    */
-  public boolean playerCanBeSelectedThisOrder(Tactician player, List<Integer> selected, int n){
-    if(!selected.contains(n))
-      return playerInTurn==null ||
-            !(playerInTurn.getName().equals(player.getName()) && selected.isEmpty());
+  public boolean playerCanBeSelectedThisOrder(Tactician player, List<Integer> selected, int n) {
+    if (!selected.contains(n))
+      return playerInTurn == null ||
+              !(playerInTurn.getName().equals(player.getName()) && selected.isEmpty());
     return false;
   }
 
@@ -206,19 +207,20 @@ public class GameController {
    * Sets the winners of the game
    */
   public void setWinners() {
-    for(Tactician t: tacticians){
+    for (Tactician t : tacticians) {
       this.winners.add(t.getName());
     }
   }
 
   /**
    * Removes a tactician and all of it's units from the game.
+   *
    * @param tactician the player to be removed
    */
   public void removeTactician(String tactician) {
     numberOfPlayers--;
-    for(Tactician player: tacticians){
-      if(player.getName().equals(tactician)){
+    for (Tactician player : tacticians) {
+      if (player.getName().equals(tactician)) {
         tacticians.remove(player);
         orderRound.remove(player);
         break;
@@ -229,9 +231,9 @@ public class GameController {
   /**
    * Creates the players of the game according to the max number of players
    */
-  public void createPlayers(){
-    for(int i=0; i<numberOfPlayers;i++){
-      Tactician player = new Tactician("Player "+ i, map);
+  private void createPlayers() {
+    for (int i = 0; i < numberOfPlayers; i++) {
+      Tactician player = new Tactician("Player " + i, map);
       player.addUnitSelectedListener(unitSelectedPCL);
       player.addHeroDeadListener(heroDeadPCL);
       tacticians.add(player);
@@ -242,12 +244,13 @@ public class GameController {
    * Selects a specific unit
    * @param unit selected
    */
-  public void selectUnit(IUnit unit){
+  public void selectUnit(IUnit unit) {
     selectedUnit = unit;
   }
 
   /**
    * Starts the game.
+   *
    * @param maxTurns the maximum number of turns the game can last
    */
   public void initGame(final int maxTurns) {
@@ -266,10 +269,6 @@ public class GameController {
   }
 
 
-  public void setLastAddedUnitLocation(Location location){
-    playerInTurn.setLastAddedLocation(location);
-  }
-
   /**
    * @return the winner of this game, if the match ends in a draw returns a list of all the winners
    */
@@ -285,20 +284,36 @@ public class GameController {
   }
 
   /**
-   * Selects a unit in the game map
-   * @param x horizontal position of the unit
-   * @param y vertical position of the unit
-   */
-  public void selectUnitIn(int x, int y) {
-    Location loc = getGameMap().getCell(x,y);
-    playerInTurn.selectUnit(loc.getUnit());
-  }
-
-  /**
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
     return selectedUnit.getItems();
+  }
+
+
+
+
+
+  // ==============================================================================
+  //                          TACTICIAN METHODS
+  // ==============================================================================
+
+  /**
+   * Adds an item to the selected unit
+   *
+   * @param item that will be added
+   */
+  public void addItem(IEquipableItem item) {
+    playerInTurn.addItem(item);
+  }
+
+  /**
+   * Adds a unit to the tactician
+   *
+   * @param unit that will be added
+   */
+  private void addUnit(IUnit unit) {
+    playerInTurn.addUnit(unit);
   }
 
   /**
@@ -307,26 +322,38 @@ public class GameController {
    */
   public void equipItem(int index) {
     IEquipableItem item = getItems().get(index);
-    selectedUnit.equipItem(item);
+    playerInTurn.equipItem(item);
   }
 
   /**
-   * Uses the equipped item on a target
-   * @param x horizontal position of the target
-   * @param y vertical position of the target
+   * Equips a determined item
+   * @param name of the item that will be equipped
    */
-  public void useItemOn(int x, int y) {
-    Location loc = getGameMap().getCell(x,y);
-    IUnit target = loc.getUnit();
-    playerInTurn.useItemOn(target);
+  public void equipItemByName(String name){
+    playerInTurn.equipItem(playerInTurn.getItemByName(name));
   }
 
   /**
-   * Selects an item from the selected unit's inventory.
-   * @param index the location of the item in the inventory.
+   * @return the equipped item by the selected unit
    */
-  public void selectItem(int index) {
-    selectedItem = getItems().get(index);
+  public IEquipableItem getEquippedItem(){
+    return playerInTurn.getEquippedItem();
+  }
+
+  /**
+   * Obtains an item from inventory by its name
+   * @param name of the item
+   * @return the item
+   */
+  public IEquipableItem getItemByName(String name){
+    return playerInTurn.getItemByName(name);
+  }
+
+  /**
+   * @return the current selected item
+   */
+  public IEquipableItem getSelectedItem(){
+    return selectedItem;
   }
 
   /**
@@ -336,14 +363,7 @@ public class GameController {
    */
   public void giveItemTo(int x, int y) {
     IUnit target = getGameMap().getCell(x,y).getUnit();
-    selectedUnit.giveItem(target, selectedItem);
-  }
-
-  /**
-   * @return the current selected item
-   */
-  public IEquipableItem getSelectedItem(){
-    return selectedItem;
+    playerInTurn.giveItem(target, selectedItem);
   }
 
   /**
@@ -355,40 +375,60 @@ public class GameController {
     playerInTurn.moveUnitTo(x,y);
   }
 
-
-
-  public IEquipableItem getEquippedItem(){
-    return playerInTurn.getEquippedItem();
+  /**
+   * Selects an item from the selected unit's inventory.
+   * @param index the location of the item in the inventory.
+   */
+  public void selectItem(int index) {
+    selectedItem = getItems().get(index);
   }
 
-  public IEquipableItem getItemByName(String name){
-    return playerInTurn.getItemByName(name);
-  }
-
-  public void equipItemByName(String name){
-    playerInTurn.equipItem(playerInTurn.getItemByName(name));
-  }
-
-  public void addItem(IEquipableItem item){
-    playerInTurn.addItem(item);
-  }
-
-  public void addUnit(IUnit unit){
-    playerInTurn.addUnit(unit);
-  }
-
+  /**
+   * Selects the last added Unit in the Units List
+   */
   public void selectLastAddedUnit(){
     playerInTurn.selectUnit(playerInTurn.getUnitByIndex(playerInTurn.getUnits().size()-1));
   }
+
+  /**
+   * Selects a unit in the game map
+   *
+   * @param x horizontal position of the unit
+   * @param y vertical position of the unit
+   */
+  public void selectUnitIn(int x, int y) {
+    Location loc = getGameMap().getCell(x, y);
+    playerInTurn.selectUnit(loc.getUnit());
+  }
+
+  /**
+   * Sets the location by coordinates to the selected unit
+   * @param x row
+   * @param y column
+   */
   public void setLocation(int x, int y){
     playerInTurn.setUnitLocation(x,y);
   }
+
+  /**
+   * Uses the equipped item on a target
+   *
+   * @param x horizontal position of the target
+   * @param y vertical position of the target
+   */
+  public void useItemOn(int x, int y) {
+    Location loc = getGameMap().getCell(x, y);
+    IUnit target = loc.getUnit();
+    playerInTurn.useItemOn(target);
+  }
+
+
+
 
 
   // ==============================================================================
   //                          UNITS FACTORY METHODS
   // ==============================================================================
-
 
   /**
    * Sets the factory for units
@@ -492,7 +532,6 @@ public class GameController {
   //                          ITEMS FACTORY METHODS
   // ==============================================================================
 
-
   /**
    * Sets the factory for items
    * @param factory to be set
@@ -501,30 +540,51 @@ public class GameController {
     itemsFactory = factory;
   }
 
+  /**
+   * Sets the items factory as an Axe Factory
+   */
   public void setAxeFactory(){
     setItemsFactory(new AxeFactory());
   }
 
+  /**
+   * Sets the items factory as a Bow Factory
+   */
   public void setBowFactory(){
     setItemsFactory(new BowFactory());
   }
 
+  /**
+   * Sets the items factory as a Darkness spell book Factory
+   */
   public void setDarknessFactory(){
     setItemsFactory(new DarknessFactory());
   }
 
+  /**
+   * Sets the items factory as a Light spell book Factory
+   */
   public void setLightFactory(){
     setItemsFactory(new LightFactory());
   }
 
+  /**
+   * Sets the items factory as a Spirit spell book Factory
+   */
   public void setSpiritFactory(){
     setItemsFactory(new SpiritFactory());
   }
 
+  /**
+   * Sets the items factory as a Staff Factory
+   */
   public void setStaffFactory(){
     setItemsFactory(new StaffFactory());
   }
 
+  /**
+   * Sets the items factory as a Sword Factory
+   */
   public void setSwordFactory(){
     setItemsFactory(new SwordFactory());
   }

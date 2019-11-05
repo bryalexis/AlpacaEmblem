@@ -308,16 +308,21 @@ public abstract class AbstractTestUnit implements ITestUnit {
       assertNull(unit.getEquippedItem());
       assertFalse(unit.getItems().contains(item));
       assertTrue(alpaca.getItems().contains(item));
-      unit.addItem(darkness);
-      unit.addItem(staff);
-      unit.addItem(axe);
+
+      Darkness oscurito = new Darkness("oscurito",20,1,3);
+      Light lucecita = new Light("lucecita",20,1,3);
+      Axe hachita = new Axe("hachita",20,1,3);
+
+      unit.addItem(oscurito);
+      unit.addItem(lucecita);
+      unit.addItem(hachita);
       alpaca.addItem(sword);
       alpaca.giveItem(unit, sword);
       assertTrue(alpaca.getItems().contains(sword));
       assertFalse(unit.getItems().contains(sword));
-      unit.removeItem(axe);
-      unit.removeItem(staff);
-      unit.removeItem(darkness);
+      unit.removeItem(hachita);
+      unit.removeItem(lucecita);
+      unit.removeItem(oscurito);
     }
 
     // Distance > 1

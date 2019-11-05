@@ -309,7 +309,7 @@ class GameControllerTest {
 
     controller.setBowFactory();
     controller.addGenericItem("uwu");
-    controller.equipItemByName("uwu");
+    controller.equipItem(0);
     IEquipableItem bow = controller.getItemByName("uwu");
 
     assertEquals(bow, controller.getTurnOwner().getSelectedUnit().getEquippedItem());
@@ -521,4 +521,14 @@ class GameControllerTest {
     assertEquals(unit3,map.getCell(2,2).getUnit());
     assertNull(map.getCell(1,2).getUnit());
   }
+
+  /**
+   * Tests the functionality of adding units by the controller factory to the player in turn
+   */
+  @Test
+  void factoryTest(){
+
+  }
+
+
 }

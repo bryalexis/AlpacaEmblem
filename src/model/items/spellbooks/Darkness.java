@@ -33,7 +33,6 @@ public class Darkness extends AbstractBook{
     @Override
     public void equipTo(IUnit unit) {
         unit.equipDarknessBook(this);
-        setOwner(unit);
     }
 
     @Override

@@ -140,7 +140,7 @@ public class TacticianTest {
   public void addNewUnitAndItemsTest(){
     // Setting the player
     player = new Tactician("Doggo",map);
-    IUnit alpaca1 = alpacaFactory.createUnit(100,3, map.getCell(0,0), player);
+    IUnit alpaca1 = alpacaFactory.createUnit(100,3, map.getCell(0,0), null);
     player.addUnit(alpaca1);
     IUnit alpaca2 = alpacaFactory.createFastUnit();
     player.addUnit(alpaca2);

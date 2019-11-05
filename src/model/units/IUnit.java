@@ -305,4 +305,12 @@ public interface IUnit {
    * @return the property change support for when a unit is dead;
    */
   PropertyChangeSupport getIsDeadPCS();
+
+  /**
+   * Checks if the unit can give a specific item
+   * @param receptor who will receive the item
+   * @param item that will be given
+   * @return if the transference is possible
+   */
+  boolean canGiveItem(IUnit receptor, IEquipableItem item);
 }

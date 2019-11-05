@@ -128,7 +128,7 @@ public class Tactician {
    * @param unit to be added
    */
   public void addUnit(IUnit unit){
-    if(unit!=null){
+    if(unit.getOwner()==null){
       units.add(unit);
       unit.setOwner(this);
       unit.addDeadListener(unitDiePCL);
@@ -339,6 +339,14 @@ public class Tactician {
     return null;
   }
 
+  /**
+   * Gives an item to a specific unit
+   * @param receiver who will receive the item
+   * @param item that will be given
+   */
+  public void giveItem(IUnit receiver, IEquipableItem item){
+    if(isMyUnit()) selectedUnit.giveItem(receiver, item);
+  }
 
   /**
    * Shows the power of a item of the selected unit, searching by item in inventory

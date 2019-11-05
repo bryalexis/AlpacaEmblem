@@ -33,7 +33,6 @@ public class Bow extends AbstractWeapon {
   @Override
   public void equipTo(IUnit unit) {
     unit.equipBow(this);
-    setOwner(unit);
   }
 
   @Override

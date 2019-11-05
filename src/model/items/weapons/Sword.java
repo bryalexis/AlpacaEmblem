@@ -32,7 +32,6 @@ public class Sword extends AbstractWeapon {
   @Override
   public void equipTo(IUnit unit) {
     unit.equipSword(this);
-    setOwner(unit);
   }
 
   @Override

@@ -33,7 +33,6 @@ public class Light extends AbstractBook {
   @Override
   public void equipTo(IUnit unit) {
     unit.equipLightBook(this);
-    setOwner(unit);
   }
 
   @Override

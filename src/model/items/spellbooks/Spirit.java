@@ -34,7 +34,6 @@ public class Spirit extends AbstractBook {
     @Override
     public void equipTo(IUnit unit) {
         unit.equipSpiritBook(this);
-        setOwner(unit);
     }
 
     @Override
