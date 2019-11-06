@@ -80,6 +80,7 @@ public class GameController {
     generateMap();
     createPlayers();
     setTurnsInRound();
+    selectUnitsSpecialRound();
     playerInTurn = orderRound.get(turnNumber);
   }
 
@@ -141,18 +142,47 @@ public class GameController {
    * Finishes the current player's turn.
    */
   public void endTurn() {
+    if (roundNumber == 0) {
+      endTurnSelectingUnits();
+    } else {
+      endTurnInGame();
+    }
+  }
+
+  private void endTurnSelectingUnits(){
+    turnNumber++;
+    if(turnNumber >= numberOfPlayers){
+      playerInTurn = null;
+    } else {
+      playerInTurn = orderRound.get(turnNumber);
+    }
+  }
+
+  private void endTurnInGame(){
     turnNumber++;
     turnNumber %= numberOfPlayers;
-    if (turnNumber == 0) {
-      setTurnsInRound();
-      roundNumber++;
-    }
+    if (turnNumber == 0) endRound();
     playerInTurn = orderRound.get(turnNumber);
-    // Resets all the units
+    resetMovedUnits();
+    checkEndGame();
+  }
+
+  private void endRound(){
+    setTurnsInRound();
+    roundNumber++;
+  }
+
+  private void resetMovedUnits(){
     for (IUnit unit : playerInTurn.getUnits()) {
       unit.resetMovedUnit();
     }
-    checkEndGame();
+  }
+
+  /**
+   * "Starts" the moment where the players can add its units
+   */
+  private void selectUnitsSpecialRound(){
+    this.roundNumber = 0;
   }
 
   /**
@@ -258,6 +288,7 @@ public class GameController {
     winners = new ArrayList<>();
     this.roundNumber = 1;
     this.turnNumber = 0;
+    playerInTurn = orderRound.get(turnNumber);
   }
 
   /**
@@ -354,6 +385,13 @@ public class GameController {
    */
   public IEquipableItem getSelectedItem(){
     return selectedItem;
+  }
+
+  /**
+   * @return a list with the player-in-turn's units
+   */
+  public List<IUnit> getUnits(){
+    return playerInTurn.getUnits();
   }
 
   /**
@@ -494,7 +532,7 @@ public class GameController {
    * @param location in the map where the unit will be placed by default
    */
   public void addNewUnit(int hp, int movement, Location location) {
-    addUnit(unitsFactory.createUnit(hp, movement, location, playerInTurn));
+    addUnit(unitsFactory.createUnit(hp, movement, location, null));
   }
 
   /**
@@ -580,6 +618,13 @@ public class GameController {
    */
   public void setStaffFactory(){
     setItemsFactory(new StaffFactory());
+  }
+
+  /**
+   * Sets the items factory as a Spear Factory
+   */
+  public void setSpearFactory(){
+    setItemsFactory(new SpearFactory());
   }
 
   /**

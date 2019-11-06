@@ -6,17 +6,10 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 import model.factory.FieldFactory;
-import model.factory.IItemsFactory;
-import model.factory.IUnitsFactory;
 import model.factory.items.AxeFactory;
-import model.factory.items.BowFactory;
 import model.factory.items.SpearFactory;
-import model.factory.items.SwordFactory;
 import model.factory.units.*;
 import model.items.IEquipableItem;
-import model.items.weapons.Axe;
-import model.items.weapons.Bow;
-import model.items.weapons.Spear;
 import model.map.Location;
 import model.tactician.Tactician;
 import model.map.Field;
@@ -527,6 +520,91 @@ class GameControllerTest {
    */
   @Test
   void factoryTest(){
+    // Player Wan
+    controller.setAlpacaFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+
+    controller.setSpiritFactory();
+    controller.addPowerfulItem("Power Spiritito");
+    controller.setSwordFactory();
+    controller.addNewItem("Espadita", 100, 1,3);
+
+    assertEquals(controller.getItems().size(), 2);
+    assertTrue(controller.getItems().contains(controller.getItemByName("Power Spiritito")));
+    assertTrue(controller.getItems().contains(controller.getItemByName("Espadita")));
+    assertEquals(controller.getUnits().size(),1);
+
+    controller.setArcherFactory();
+    controller.addTankUnit();
+    controller.setClericFactory();
+    controller.addFastUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(1,0);
+
+    controller.setBowFactory();
+    controller.addLongDistanceItem("arquito");
+    controller.setStaffFactory();
+    controller.addGenericItem("palito");
+    controller.equipItemByName("palito");
+
+    controller.addPowerfulItem("palito de repuesto");
+    controller.addGenericItem("tercer palito");
+    assertEquals(controller.getItems().size(),3);
+    assertNull(controller.getItemByName("tercer palito"));
+    assertEquals(controller.getUnits().size(),3);
+
+    controller.endTurn();
+
+    // SECOND PLAYER
+    controller.setFighterFactory();
+    controller.addNewUnit(1000,3,controller.getGameMap().getCell(1,1));
+    controller.selectLastAddedUnit();
+
+    controller.setAxeFactory();
+    controller.addGenericItem("super hachita");
+    controller.equipItemByName("super hachita");
+    controller.setLightFactory();
+    controller.addPowerfulItem("brilloso");
+    controller.setDarknessFactory();
+    controller.addLongDistanceItem("roscuro");
+
+    assertEquals(3,controller.getItems().size());
+    assertEquals(1, controller.getUnits().size());
+
+    controller.endTurn();
+
+    // Player 3
+    controller.setHeroFactory();
+    controller.addGenericUnit();
+    controller.setSorcererFactory();
+    controller.addFastUnit();
+    controller.selectLastAddedUnit();
+    controller.moveTo(2,2);
+
+    controller.setDarknessFactory();
+    controller.addGenericItem("OSCURITO");
+    controller.equipItemByName("OSCURITO");
+
+    assertEquals(controller.getItems().size(),1);
+    assertEquals(controller.getUnits().size(),2);
+
+    controller.endTurn();
+
+    // Player 4
+    controller.setSwordMasterFactory();
+    controller.addFastUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,3);
+
+    controller.setSwordFactory();
+    controller.addPowerfulItem("espadito");
+    controller.setSpearFactory();
+    controller.addGenericItem("britney");
+
+    assertEquals(2, controller.getItems().size());
+    assertEquals(1, controller.getUnits().size());
 
   }
 
