@@ -80,7 +80,7 @@ Cada unidad se compone de las siguientes variables:
 - `equippedItem`: Item equipado, debe pertenecer a la lista de items.
 - `maxItems`: Máxima cantidad de items que puede portar la unidad.
 - `movement`: Distancia máxima que se puede desplazar la unidad.
-- `location`: Ubicación de la unidad
+- `location`: Ubicación de la unidad.
 - `alive`: Indicador de si la unidad está viva (una unidad muere cuando alcanza los 0 *hitpoints*).
 - `inCombat:` Indicador de si una unidad se encuentra en combate con otra.
 - `owner`: *Tactician* dueña de la unidad.
@@ -179,20 +179,29 @@ Se usan clases abstractas para definir métodos en común entre los items del mi
 
 ## 3. Interacciones
 
-### 3.1 Equipar Item
+### 3.1 Movimiento
+Una unidad puede moverse por el mapa según la restrinja su campo `movement`. Al mover una *unit* desde un punto del mapa al otro, primero verifica que no haya ninguna unidad en ese espacio del mapa en específico, de lo contrario el movimiento no es posible. Para verificar la presencia de una unidad en el mapa, cada *Location* guarda una referencia a la unidad que se ubica en dicha posición, al moverse, esto es reseteado para la ubicación antigua quedando disponible para otras unidades.
+
+Al morir una unidad, se espera que el [Tactician](./CC3002_Alpaca_Emblem#5-tactician) la borre, teniendo que además desaparecer del mapa. Esto se testea en el método `deadOfUnitTest` de `TacticianTest`.
+
+A nivel del juego, una unidad se puede mover 1 vez por turno por parte de su respectivo *Tactician*, si se intenta mover a una *Location* ya ocupada, esto no cuenta como un movimiento en sí, de modo que se podrá intentar hasta hacer un movimiento efectivo.
+
+### 3.2 Equipar Item
 Cada unidad puede equipar (o no) cierto tipo de items específicos, tal como se mostró en el cuadro de unidades. Para que una unidad no se equipe un tipo de item incorrecto, se utiliza *double dispatch*, haciendo que el item se equipe a la unidad, desambiguando así el tipo de item y la unidad en cuestión.
 
-### 3.2 Dar Item
+### 3.3 Dar Item
 Una unidad puede entregar un item que esté portando siempre y cuando la unidad receptora porte menos de su máximo de items y ambas unidades esten a distancia 1. Si se regala un ítem que esté equipado, la unidad quedará sin item equipado. Además, cada vez que un item cambie de unidad, su dueño será la unidad que lo porte consigo.
 
-### 3.3 Usar Items
+Adicionalmente, a nivel del juego implementado en [Game Controller](./CC3002_Alpaca_Emblem#6-game-controller), solo es posible dar un item a otra unit perteneciente al mismo [Tactician](./CC3002_Alpaca_Emblem#5-tactician).
+
+### 3.4 Usar Items
 
 Todas las unidades que puedan tener un item equipado, pueden utilizarlo para interactuar con otra unidad bajo ciertas restricciones:
 - Ambas unidades participantes  deben estar vivas.
 - El item **debe** estar equipado.
 - La unidad objetivo a recibir la interacción debe estar a una distancia que se encuentre dentro del rango del item.
 
-#### 3.3.1 Ataque
+#### 3.4.1 Ataque
 Se rige bajo las reglas del uso de items. Cada ataque desencadena a su vez un contraataque inmediato por parte de la unidad atacada, siempre y cuando cumpla con las mismas restricciones necesarias para cualquier uso de items. Las alpacas y los *clerics* no pueden ni atacar ni contraatacar, por lo que al ser atacados, solo reciben daño y el combate finaliza de inmediato sin respuesta alguna.
 
 Si en el ataque, una unidad recibe más daño que sus *currentHitPoints*, esta muere y pasa a estar fuera de combate.
@@ -205,12 +214,12 @@ El daño recibido por un ataque puede variar según las armas de los participant
 
 En caso de que el daño recibido sea mayor a la vida de la unidad, sus *currentHitPoints* sólo disminuirán a 0, impidiendo niveles menores a 0.
 
-#### 3.3.2 Curaciones
+#### 3.4.2 Curaciones
 Toda unidad que equipe un item de tipo *healing* puede curar a otras unidades que se encuentren dentro del rango del item. Actualmente, existe sólo un item de este tipo, el *Staff*, y sólo puede ser equipado por un *Cleric*. Cuando una unidad es curada, sus *currentHitPoints* se restauran de acuerdo al poder del *staff*. 
 
 Cada unidad posee un máximo de puntos de vida, si al curar estos se pudieran sobrepasar, la unidad objetivo aumentará sus *currentHitPoints* sólo hasta el máximo permitido.
 
-#### 3.3.3 Diseño
+#### 3.4.3 Diseño
 El uso de un item para atacar o curar a otra unidad depende principalmente de los items involucrados en el encuentro. Por lo tanto, la implementación del uso de items, junto con los daños a otras unidades, curaciones, ataques fuertes, ataques débiles, etc, está delegado al item mismo. 
 
 Los items de tipo *AttackItem* implementan un método `attack`, mientras que los de tipo *HealingItem* implementan un método `heal`. Además, todos los items implementan `useOn`, el cual llama a `attack` o `heal` según el tipo de item.
@@ -257,8 +266,6 @@ Cada *Tactician* tiene las siguientes variables:
 - `name`: Nombre del jugador.
 - `selectedUnitPCS`: Avisa al [controlador](./CC3002_Alpaca_Emblem#6-game-controller), sobre un cambio en la unidad seleccionada por el jugador.
 - `heroDeadPCS`: Avisa al [controlador](./CC3002_Alpaca_Emblem#6-game-controller) sobre la muerte de un heroe en la lista de unidades del jugador.
-- `unitsFactory`: Su propia fabrica de unidades.
-- `itemsFactory`: Su propia fabrica de items.
 
 ### 5.1 Responsabilidades
 Dentro de las posibilidades de un jugador estan añadir unidades y seleccionar (o deseleccionar) una unidad. Si la unidad seleccionada pertenece a sus unidades (esto no tiene por qué pasar necesariamente), puede añadirles items, equiparles un item (adecuado a la unidad), intercambiar items entre esta y otra unidad cualquiera, atacar a una unidad de otro tactician o curar una unidad propia. 
