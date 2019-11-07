@@ -189,7 +189,7 @@ public class TacticianTest {
   }
 
   @Test
-  public void deadOfUnit(){
+  public void deadOfUnitTest(){
     Tactician player1 = new Tactician("Meliodas",map);
 
     // Adds the unit

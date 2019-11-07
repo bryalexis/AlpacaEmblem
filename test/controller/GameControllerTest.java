@@ -422,6 +422,25 @@ class GameControllerTest {
     controller.giveItemTo(0, 0);
     assertTrue(units.get(2).getItems().contains(item));
     assertFalse(units.get(0).getItems().contains(item)); // Out of range
+
+    // Give item o a unit of a different Tactician
+    IUnit swordMasterTactician1 = controller.getUnits().get(0);
+    assertEquals(0,swordMasterTactician1.getItems().size());
+    controller.endTurn();
+    controller.setHeroFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(1,0);
+    controller.setSpearFactory();
+    controller.addGenericItem("Lanzable");
+
+    // The interchange is not done.
+    assertEquals(1,controller.getItems().size());
+    controller.giveItemTo(0,0);
+    assertEquals(swordMasterTactician1, controller.getGameMap().getCell(0,0).getUnit());
+    assertEquals(0,swordMasterTactician1.getItems().size());
+    assertEquals(1,controller.getItems().size());
+
   }
 
   /**
@@ -606,6 +625,10 @@ class GameControllerTest {
     assertEquals(2, controller.getItems().size());
     assertEquals(1, controller.getUnits().size());
 
+    controller.endTurn();
+    assertNull(controller.getTurnOwner());
+    controller.endTurn();
+    assertNull(controller.getTurnOwner());
   }
 
 

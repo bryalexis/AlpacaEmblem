@@ -147,6 +147,7 @@ public abstract class AbstractUnit implements IUnit {
         && targetLocation.getUnit() == null) {
       getLocation().setUnit(null);
       setLocation(targetLocation);
+      setUnitMovedInTurn();
     }
   }
 
