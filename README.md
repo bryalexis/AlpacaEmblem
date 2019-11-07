@@ -96,6 +96,8 @@ Los campos `maxHitPoints`, `maxItems`, `alive` e `inCombat`, fueron añadidos en
 
 En la versión 2.5 además se añaden los campos `owner`, `isDeadPCS` y `moved`. La funcionalidad de estos se explica a continuación, el primero sirve para identificar una unit en el contexto de que ahora existen *Tacticians* que son quienes manejarán sus respectivas unidades, de modo que resulta útil conocer a quién pertenece una unidad en caso de combate o movimiento. El segundo, sigue el patrón de diseño *Observer* donde la unit es el objeto observado y (de terminos practicos) su *Tactician* es el observador, esto con el fin de que cuando una unidad muera, como es imposible de revivirla, simplemente sea eliminada del juego. Por último, dentro del contexto de un **turno** (se explica mas en la sección de Game Controller), un *Tactician* solo puede mover a cada una de sus unidades una vez, de modo que `moved` permite *checkear* si la unidad ya fue movida, para que no sea posible moverla de nuevo.
 
+Al añadir un item, es necesario que este no tenga dueño previamente, de modo que dos unidades no pueden añadir el mismo item ya que si una lo añade, automáticamente se setea como su dueña. La única forma de transferir items es con el método respectivo explicado más adelante.
+
 ## 2. Items
 Existen 3 tipos de items, *weapons*, *spellbooks* y *healing*. Algunos items son fuertes (o bien débiles) contra otros y se pueden equipar a distintas unidades de acuerdo al cuadro mostrado en la sección anterior. La clasificación de los items va de acuerdo a lo que muestra el siguiente cuadro:
 
@@ -181,8 +183,6 @@ Se usan clases abstractas para definir métodos en común entre los items del mi
 
 ### 3.1 Movimiento
 Una unidad puede moverse por el mapa según la restrinja su campo `movement`. Al mover una *unit* desde un punto del mapa al otro, primero verifica que no haya ninguna unidad en ese espacio del mapa en específico, de lo contrario el movimiento no es posible. Para verificar la presencia de una unidad en el mapa, cada *Location* guarda una referencia a la unidad que se ubica en dicha posición, al moverse, esto es reseteado para la ubicación antigua quedando disponible para otras unidades.
-
-Al morir una unidad, se espera que el [Tactician](./CC3002_Alpaca_Emblem#5-tactician) la borre, teniendo que además desaparecer del mapa. Esto se testea en el método `deadOfUnitTest` de `TacticianTest`.
 
 A nivel del juego, una unidad se puede mover 1 vez por turno por parte de su respectivo *Tactician*, si se intenta mover a una *Location* ya ocupada, esto no cuenta como un movimiento en sí, de modo que se podrá intentar hasta hacer un movimiento efectivo.
 
@@ -272,6 +272,8 @@ Dentro de las posibilidades de un jugador estan añadir unidades y seleccionar (
 
 Un *tactician* puede saber si la unidad seleccionada es suya, de modo que si intenta hacer algo con una unidad de otra persona, no podrá hacer nada. A su vez, un tactician puede conocer los items de sus unidades y el item equipado por cualquier unidad seleccionada. Además, puede conocer toda la información de sus propias unidades (hay métodos directos para ello), siempre y cuando la unidad sea seleccionada previamente.
 
+Dos tactician's no pueden tener las mismas unidades, ya que como condición previa para añadir una unidad, se requiere que el *Tactician owner* sea un *null*, y se setea inmediatamente al *owner* como el *Tactician* en cuestión.
+
 ### 5.2 Cuida tus Heroes
 Si un jugador tiene algún Hero y este muere por efecto del ataque de otra unidad, el tactician pierde el juego (y es borrado de la partida, más sobre esto en [Game Controller](./CC3002_Alpaca_Emblem#6-game-controller).
 
@@ -279,17 +281,52 @@ Si un jugador tiene algún Hero y este muere por efecto del ataque de otra unida
 Un *Tactician* es **observador** de sus *Units*, de modo que cuando una de ellas muere, es "avisado" por medio de un *handler* que ocurrió tal evento. De este modo puede eliminar de su lista las unidades que ya no se pueden usar. Un caso específico es el *Hero*, como se mencionó en el apartado previo, si un héroe muere, el jugador pierde la partida. Por lo tanto, la muerte de un *Hero* llama a dos *Handlers*, el mencionado anteriormente y uno que llama a un método de tactician, que a su vez "avisa" a un *handler* del Controlador, que debe ser eliminado de la partida. 
 
 ## 6. Game Controller
+El controlador es el encargado de mantener el estado del juego en todo momento, es con esta entidad con la que finalmente, el usuario interactuará de forma más "directa". Como dice su nombre, es el que controla los aspectos del juego. Se compone de los siguientes campos.
 
-### 6.X Sobre las Factories
-Como se observa en las variables que tiene el *Controller*, este tiene tanto una *Factory* de *Items* como de *Units*. El funcionamiento es como sigue. Primero, es necesario setear la factory correspondiente pues la variable de instancia correspondiente es genérica. Por lo tanto, si queremos añadir un *SwordMaster* genérico a un *Tactictan*, primero es necesario fijar que `unitsFactory` sea una `SwordMasterFactory` (con el metodo réspectivo), y luego añadir un *GenericSwordMaster* al *Tactician* en turno. El proceso para añadir un item es similar, solo que antes de añadir un item, es necesario seleccionar la unidad a la que se le añadirá el ítem.
+**Respecto al Controller en General:**
+- `tacticians`: Lista con todos los jugadores.
+- `playerInTurn`: *Tactician* actualmente en turno, con disponibilidad para ejercer acciones como mover sus unidades, atacar, intercambiar items, equipar unidades, etc. Debe terminar su turno cuando no tenga más acciones por realizar.
+- `random`: esta variable permite hacer asignaciones aleatorias eventualmente replicables.
+- `seedPlayerSelection`: semilla que fija el random previo, se utiliza para crear una secuencia "aleatoria" (no tanto) identica.
+- `numberOfPlayer`: numero de jugadores en la partida.
+- `maxRounds`: máximo número de rounds en la partida, si se desea un duelo a muerte hasta que solo quede uno, se define un juego con infinitos rounds, donde a nivel implementación significa que `maxRounds=-1`.
+- `winners`: ganadores de la partida.
 
-Como al crear una unidad por medio de una *Factory*, se setea en una *Location* invalida, hay que setearle de forma manual donde se le quiere ubicar dentro del mapa.
+**Configuraciones del Juego**
+- `mapSize`: dimensiones del mapa, corresponde a un entero ya que el mapa es cuadrado.
+- `map`: mapa de juego, se genera por medio de una *Factory*.
+- `roundNumber`: número del round actual.
+- `turnNumber`: número del turno actual.
+- `orderRound`: una lista de jugadores pero en el orden en que deben jugar el round actual.
 
-### Ejecución y Tests
-Las funcionalidades de Alpaca Emblem v1.1 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Se cuenta con un 99% de *coverage* donde se intentó testear casos borde que se espera haber resuelto en la implementación.
+**Parámetros de Unidad Seleccionada**
+- `selectedUnit`: referencia a la unidad seleccionada por `playerInTurn`.
+- `selectedItem`: item seleccionado por la `selectedUnit`.
+
+**Property Change Listeners**
+- `unitSelectedPCL`: listener para cuando el *Tactician* selecciona una unidad. La idea es que, cuando con el controller se selecciona una unidad, primero se llama al tacician, quien le dice al controller que seleccione la misma.
+- `heroDeadPCL`: listener para cuando una unidad *Hero* muere en combate, esto detona que el jugador pierde la partida y sea eliminado por el controller.
+
+**Factories**
+- `unitsFactory`: fábrica de unidades. Cuando se quieran añadir unidades a un *Tactician* se hará a través de esta factory, solo es necesario setear que tipo de unidad se quiere crear, y luego añadir ya sea una *Unit* preseteada o una totalmente configurable.
+- `itemsFactory`: fábrica de items. Cuando se quieren añadir items a una *Unit* se usa esta factory en un proceso similar al de añadir una unit.
+
+**Nota**: como al crear una unidad por medio de una *Factory*, se setea en una *Location* invalida, hay que setearle de forma manual donde se le quiere ubicar dentro del mapa.
+
+## 7 Ejecución y Tests
+Las funcionalidades de Alpaca Emblem v2.5 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Se cuenta con un 99% de *coverage* donde se intentó testear casos borde que se espera haber resuelto en la implementación.
 
 Los *tests* de ataque se implementan en cada unidad por separado, ya que existen ataques normales, fuertes y débiles para cada caso. Por otro lado, los de las curaciones se implementan en la clase abstracta que testea los *healings* para cada unidad existente.
 
 Los *test* de interacciones entre items, se prueban en las clases abstractas del tipo de item si es una interacción general (por ejemplo, recibir el efecto de una arma fisica siendo un arma mágica), y si es una interacción más específica, el testeo se realiza para el item en particular (recibir un ataque de *darkness* siendo *light*).
+
+### Novedades version 2.5
+Dado que varios metodos implementados por el controlador son llamadas a métodos del *Tactician*, algunas funcionalidades específicas se testean en *TacticianTest*, como por ejemplo:
+
+- Al morir una unidad, se espera que el [Tactician](./CC3002_Alpaca_Emblem#5-tactician) la borre, teniendo que además desaparecer del mapa (`deadOfUnitTest`).
+- No se puede añadir una nueva unidad en una celda ocupada. Si se intenta hacer esto, simplemente la unidad no queda ubicada en el mapa y hay que intentar asignarle una nueva posición (`addUnitInNonEmptyCellTest`).
+- No se puede curar una unidad de otro tactician ni atacar una unit del mismo tactician (`attackTest`).
+- Si un tactician selecciona una unidad que no es suya, no puede moverla ni atacar con ella (`permissionsOnSelectedUnitTest`). Tampoco puede ver la información detallada de su item equipado ni obtener ninguno de los items que tiene (`itemMethodsTest`).
+
 
 # Alpaca Emblem v2.5
