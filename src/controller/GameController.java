@@ -169,7 +169,9 @@ public class GameController {
   private void endTurnInGame(){
     turnNumber++;
     turnNumber %= numberOfPlayers;
-    if (turnNumber == 0) endRound();
+    if (turnNumber == 0){
+      endRound();
+    }
     playerInTurn = orderRound.get(turnNumber);
     resetMovedUnits();
     checkEndGame();
@@ -203,7 +205,7 @@ public class GameController {
   /**
    * Finishes the game and set the winners if the conditions are appropriated
    */
-  private void checkEndGame() {
+  public void checkEndGame() {
     boolean lastRoundReached = roundNumber > getMaxRounds() && getMaxRounds() != -1;
     boolean onlyOnePlayer = tacticians.size() == 1;
     if (lastRoundReached || onlyOnePlayer) {
@@ -252,8 +254,12 @@ public class GameController {
    * Sets the winners of the game
    */
   public void setWinners() {
+    int maxUnits = 0;
     for (Tactician t : tacticians) {
-      this.winners.add(t.getName());
+      if(t.getUnits().size() > maxUnits) maxUnits = t.getUnits().size();
+    }
+    for (Tactician t : tacticians) {
+      if(t.getUnits().size() == maxUnits) this.winners.add(t.getName());
     }
   }
 

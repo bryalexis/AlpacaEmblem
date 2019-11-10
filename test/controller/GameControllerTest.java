@@ -206,6 +206,8 @@ class GameControllerTest {
    *
    * In the second case, is set a game with infinite rounds,
    * but the players will be deleted one by one until
+   *
+   * In the third case, the winner is who have more units.
    */
   @Test
   void getWinners() {
@@ -231,6 +233,35 @@ class GameControllerTest {
       controller.removeTactician("Player " + i);
     }
     assertTrue(List.of("Player 3").containsAll(controller.getWinners()));
+
+    controller = new GameController(3, 4);
+    randomSeed = controller.getGameMap().getSeed();
+
+    // Player 1
+    controller.setArcherFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+    controller.endTurn();
+
+    // Player 2
+    String winner = controller.getTurnOwner().getName();
+    controller.setSwordMasterFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,1);
+    controller.setArcherFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+
+    controller.initGame(1);
+    for(int i=0; i<3; i++){
+      controller.endTurn();
+    }
+    assertEquals(1, controller.getWinners().size());
+    assertTrue(controller.getWinners().contains(winner));
+
   }
 
   /**
@@ -403,7 +434,7 @@ class GameControllerTest {
 
     // The selected unit is the SwordMaster
     controller.selectUnitIn(0,0);
-    controller.selectItem(0);
+    controller.selectItemByName("pium");
     IEquipableItem item = controller.getSelectedItem();
     controller.giveItemTo(0, 1);
 
