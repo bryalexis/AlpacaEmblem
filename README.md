@@ -261,10 +261,10 @@ Un *Tactician* representa a un jugador. La misión de esta entidad es manejar la
 Cada *Tactician* tiene las siguientes variables:
 - `units`: corresponde a una lista con todas las unidades que pertenecen a ese jugador. Un jugador puede añadir unidades a la lista, ya sea definiendolas de forma completa, o usando las predefinidas en las [*UnitsFactory*](./CC3002_Alpaca_Emblem#41-units-factory).
 - `selectedUnit`: Unidad seleccionada, es a esta unidad a la cual podrá ver sus parámetros específicos y con la cual podrá interactuar con otras unidades (uso de items, intercambios, etc). Cabe destacar que las acciones sobre la unidad seleccionada están restringidas a que la unidad pertenezca al propio *Tactician* (esto no tiene por qué suceder necesariamente). El jugador puede seleccionar otra unidad o desseleccionar una unidad cuando estime conveniente.
+- `selectedItem`: item seleccionado por la `selectedUnit`.
 - `equippedItem`: Item equipado por la unidad seleccionada, se guarda la referencia para mayor comodidad en la implementación.
 - `field`: Mapa del juego.
 - `name`: Nombre del jugador.
-- `selectedUnitPCS`: Avisa al [controlador](./CC3002_Alpaca_Emblem#6-game-controller), sobre un cambio en la unidad seleccionada por el jugador.
 - `heroDeadPCS`: Avisa al [controlador](./CC3002_Alpaca_Emblem#6-game-controller) sobre la muerte de un heroe en la lista de unidades del jugador.
 
 ### 5.1 Responsabilidades
@@ -299,10 +299,6 @@ El controlador es el encargado de mantener el estado del juego en todo momento, 
 - `turnNumber`: número del turno actual.
 - `orderRound`: una lista de jugadores pero en el orden en que deben jugar el round actual.
 
-**Parámetros de Unidad Seleccionada**
-- `selectedUnit`: referencia a la unidad seleccionada por `playerInTurn`.
-- `selectedItem`: item seleccionado por la `selectedUnit`.
-
 **Property Change Listeners**
 - `unitSelectedPCL`: listener para cuando el *Tactician* selecciona una unidad. La idea es que, cuando con el controller se selecciona una unidad, primero se llama al tacician, quien le dice al controller que seleccione la misma.
 - `heroDeadPCL`: listener para cuando una unidad *Hero* muere en combate, esto detona que el jugador pierde la partida y sea eliminado por el controller.
@@ -312,6 +308,33 @@ El controlador es el encargado de mantener el estado del juego en todo momento, 
 - `itemsFactory`: fábrica de items. Cuando se quieren añadir items a una *Unit* se usa esta factory en un proceso similar al de añadir una unit.
 
 **Nota**: como al crear una unidad por medio de una *Factory*, se setea en una *Location* invalida, hay que setearle de forma manual donde se le quiere ubicar dentro del mapa.
+
+### 6.1 Turnos
+Un turno es la instancia donde un *Tactician* puede efectuar sus movimientos. Un *Tactician* puede mover a cada una de sus unidades ubicadas en el mapa 1 vez, donde no se consideran movimientos fallidos, donde se intenta mover una *Unit* a una celda ocupada. Por otro lado, de momento una unidad puede usar su item sobre otra las veces que el *Tactician* en turno estime conveniente (probablemente se modifique en un futuro esto).
+
+En cualquier momento de su turno un jugador puede decidir no realizar más acciones, en cuyo caso termina su turno y se pasa al turno del jugador siguiente.
+
+### 6.2 Héroes
+Si el héroe de un jugador es derrotado en el turno de cualquier otro, entonces este jugador pierde la partiday se retira del juego junto con todas sus unidades. En cambio, si el héroe es derrotado en el turno del mismo jugador al que pertenece entonces se termina su turno antes de ser excluido de la partida. 
+
+Un usuario puede tener más de un héroe en juego, en cuyo caso pierde la partida si cualquiera de estos es derrotado.
+
+### 6.3 Rondas de Juego
+Una ronda de juego se definirá como un ciclo en que todos los jugadores usen su turno. Al comenzar una partida se decidirá de forma aleatoria el orden en que jugarán los usuarios, y al final de cada ronda se seleccionará un nuevo orden de juego de manera aleatoria, con la restricción de que un jugador no puede tener dos turnos seguidos.
+
+### 6.4 Inicio de la Partida
+Para comenzar una partida, el controlador:
+- Crea a los jugadores, de tal forma que sus nombres son "Player 1", "Player 2", etc. (en el orden que se vayan creando).
+- Proporciona métodos para iniciar y crear unidades para los *Tacticians*, en esta version se utilizan las *facories* para añadir y crear unidades e items a cada *Tactician*, estos métodos sólo son utilizables si se encuentra en un *Turno 0*, el cual es previo al inicio del juego y es específico para añadir unidades.
+- Crea un mapa aleatorio (a partir de una *seed*).
+
+**Nota:** En ningún momento del juego puede haber dos unidades en la misma casilla, pero si una unidad es derrotada
+entonces se retira de su celda.
+
+### 6.5 Para Ganar
+Existen dos maneras de ganar el juego:
+1. Sólo queda 1 *Tactician* en el juego.
+2. Se alcanza una cantidad máxima de turnos (consideramos que -1 significa que se jugará sin limite de puntos). El ganador en estos casos se define como el jugador con mayor número de unidades restantes. En caso de que dos o más jugadores tengan la misma cantidad de unidades la partida se declara empatada.
 
 ## 7 Ejecución y Tests
 Las funcionalidades de Alpaca Emblem v2.5 descritas previamente sólo son ejecutables a partir de los *test* implementados. Estos prueban el correcto funcionamiento de los equipamientos e intercambios de items, los ataques y las curaciones. Se cuenta con un 99% de *coverage* donde se intentó testear casos borde que se espera haber resuelto en la implementación.
@@ -328,5 +351,12 @@ Dado que varios metodos implementados por el controlador son llamadas a métodos
 - No se puede curar una unidad de otro tactician ni atacar una unit del mismo tactician (`attackTest`).
 - Si un tactician selecciona una unidad que no es suya, no puede moverla ni atacar con ella (`permissionsOnSelectedUnitTest`). Tampoco puede ver la información detallada de su item equipado ni obtener ninguno de los items que tiene (`itemMethodsTest`).
 
+En *GameControllerTest* se testean funcionalidades como:
+- Si se termina una ronda, el jugador que inicie la siguiente no puede ser el mismo que terminó la ronda anterior (`getTurnOwner`).
+- No es posible dar un item a una unidad de otro tactician (`giveItemTo`).
+- Al morir un *Hero* su *Tactician* es eliminado de la partida (`heroDeathTest`)
+- Al morir un *Hero* en el turno de su propio *Tactician*, su turno termina (`heroDieInMyTurn`).
+- Si la al hacer un movimiento la celda está ocupada, la unidad no se mueve y es posible intentar moverla de nuevo hasta que el cambio de posición sea efectivo (`moveToUnavailableCell`).
+- No se puede mover la misma unidad 2 veces dentro de un mismo turno (`moveTheSameUnitInATurn`).
 
 # Alpaca Emblem v2.5
