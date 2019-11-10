@@ -30,7 +30,7 @@ public class HeroDeadHandler implements PropertyChangeListener {
    */
   @Override
   public void propertyChange(PropertyChangeEvent heroDead) {
-    controller.getTacticians().remove((Tactician) heroDead.getNewValue());
+    controller.deleteTactician((Tactician) heroDead.getNewValue());
     controller.endTurn();
   }
 }

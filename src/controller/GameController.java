@@ -1,19 +1,17 @@
 package controller;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import controller.handlers.HeroDeadHandler;
-import controller.handlers.UnitSelectedHandler;
 import model.factory.FieldFactory;
 import model.factory.IItemsFactory;
 import model.factory.IUnitsFactory;
 import model.factory.items.*;
 import model.factory.units.*;
+import model.map.InvalidLocation;
 import model.map.Location;
 import model.tactician.Tactician;
 import model.items.IEquipableItem;
@@ -46,10 +44,6 @@ public class GameController {
   private int roundNumber;
   private int turnNumber;
   private List<Tactician> orderRound;
-
-  // Things of the unit selected
-  //private IUnit selectedUnit;
-  private IEquipableItem selectedItem;
 
   // Property Change Listeners
   private PropertyChangeListener heroDeadPCL;
@@ -155,6 +149,11 @@ public class GameController {
     } else {
       playerInTurn = orderRound.get(turnNumber);
     }
+  }
+
+  public void deleteTactician(Tactician tactician){
+    tacticians.remove(tactician);
+    numberOfPlayers--;
   }
 
   private void endTurnInGame(){
@@ -279,10 +278,10 @@ public class GameController {
   /**
    * Starts the game.
    *
-   * @param maxTurns the maximum number of turns the game can last
+   * @param maxRounds the maximum number of turns the game can last
    */
-  public void initGame(final int maxTurns) {
-    maxRounds = maxTurns;
+  public void initGame(final int maxRounds) {
+    this.maxRounds = maxRounds;
     winners = new ArrayList<>();
     this.roundNumber = 1;
     this.turnNumber = 0;
@@ -382,7 +381,7 @@ public class GameController {
    * @return the current selected item
    */
   public IEquipableItem getSelectedItem(){
-    return selectedItem;
+    return playerInTurn.getSelectedItem();
   }
 
   /**
@@ -399,7 +398,7 @@ public class GameController {
    */
   public void giveItemTo(int x, int y) {
     IUnit target = getGameMap().getCell(x,y).getUnit();
-    playerInTurn.giveItem(target, selectedItem);
+    playerInTurn.giveItem(target, playerInTurn.getSelectedItem());
   }
 
   /**
@@ -416,7 +415,16 @@ public class GameController {
    * @param index the location of the item in the inventory.
    */
   public void selectItem(int index) {
-    selectedItem = getItems().get(index);
+    playerInTurn.selectItem(getItems().get(index));
+  }
+
+  /**
+   * Selects an item from the selected unit's inventory.
+   * @param itemName the name of the item.
+   */
+  public void selectItemByName(String itemName) {
+    IEquipableItem item = getItemByName(itemName);
+    if(item!=null) playerInTurn.selectItem(item);
   }
 
   /**
@@ -470,7 +478,7 @@ public class GameController {
    * Sets the factory for units
    * @param factory to be set
    */
-  public void setUnitsFactory(IUnitsFactory factory){
+  private void setUnitsFactory(IUnitsFactory factory){
     unitsFactory = factory;
   }
 
@@ -527,10 +535,9 @@ public class GameController {
    * Adds a completely configurable new unit
    * @param hp hit points of the unit
    * @param movement how much it can move
-   * @param location in the map where the unit will be placed by default
    */
-  public void addNewUnit(int hp, int movement, Location location) {
-    addUnit(unitsFactory.createUnit(hp, movement, location, null));
+  public void addNewUnit(int hp, int movement) {
+    addUnit(unitsFactory.createUnit(hp, movement, new InvalidLocation(), null));
   }
 
   /**
@@ -572,7 +579,7 @@ public class GameController {
    * Sets the factory for items
    * @param factory to be set
    */
-  public void setItemsFactory(IItemsFactory factory){
+  private void setItemsFactory(IItemsFactory factory){
     itemsFactory = factory;
   }
 

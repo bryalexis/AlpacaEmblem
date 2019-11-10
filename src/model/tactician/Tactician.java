@@ -26,6 +26,7 @@ public class Tactician {
    */
   private List<IUnit> units;
   private IUnit selectedUnit;
+  private IEquipableItem selectedItem;
   private IEquipableItem equippedItem;
   private Field field;
   private String name;
@@ -59,59 +60,6 @@ public class Tactician {
   // ==============================================================================
 
   /**
-   * @return the name of the player
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Sets the name of the player
-   * @param name to be set
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
-   * @return the field where the game will be placed
-   */
-  public Field getField(){
-    return field;
-  }
-
-  /**
-   * A method to get the units owned by the player
-   * @return a list with the units
-   */
-  public List<IUnit> getUnits(){
-    return units;
-  }
-
-  /**
-   * Selects a unit
-   * @param unit to be selected
-   */
-  public void selectUnit(IUnit unit){
-    selectedUnit = unit;
-    equippedItem = unit.getEquippedItem();
-  }
-
-  /**
-   * Forgets the unit selected
-   */
-  public void unselectUnit(){
-    selectedUnit = null;
-  }
-
-  /**
-   * @return the unit selected by the player
-   */
-  public IUnit getSelectedUnit(){
-    return selectedUnit;
-  }
-
-  /**
    * Adds a new unit to the tactician
    * @param unit to be added
    */
@@ -125,10 +73,79 @@ public class Tactician {
   }
 
   /**
+   * @return the field where the game will be placed
+   */
+  public Field getField(){
+    return field;
+  }
+
+  /**
+   * @return the last added unit
+   */
+  private IUnit getLastAddedUnit(){
+    return getUnitByIndex(getUnits().size()-1);
+  }
+
+  /**
+   * Gives a specific unit un the list of units of the tactician
+   * @param index of the unit
+   * @return the unit
+   */
+  public IUnit getUnitByIndex(int index){
+    return getUnits().get(index);
+  }
+
+  /**
+   * @return the name of the player
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return the item selected by the player.
+   */
+  public IEquipableItem getSelectedItem(){
+    return selectedItem;
+  }
+
+  /**
+   * @return the unit selected by the player
+   */
+  public IUnit getSelectedUnit(){
+    return selectedUnit;
+  }
+
+  /**
+   * A method to get the units owned by the player
+   * @return a list with the units
+   */
+  public List<IUnit> getUnits(){
+    return units;
+  }
+
+  /**
    * @return true if the selected unit belongs to the tactician
    */
   public boolean isMyUnit(){
     return getUnits().contains(getSelectedUnit());
+  }
+
+  /**
+   * Selects an item to be given or do something with it.
+   * @param item selected
+   */
+  public void selectItem(IEquipableItem item){
+    selectedItem = item;
+  }
+
+  /**
+   * Selects a unit
+   * @param unit to be selected
+   */
+  public void selectUnit(IUnit unit){
+    selectedUnit = unit;
+    equippedItem = unit.getEquippedItem();
   }
 
   /**
@@ -141,13 +158,6 @@ public class Tactician {
   }
 
   /**
-   * @return the last added unit
-   */
-  private IUnit getLastAddedUnit(){
-    return getUnitByIndex(getUnits().size()-1);
-  }
-
-  /**
    * Sets the location of the last added unit
    * @param location where it will be placed
    */
@@ -157,12 +167,18 @@ public class Tactician {
   }
 
   /**
-   * Gives a specific unit un the list of units of the tactician
-   * @param index of the unit
-   * @return the unit
+   * Sets the name of the player
+   * @param name to be set
    */
-  public IUnit getUnitByIndex(int index){
-    return getUnits().get(index);
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
+   * Forgets the unit selected
+   */
+  public void unselectUnit(){
+    selectedUnit = null;
   }
 
 

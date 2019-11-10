@@ -10,6 +10,7 @@ import model.factory.items.AxeFactory;
 import model.factory.items.SpearFactory;
 import model.factory.units.*;
 import model.items.IEquipableItem;
+import model.map.InvalidLocation;
 import model.map.Location;
 import model.tactician.Tactician;
 import model.map.Field;
@@ -433,6 +434,7 @@ class GameControllerTest {
     controller.setLocation(1,0);
     controller.setSpearFactory();
     controller.addGenericItem("Lanzable");
+    controller.selectItem(0);
 
     // The interchange is not done.
     assertEquals(1,controller.getItems().size());
@@ -578,8 +580,9 @@ class GameControllerTest {
 
     // SECOND PLAYER
     controller.setFighterFactory();
-    controller.addNewUnit(1000,3,controller.getGameMap().getCell(1,1));
+    controller.addNewUnit(1000,3);
     controller.selectLastAddedUnit();
+    controller.setLocation(1,1);
 
     controller.setAxeFactory();
     controller.addGenericItem("super hachita");
@@ -629,6 +632,96 @@ class GameControllerTest {
     assertNull(controller.getTurnOwner());
     controller.endTurn();
     assertNull(controller.getTurnOwner());
+  }
+
+  /**
+   * Tests that we can't move a unit that is not ours, and that we can't move a unit to
+   * a used cell. Also it tests that we can't move a unit twice in a turn
+   */
+  @Test
+  void moveToUnavailableCell(){
+    controller = new GameController(2, 3);
+    randomSeed = controller.getGameMap().getSeed();
+
+    controller.setArcherFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+
+    controller.endTurn();
+    controller.setHeroFactory();
+    controller.addTankUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+    assertEquals(InvalidLocation.class,controller.getSelectedUnit().getLocation().getClass());
+    controller.setLocation(0,1);
+    assertEquals(controller.getSelectedUnit(), controller.getGameMap().getCell(0,1).getUnit());
+
+    controller.endTurn();
+    controller.initGame(2);
+    // Selects a unit from another tactician
+    controller.selectUnitIn(0,1);
+    controller.moveTo(1,1);
+    assertNull(controller.getGameMap().getCell(1,1).getUnit());
+    assertEquals(controller.getGameMap().getCell(0,1), controller.getSelectedUnit().getLocation());
+
+    // Selects it's own unit
+    controller.selectUnitIn(0,0);
+
+    controller.moveTo(0,1);
+    // Cell is not empty, so it doesn't move
+    assertEquals(controller.getGameMap().getCell(0,0), controller.getSelectedUnit().getLocation());
+
+    controller.moveTo(1,0);
+    // Now it moves
+    assertEquals(controller.getGameMap().getCell(1,0), controller.getSelectedUnit().getLocation());
+
+    controller.moveTo(1,1);
+    // It can't move twice
+    assertEquals(controller.getGameMap().getCell(1,0), controller.getSelectedUnit().getLocation());
+
+    controller.endTurn();
+    controller.endTurn();
+
+    // It's turn again
+    controller.moveTo(1,1);
+    // Now it can moves 'cause it's another turn
+    assertEquals(controller.getGameMap().getCell(1,1), controller.getSelectedUnit().getLocation());
+
+  }
+
+  /**
+   * Tests that when a hero die in the turn of it's owner, the turn ends immediately
+   * and the tactician is deleted
+   */
+  @Test
+  void heroDieInMyTurn(){
+    controller = new GameController(3, 3);
+    randomSeed = controller.getGameMap().getSeed();
+
+    Tactician player1 = controller.getTurnOwner();
+    controller.setHeroFactory();
+    controller.addNewUnit(5,20);
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+    controller.setSpearFactory();
+    controller.addGenericItem("Britney");
+    controller.equipItemByName("Britney");
+
+    controller.endTurn();
+    Tactician player2 = controller.getTurnOwner();
+    controller.setFighterFactory();
+    controller.addTankUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(1,0);
+    controller.setAxeFactory();
+    controller.addPowerfulItem("SuperAxe");
+    controller.equipItem(0);
+
+    controller.initGame(1);
+    assertEquals(player1, controller.getTurnOwner());
+    controller.useItemOn(1,0); // The Hero Should die
+    assertEquals(player2, controller.getTurnOwner());
   }
 
 
