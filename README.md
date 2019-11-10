@@ -357,5 +357,7 @@ En *GameControllerTest* se testean funcionalidades como:
 - Al morir un *Hero* en el turno de su propio *Tactician*, su turno termina (`heroDieInMyTurn`).
 - Si la al hacer un movimiento la celda está ocupada, la unidad no se mueve y es posible intentar moverla de nuevo hasta que el cambio de posición sea efectivo (`moveToUnavailableCell`).
 - No se puede mover la misma unidad 2 veces dentro de un mismo turno (`moveTheSameUnitInATurn`).
+- No se pueden añadir *units* a un *Tactician*, ni *items* a una *unit* cuando el juego ya empezó (`addUnitAfterInitGame`).
+- No se puede atacar a otra *unit* antes de que empiece el juego (`useItemBeforeGameInit`).
 
 # Alpaca Emblem v2.5
