@@ -341,6 +341,7 @@ class GameControllerTest {
     player2.selectUnitByIndex(0);
     player2.setUnitLocation(0,2);
 
+    controller.initGame(1);
     List <IUnit> units = player2.getUnits();
     controller.useItemOn(0,2);
     double expected = units.get(0).getMaxHitPoints() - player1.getEquippedItem().getPower();
@@ -724,5 +725,59 @@ class GameControllerTest {
     assertEquals(player2, controller.getTurnOwner());
   }
 
+  /**
+   * Tests that we can't add units after the game inits.
+   */
+  @Test
+  void addUnitAfterInitGame(){
+    assertEquals(0, controller.getUnits().size());
+    controller.setHeroFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+    controller.setSwordFactory();
+    controller.addGenericItem("item");
+    assertEquals(1, controller.getUnits().size());
+    assertEquals(1,controller.getItems().size());
+
+    controller.initGame(1);
+    controller.setArcherFactory();
+    controller.addTankUnit();
+    controller.setFighterFactory();
+    controller.addGenericUnit();
+    controller.selectUnitIn(0,0);
+    controller.setSpearFactory();
+    controller.addGenericItem("item2");
+    assertEquals(1, controller.getUnits().size());
+    assertEquals(1,controller.getItems().size());
+  }
+
+  @Test
+  void useItemBeforeGameInit(){
+    controller = new GameController(2, 3);
+    randomSeed = controller.getGameMap().getSeed();
+
+    controller.setHeroFactory();
+    controller.addGenericUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,0);
+    controller.setSpearFactory();
+    controller.addGenericItem("item");
+    controller.equipItemByName("item");
+    controller.endTurn();
+
+    controller.setSwordMasterFactory();
+    controller.addFastUnit();
+    controller.selectLastAddedUnit();
+    controller.setLocation(0,1);
+    controller.setSwordFactory();
+    controller.addGenericItem("item2");
+    controller.equipItemByName("item2");
+    controller.useItemOn(0,0);
+
+    assertEquals(controller.getTurnOwner().getMaxHP(), controller.getTurnOwner().getHP());
+    IUnit unitAttacked = controller.getGameMap().getCell(0,0).getUnit();
+    assertEquals(unitAttacked.getMaxHitPoints(), unitAttacked.getCurrentHitPoints());
+  }
 
 }

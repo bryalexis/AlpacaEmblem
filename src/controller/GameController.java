@@ -142,6 +142,9 @@ public class GameController {
     }
   }
 
+  /**
+   * Ends the turn to select units
+   */
   private void endTurnSelectingUnits(){
     turnNumber++;
     if(turnNumber >= numberOfPlayers){
@@ -151,11 +154,18 @@ public class GameController {
     }
   }
 
+  /**
+   * Deletes a tactician from the game
+   * @param tactician deleted
+   */
   public void deleteTactician(Tactician tactician){
     tacticians.remove(tactician);
     numberOfPlayers--;
   }
 
+  /**
+   * Ends a turn in the game
+   */
   private void endTurnInGame(){
     turnNumber++;
     turnNumber %= numberOfPlayers;
@@ -165,11 +175,18 @@ public class GameController {
     checkEndGame();
   }
 
+  /**
+   * Ends the round
+   */
   private void endRound(){
     setTurnsInRound();
     roundNumber++;
   }
 
+  /**
+   * Resets the moved units, so the Tactician can move them again
+   * on his new turn.
+   */
   private void resetMovedUnits(){
     for (IUnit unit : playerInTurn.getUnits()) {
       unit.resetMovedUnit();
@@ -332,7 +349,7 @@ public class GameController {
    * @param item that will be added
    */
   public void addItem(IEquipableItem item) {
-    playerInTurn.addItem(item);
+    if(roundNumber == 0) playerInTurn.addItem(item);
   }
 
   /**
@@ -341,7 +358,7 @@ public class GameController {
    * @param unit that will be added
    */
   private void addUnit(IUnit unit) {
-    playerInTurn.addUnit(unit);
+    if(roundNumber == 0) playerInTurn.addUnit(unit);
   }
 
   /**
@@ -397,7 +414,7 @@ public class GameController {
    * @param y vertical position of the target
    */
   public void giveItemTo(int x, int y) {
-    IUnit target = getGameMap().getCell(x,y).getUnit();
+    IUnit target = getGameMap().getCell(x, y).getUnit();
     playerInTurn.giveItem(target, playerInTurn.getSelectedItem());
   }
 
@@ -461,9 +478,11 @@ public class GameController {
    * @param y vertical position of the target
    */
   public void useItemOn(int x, int y) {
-    Location loc = getGameMap().getCell(x, y);
-    IUnit target = loc.getUnit();
-    playerInTurn.useItemOn(target);
+    if(roundNumber!=0){
+      Location loc = getGameMap().getCell(x, y);
+      IUnit target = loc.getUnit();
+      playerInTurn.useItemOn(target);
+    }
   }
 
 
