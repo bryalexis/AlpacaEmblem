@@ -300,7 +300,6 @@ El controlador es el encargado de mantener el estado del juego en todo momento, 
 - `orderRound`: una lista de jugadores pero en el orden en que deben jugar el round actual.
 
 **Property Change Listeners**
-- `unitSelectedPCL`: listener para cuando el *Tactician* selecciona una unidad. La idea es que, cuando con el controller se selecciona una unidad, primero se llama al tacician, quien le dice al controller que seleccione la misma.
 - `heroDeadPCL`: listener para cuando una unidad *Hero* muere en combate, esto detona que el jugador pierde la partida y sea eliminado por el controller.
 
 **Factories**
