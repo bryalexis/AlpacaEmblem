@@ -48,11 +48,11 @@ public class GameController {
   private List<Tactician> orderRound;
 
   // Things of the unit selected
-  private IUnit selectedUnit;
+  //private IUnit selectedUnit;
   private IEquipableItem selectedItem;
 
   // Property Change Listeners
-  private PropertyChangeListener unitSelectedPCL, heroDeadPCL;
+  private PropertyChangeListener heroDeadPCL;
 
   // Factories
   private IUnitsFactory unitsFactory;
@@ -73,8 +73,7 @@ public class GameController {
     this.seedPlayerSelection = random.nextLong();
     this.random.setSeed(seedPlayerSelection);
 
-    // Handlers
-    unitSelectedPCL = new UnitSelectedHandler(this);
+    // Handler
     heroDeadPCL = new HeroDeadHandler(this);
 
     generateMap();
@@ -264,7 +263,6 @@ public class GameController {
   private void createPlayers() {
     for (int i = 0; i < numberOfPlayers; i++) {
       Tactician player = new Tactician("Player " + i, map);
-      player.addUnitSelectedListener(unitSelectedPCL);
       player.addHeroDeadListener(heroDeadPCL);
       tacticians.add(player);
     }
@@ -275,7 +273,7 @@ public class GameController {
    * @param unit selected
    */
   public void selectUnit(IUnit unit) {
-    selectedUnit = unit;
+    playerInTurn.selectUnit(unit);
   }
 
   /**
@@ -311,14 +309,14 @@ public class GameController {
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-    return selectedUnit;
+    return playerInTurn.getSelectedUnit();
   }
 
   /**
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
-    return selectedUnit.getItems();
+    return getSelectedUnit().getItems();
   }
 
 
@@ -425,7 +423,7 @@ public class GameController {
    * Selects the last added Unit in the Units List
    */
   public void selectLastAddedUnit(){
-    playerInTurn.selectUnit(playerInTurn.getUnitByIndex(playerInTurn.getUnits().size()-1));
+    selectUnit(playerInTurn.getUnitByIndex(playerInTurn.getUnits().size()-1));
   }
 
   /**
@@ -436,7 +434,7 @@ public class GameController {
    */
   public void selectUnitIn(int x, int y) {
     Location loc = getGameMap().getCell(x, y);
-    playerInTurn.selectUnit(loc.getUnit());
+    selectUnit(loc.getUnit());
   }
 
   /**

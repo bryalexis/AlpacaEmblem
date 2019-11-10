@@ -1,16 +1,12 @@
 package model.tactician;
 
-import model.factory.IItemsFactory;
-import model.factory.IUnitsFactory;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
 import model.tactician.handlers.HeroDieListener;
 import model.tactician.handlers.UnitDieListener;
 import model.units.IUnit;
-import model.units.warriors.Hero;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -37,18 +33,12 @@ public class Tactician {
   /**
    * Property change Supports
    */
-  private PropertyChangeSupport selectedUnitPCS, heroDeadPCS;
+  private PropertyChangeSupport heroDeadPCS;
 
   /**
    * Property Change Listeners
    */
   private PropertyChangeListener unitDiePCL, heroDiePCL;
-
-  /**
-   * Builders for units and items
-   */
-  private IUnitsFactory unitsFactory;
-  private IItemsFactory itemsFactory;
 
   /**
    * Creates a new instance of Tactician (player)
@@ -59,7 +49,6 @@ public class Tactician {
     this.units = new ArrayList<>();
     this.name = name;
     this.field = map;
-    this.selectedUnitPCS = new PropertyChangeSupport(this);
     this.heroDeadPCS = new PropertyChangeSupport(this);
     this.unitDiePCL = new UnitDieListener(this);
     this.heroDiePCL = new HeroDieListener(this);
@@ -104,7 +93,6 @@ public class Tactician {
    * @param unit to be selected
    */
   public void selectUnit(IUnit unit){
-    selectedUnitPCS.firePropertyChange("SelectUnit", selectedUnit, unit);
     selectedUnit = unit;
     equippedItem = unit.getEquippedItem();
   }
@@ -155,7 +143,7 @@ public class Tactician {
   /**
    * @return the last added unit
    */
-  public IUnit getLastAddedUnit(){
+  private IUnit getLastAddedUnit(){
     return getUnitByIndex(getUnits().size()-1);
   }
 
@@ -392,14 +380,6 @@ public class Tactician {
   // ==============================================================================
   //                            LISTENERS METHODS
   // ==============================================================================
-
-  /**
-   * Adds a new listener for when a unit is selected
-   * @param unitSelectedPCL the listener
-   */
-  public void addUnitSelectedListener(PropertyChangeListener unitSelectedPCL) {
-    selectedUnitPCS.addPropertyChangeListener(unitSelectedPCL);
-  }
 
   /**
    * Adds a new listener for when a hero die
