@@ -512,6 +512,7 @@ class GameControllerTest {
 
     firstPlayer.useItemOn(map.getCell(0,1).getUnit());
     assertEquals(3, controller.getTacticians().size());
+    assertNull(map.getCell(0,1).getUnit());
     assertFalse(controller.getTacticians().contains(anotherPlayer));
   }
 
@@ -754,6 +755,7 @@ class GameControllerTest {
     assertEquals(player1, controller.getTurnOwner());
     controller.useItemOn(1,0); // The Hero Should die
     assertEquals(player2, controller.getTurnOwner());
+    assertNull(controller.getGameMap().getCell(0,0).getUnit());
   }
 
   /**
@@ -783,6 +785,9 @@ class GameControllerTest {
     assertEquals(1,controller.getItems().size());
   }
 
+  /**
+   * Tests that we can't use items before the game starts.
+   */
   @Test
   void useItemBeforeGameInit(){
     controller = new GameController(2, 3);
