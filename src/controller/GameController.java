@@ -363,8 +363,12 @@ public class GameController {
    *
    * @param unit that will be added
    */
-  private void addUnit(IUnit unit) {
-    if(roundNumber == 0) playerInTurn.addUnit(unit);
+  private void addUnit(IUnit unit, Location location) {
+    if(roundNumber == 0 && location.isEmpty()){
+      playerInTurn.addUnit(unit);
+      unit.setLocation(location);
+      selectUnit(unit);
+    }
   }
 
   /**
@@ -561,8 +565,8 @@ public class GameController {
    * @param hp hit points of the unit
    * @param movement how much it can move
    */
-  public void addNewUnit(int hp, int movement) {
-    addUnit(unitsFactory.createUnit(hp, movement, new InvalidLocation(), null));
+  public void addNewUnit(int hp, int movement, int x, int y) {
+    addUnit(unitsFactory.createUnit(hp, movement, new InvalidLocation(), null), map.getCell(x,y));
   }
 
   /**
@@ -570,8 +574,8 @@ public class GameController {
    *  - 100 hit points
    *  - 3 movement
    */
-  public void addGenericUnit() {
-    addUnit(unitsFactory.createGenericUnit());
+  public void addGenericUnit(int x, int y) {
+    addUnit(unitsFactory.createGenericUnit(), map.getCell(x,y));
   }
 
   /**
@@ -579,8 +583,8 @@ public class GameController {
    *  - 200 hit points
    *  - 1 movement
    */
-  public void addTankUnit() {
-    addUnit(unitsFactory.createTankUnit());
+  public void addTankUnit(int x, int y) {
+    addUnit(unitsFactory.createTankUnit(), map.getCell(x,y));
   }
 
   /**
@@ -588,8 +592,8 @@ public class GameController {
    *  - 70 hit points
    *  - 5 movement
    */
-  public void addFastUnit(){
-    addUnit(unitsFactory.createFastUnit());
+  public void addFastUnit(int x, int y){
+    addUnit(unitsFactory.createFastUnit(), map.getCell(x,y));
   }
 
 

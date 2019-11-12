@@ -174,4 +174,11 @@ public class Location {
     return column;
   }
 
+  /**
+   * @return if the cell is used by a unit
+   */
+  public boolean isEmpty(){
+    return getUnit()==null;
+  }
+
 }

@@ -239,21 +239,16 @@ class GameControllerTest {
 
     // Player 1
     controller.setArcherFactory();
-    controller.addGenericUnit();
+    controller.addGenericUnit(0,0);
     controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
     controller.endTurn();
 
     // Player 2
     String winner = controller.getTurnOwner().getName();
     controller.setSwordMasterFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,1);
+    controller.addGenericUnit(0,1);
     controller.setArcherFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,2);
 
     controller.initGame(1);
     for(int i=0; i<3; i++){
@@ -304,9 +299,7 @@ class GameControllerTest {
   void getItems() {
 
     controller.setArcherFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
 
     IUnit unit = controller.getTurnOwner().getSelectedUnit();
     assertEquals(unit.getItems(), controller.getItems());
@@ -327,9 +320,7 @@ class GameControllerTest {
   @Test
   void equipItem() {
     controller.setArcherFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
     assertNull(controller.getTurnOwner().getSelectedUnit().getEquippedItem());
 
     controller.setBowFactory();
@@ -353,9 +344,7 @@ class GameControllerTest {
     List<Integer> lista = new ArrayList<>();
 
     controller.setArcherFactory();
-    controller.addTankUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addTankUnit(0,0);
     controller.setBowFactory();
     controller.addPowerfulItem("awa");
     controller.equipItemByName("awa");
@@ -394,9 +383,7 @@ class GameControllerTest {
   @Test
   void selectItem() {
     controller.setArcherFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
 
     controller.setBowFactory();
     controller.addGenericItem("ewe");
@@ -416,21 +403,15 @@ class GameControllerTest {
     randomSeed = controller.getGameMap().getSeed();
 
     controller.setSwordMasterFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
     controller.setSwordFactory();
     controller.addPowerfulItem("pium");
 
     controller.setHeroFactory();
-    controller.addTankUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,1);
+    controller.addTankUnit(0,1);
 
     controller.setSorcererFactory();
-    controller.addFastUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,2);
+    controller.addFastUnit(0,2);
 
     // The selected unit is the SwordMaster
     controller.selectUnitIn(0,0);
@@ -460,10 +441,9 @@ class GameControllerTest {
     IUnit swordMasterTactician1 = controller.getUnits().get(0);
     assertEquals(0,swordMasterTactician1.getItems().size());
     controller.endTurn();
+
     controller.setHeroFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(1,0);
+    controller.addGenericUnit(1,0);
     controller.setSpearFactory();
     controller.addGenericItem("Lanzable");
     controller.selectItem(0);
@@ -526,19 +506,13 @@ class GameControllerTest {
     Field map = controller.getGameMap();
 
     controller.setAlpacaFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
 
     controller.setArcherFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,2);
+    controller.addGenericUnit(0,2);
 
     controller.setFighterFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(2,2);
+    controller.addGenericUnit(2,2);
 
     List<IUnit> units = controller.getTurnOwner().getUnits();
     IUnit unit1 = units.get(0);
@@ -576,9 +550,7 @@ class GameControllerTest {
   void factoryTest(){
     // Player Wan
     controller.setAlpacaFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
 
     controller.setSpiritFactory();
     controller.addPowerfulItem("Power Spiritito");
@@ -591,11 +563,9 @@ class GameControllerTest {
     assertEquals(controller.getUnits().size(),1);
 
     controller.setArcherFactory();
-    controller.addTankUnit();
+    controller.addTankUnit(5,5);
     controller.setClericFactory();
-    controller.addFastUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(1,0);
+    controller.addFastUnit(1,0);
 
     controller.setBowFactory();
     controller.addLongDistanceItem("arquito");
@@ -613,9 +583,7 @@ class GameControllerTest {
 
     // SECOND PLAYER
     controller.setFighterFactory();
-    controller.addNewUnit(1000,3);
-    controller.selectLastAddedUnit();
-    controller.setLocation(1,1);
+    controller.addNewUnit(1000,3,1,1);
 
     controller.setAxeFactory();
     controller.addGenericItem("super hachita");
@@ -632,11 +600,9 @@ class GameControllerTest {
 
     // Player 3
     controller.setHeroFactory();
-    controller.addGenericUnit();
+    controller.addGenericUnit(5,3);
     controller.setSorcererFactory();
-    controller.addFastUnit();
-    controller.selectLastAddedUnit();
-    controller.moveTo(2,2);
+    controller.addFastUnit(2,2);
 
     controller.setDarknessFactory();
     controller.addGenericItem("OSCURITO");
@@ -649,9 +615,7 @@ class GameControllerTest {
 
     // Player 4
     controller.setSwordMasterFactory();
-    controller.addFastUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,3);
+    controller.addFastUnit(0,3);
 
     controller.setSwordFactory();
     controller.addPowerfulItem("espadito");
@@ -677,18 +641,15 @@ class GameControllerTest {
     randomSeed = controller.getGameMap().getSeed();
 
     controller.setArcherFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
 
     controller.endTurn();
     controller.setHeroFactory();
-    controller.addTankUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
-    assertEquals(InvalidLocation.class,controller.getSelectedUnit().getLocation().getClass());
-    controller.setLocation(0,1);
+    controller.addTankUnit(0,0);
+    assertEquals(0,controller.getUnits().size());
+    controller.addTankUnit(0,1);
     assertEquals(controller.getSelectedUnit(), controller.getGameMap().getCell(0,1).getUnit());
+    assertEquals(1,controller.getUnits().size());
 
     controller.endTurn();
     controller.initGame(2);
@@ -734,9 +695,7 @@ class GameControllerTest {
 
     Tactician player1 = controller.getTurnOwner();
     controller.setHeroFactory();
-    controller.addNewUnit(5,20);
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addNewUnit(5,20,0,0);
     controller.setSpearFactory();
     controller.addGenericItem("Britney");
     controller.equipItemByName("Britney");
@@ -744,9 +703,7 @@ class GameControllerTest {
     controller.endTurn();
     Tactician player2 = controller.getTurnOwner();
     controller.setFighterFactory();
-    controller.addTankUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(1,0);
+    controller.addTankUnit(1,0);
     controller.setAxeFactory();
     controller.addPowerfulItem("SuperAxe");
     controller.equipItem(0);
@@ -765,9 +722,7 @@ class GameControllerTest {
   void addUnitAfterInitGame(){
     assertEquals(0, controller.getUnits().size());
     controller.setHeroFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
     controller.setSwordFactory();
     controller.addGenericItem("item");
     assertEquals(1, controller.getUnits().size());
@@ -775,9 +730,9 @@ class GameControllerTest {
 
     controller.initGame(1);
     controller.setArcherFactory();
-    controller.addTankUnit();
+    controller.addTankUnit(0,1);
     controller.setFighterFactory();
-    controller.addGenericUnit();
+    controller.addGenericUnit(0,2);
     controller.selectUnitIn(0,0);
     controller.setSpearFactory();
     controller.addGenericItem("item2");
@@ -794,18 +749,14 @@ class GameControllerTest {
     randomSeed = controller.getGameMap().getSeed();
 
     controller.setHeroFactory();
-    controller.addGenericUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,0);
+    controller.addGenericUnit(0,0);
     controller.setSpearFactory();
     controller.addGenericItem("item");
     controller.equipItemByName("item");
     controller.endTurn();
 
     controller.setSwordMasterFactory();
-    controller.addFastUnit();
-    controller.selectLastAddedUnit();
-    controller.setLocation(0,1);
+    controller.addFastUnit(0,1);
     controller.setSwordFactory();
     controller.addGenericItem("item2");
     controller.equipItemByName("item2");
