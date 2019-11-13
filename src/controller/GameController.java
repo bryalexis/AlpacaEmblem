@@ -473,15 +473,6 @@ public class GameController {
   }
 
   /**
-   * Sets the location by coordinates to the selected unit
-   * @param x row
-   * @param y column
-   */
-  public void setLocation(int x, int y){
-    playerInTurn.setUnitLocation(x,y);
-  }
-
-  /**
    * Uses the equipped item on a target
    *
    * @param x horizontal position of the target

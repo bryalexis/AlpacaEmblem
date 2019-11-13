@@ -3,6 +3,7 @@ package model.units;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import model.items.nullitem.NullItem;
 import model.units.magic.Sorcerer;
 import model.units.warriors.Fighter;
 import model.units.warriors.Hero;
@@ -37,7 +38,9 @@ public class FighterTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipAxeTest() {
-    assertNull(fighter.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
+    fighter.equipItem(axe);
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     fighter.addItem(axe);
     fighter.equipItem(axe);
     assertEquals(axe, fighter.getEquippedItem());

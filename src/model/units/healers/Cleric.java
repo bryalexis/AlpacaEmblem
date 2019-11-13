@@ -51,7 +51,7 @@ public class Cleric extends AbstractUnit {
   public void useItemOn(IUnit target){
     startCombatWith(target);
     if(canUseItemOn(target)) {
-      ((Staff) getEquippedItem()).useOn(target);
+      getEquippedItem().useOn(target);
     }
     endCombatWith(target);
   }

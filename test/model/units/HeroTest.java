@@ -3,6 +3,7 @@ package model.units;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import model.items.nullitem.NullItem;
 import model.units.magic.Sorcerer;
 import model.units.warriors.Hero;
 import model.units.warriors.SwordMaster;
@@ -34,7 +35,7 @@ public class HeroTest extends AbstractTestUnit {
   @Override
   @Test
   public void equipSpearTest() {
-    assertNull(hero.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     hero.addItem(spear);
     hero.equipItem(spear);
     assertEquals(spear, hero.getEquippedItem());
@@ -52,7 +53,7 @@ public class HeroTest extends AbstractTestUnit {
     double currentHP = getTargetAlpaca().getCurrentHitPoints();
     assertEquals(expectedHP,currentHP,0.01);
 
-    hero.setEquippedItem(null);
+    hero.setEquippedItem(new NullItem());
     hero.useItemOn(getTargetAlpaca());
     assertEquals(expectedHP,currentHP,0.01);
   }

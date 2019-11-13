@@ -1,5 +1,6 @@
 package model.units;
 
+import model.items.nullitem.NullItem;
 import model.units.magic.Sorcerer;
 import model.units.warriors.Archer;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ public class SorcererTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipDarknessBookTest() {
-    assertNull(sorcerer.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     sorcerer.addItem(darkness);
     sorcerer.equipItem(darkness);
     assertEquals(darkness, sorcerer.getEquippedItem());
@@ -44,7 +45,7 @@ public class SorcererTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipLightBookTest() {
-    assertNull(sorcerer.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     sorcerer.addItem(light);
     sorcerer.equipItem(light);
     assertEquals(light, sorcerer.getEquippedItem());
@@ -53,7 +54,7 @@ public class SorcererTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipSpiritBookTest() {
-    assertNull(sorcerer.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     sorcerer.addItem(spirit);
     sorcerer.equipItem(spirit);
     assertEquals(spirit, sorcerer.getEquippedItem());

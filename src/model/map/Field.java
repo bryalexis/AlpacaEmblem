@@ -19,10 +19,6 @@ public class Field {
   private StringBuilder builder = new StringBuilder();
   private long seed;
 
-  public Random getRandom(){
-    return random;
-  }
-
   public void setSeed(long seed) {
     random.setSeed(seed);
     this.seed = seed;

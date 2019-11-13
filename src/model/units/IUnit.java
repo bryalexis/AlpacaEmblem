@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
+import model.items.nullitem.NullItem;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
@@ -252,6 +253,12 @@ public interface IUnit {
    * @param sword that will be equipped
    */
   void equipSword(Sword sword);
+
+  /**
+   * Equips a null item
+   * @param nullItem to be equipped
+   */
+  void equipNullItem(NullItem nullItem);
 
   /**
    * @return if the unit is in combat with another one.

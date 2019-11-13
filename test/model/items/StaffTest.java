@@ -79,4 +79,16 @@ public class StaffTest extends AbstractTestHealing {
     assertEquals(Math.min(20,unit.getMaxHitPoints()), unit.getCurrentHitPoints());
   }
 
+  @Test
+  @Override
+  public void attackNullItemTest(){
+    IUnit unit = getTestUnit();
+    unit.modifyCurrentHitPoints(-unit.getMaxHitPoints()+10);
+    IEquipableItem item = getTestItem();
+    item.useOn(unit);
+    double expected = unit.getCurrentHitPoints();
+    double current = Math.min(unit.getCurrentHitPoints(),unit.getCurrentHitPoints() + getTestItem().getPower());
+    assertEquals(expected,current);
+  }
+
 }

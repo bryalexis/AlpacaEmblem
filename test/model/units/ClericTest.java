@@ -3,6 +3,8 @@ package model.units;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import model.items.IEquipableItem;
+import model.items.nullitem.NullItem;
 import model.units.healers.Cleric;
 import model.units.warriors.Archer;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,9 @@ public class ClericTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipStaffTest() {
-    assertNull(cleric.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
+    cleric.equipItem(staff);
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     cleric.addItem(staff);
     cleric.equipItem(staff);
     assertEquals(staff, cleric.getEquippedItem());
@@ -58,4 +62,5 @@ public class ClericTest extends AbstractTestUnit {
     unit.counterAttack(target);
     assertEquals(target.getMaxHitPoints(), target.getCurrentHitPoints(),0.01);
   }
+
 }

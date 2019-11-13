@@ -39,11 +39,7 @@ public class Fighter extends AbstractUnit {
   public void useItemOn(IUnit target) {
     if(canUseItemOn(target)){
       startCombatWith(target);
-      if(target.hasEquippedItem()){
-        getEquippedItem().useOn(target);
-      } else {
-        target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
-      }
+      getEquippedItem().useOn(target);
       target.counterAttack(this);
     }
   }

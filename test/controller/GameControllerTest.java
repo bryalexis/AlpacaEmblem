@@ -10,6 +10,7 @@ import model.factory.items.AxeFactory;
 import model.factory.items.SpearFactory;
 import model.factory.units.*;
 import model.items.IEquipableItem;
+import model.items.nullitem.NullItem;
 import model.map.InvalidLocation;
 import model.map.Location;
 import model.tactician.Tactician;
@@ -321,7 +322,7 @@ class GameControllerTest {
   void equipItem() {
     controller.setArcherFactory();
     controller.addGenericUnit(0,0);
-    assertNull(controller.getTurnOwner().getSelectedUnit().getEquippedItem());
+    assertEquals(NullItem.class, controller.getTurnOwner().getSelectedUnit().getEquippedItem().getClass());
 
     controller.setBowFactory();
     controller.addGenericItem("uwu");

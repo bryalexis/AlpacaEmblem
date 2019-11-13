@@ -29,6 +29,7 @@ public abstract class AbstractAttackItem extends AbstractItem implements IAttack
 
   @Override
   public boolean allowedToAttack(IUnit target){
+    if(getOwner()==null) return true;
     boolean nullTacticians = target.getOwner() == null || getOwner().getOwner() == null;
     boolean differentTacticians = target.getOwner() != getOwner().getOwner();
     return  nullTacticians || differentTacticians;
@@ -36,7 +37,6 @@ public abstract class AbstractAttackItem extends AbstractItem implements IAttack
 
   @Override
   public void useOn(IUnit target) {
-    if(allowedToAttack(target))
-    attack(target);
+    if(allowedToAttack(target)) attack(target);
   }
 }

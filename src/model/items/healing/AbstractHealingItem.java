@@ -37,7 +37,7 @@ public abstract class AbstractHealingItem extends AbstractItem implements IHeali
 
   @Override
   public void takeInMagicalAttack(IEquipableItem item) {
-    getOwner().modifyCurrentHitPoints(-item.getPower()*1.5);
+    takeInStrongAttack(item.getPower());
   }
 
   @Override
@@ -57,7 +57,7 @@ public abstract class AbstractHealingItem extends AbstractItem implements IHeali
 
   @Override
   public void takeInPhysicalAttack(IEquipableItem item) {
-    getOwner().modifyCurrentHitPoints(-item.getPower());
+    takeInNormalAttack(item.getPower());
   }
 
   @Override

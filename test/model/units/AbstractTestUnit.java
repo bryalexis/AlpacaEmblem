@@ -2,6 +2,7 @@ package model.units;
 
 import model.items.*;
 import model.items.healing.Staff;
+import model.items.nullitem.NullItem;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
@@ -104,7 +105,6 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   @Test
   public void equipAxeTest() {
-    assertNull(getTestUnit().getEquippedItem());
     checkEquippedItem(getAxe());
   }
 
@@ -116,9 +116,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
    */
   @Override
   public void checkEquippedItem(IEquipableItem item) {
-    assertNull(getTestUnit().getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     item.equipTo(getTestUnit());
-    assertNull(getTestUnit().getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
   }
 
   /**
@@ -255,9 +255,8 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Test
   public void testIsAbleToAttack(){
     IUnit unit = getEquippedTestUnit();
-    if (unit.hasEquippedItem())
-      assertTrue(unit.canUseItemOn(targetAlpaca));
-    unit.setEquippedItem(null);
+    assertTrue(unit.canUseItemOn(targetAlpaca));
+    unit.equipNullItem(new NullItem());
     assertFalse(unit.canUseItemOn(targetAlpaca));
     unit = getEquippedTestUnit();
     targetAlpaca.die();
@@ -292,7 +291,6 @@ public abstract class AbstractTestUnit implements ITestUnit {
     unit.addItem(sword);
     Alpaca alpaca = getTargetAlpaca();
 
-
     alpaca.moveTo(field.getCell(1,0));
     assertNull(field.getCell(2,0).getUnit());
 
@@ -303,27 +301,27 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
     unit = getEquippedTestUnit();
     IEquipableItem item = unit.getEquippedItem();
-    if(item!=null){
-      unit.giveItem(alpaca,item);
-      assertNull(unit.getEquippedItem());
-      assertFalse(unit.getItems().contains(item));
-      assertTrue(alpaca.getItems().contains(item));
 
-      Darkness oscurito = new Darkness("oscurito",20,1,3);
-      Light lucecita = new Light("lucecita",20,1,3);
-      Axe hachita = new Axe("hachita",20,1,3);
 
-      unit.addItem(oscurito);
-      unit.addItem(lucecita);
-      unit.addItem(hachita);
-      alpaca.addItem(sword);
-      alpaca.giveItem(unit, sword);
-      assertTrue(alpaca.getItems().contains(sword));
-      assertFalse(unit.getItems().contains(sword));
-      unit.removeItem(hachita);
-      unit.removeItem(lucecita);
-      unit.removeItem(oscurito);
-    }
+    unit.giveItem(alpaca,item);
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
+    assertFalse(unit.getItems().contains(item));
+    assertTrue(alpaca.getItems().contains(item));
+
+    Darkness oscurito = new Darkness("oscurito",20,1,3);
+    Light lucecita = new Light("lucecita",20,1,3);
+    Axe hachita = new Axe("hachita",20,1,3);
+
+    unit.addItem(oscurito);
+    unit.addItem(lucecita);
+    unit.addItem(hachita);
+    alpaca.addItem(sword);
+    alpaca.giveItem(unit, sword);
+    assertTrue(alpaca.getItems().contains(sword));
+    assertFalse(unit.getItems().contains(sword));
+    unit.removeItem(hachita);
+    unit.removeItem(lucecita);
+    unit.removeItem(oscurito);
 
     // Distance > 1
     alpaca.moveTo(field.getCell(2,0));

@@ -1,5 +1,6 @@
 package model.units;
 
+import model.items.nullitem.NullItem;
 import model.items.weapons.Axe;
 import model.units.healers.Cleric;
 import model.units.magic.Sorcerer;
@@ -41,9 +42,9 @@ public class ArcherTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipBowTest() {
-    assertNull(archer.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     archer.equipItem(bow);
-    assertNull(archer.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     archer.addItem(bow);
     archer.addItem(sword);
     archer.equipItem(bow);

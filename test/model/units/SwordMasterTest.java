@@ -1,5 +1,6 @@
 package model.units;
 
+import model.items.nullitem.NullItem;
 import model.units.magic.Sorcerer;
 import model.units.warriors.Fighter;
 import model.units.warriors.SwordMaster;
@@ -34,7 +35,7 @@ public class SwordMasterTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipSwordTest() {
-    assertNull(swordMaster.getEquippedItem());
+    assertEquals(NullItem.class, getTestUnit().getEquippedItem().getClass());
     swordMaster.addItem(sword);
     swordMaster.equipItem(sword);
     assertEquals(sword, swordMaster.getEquippedItem());

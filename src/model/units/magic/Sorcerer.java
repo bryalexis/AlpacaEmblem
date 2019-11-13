@@ -61,12 +61,7 @@ public class Sorcerer extends AbstractUnit {
   public void useItemOn(IUnit target) {
     if(canUseItemOn(target)){
       startCombatWith(target);
-      ISpellBook spellsBook = (ISpellBook) getEquippedItem();
-      if(target.hasEquippedItem()){
-        spellsBook.useOn(target);
-      } else {
-        target.modifyCurrentHitPoints(- getEquippedItem().getPower() );
-      }
+      getEquippedItem().useOn(target);
       target.counterAttack(this);
     }
   }

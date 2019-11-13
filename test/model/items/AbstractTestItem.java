@@ -1,5 +1,6 @@
 package model.items;
 
+import model.items.nullitem.NullItem;
 import model.units.IUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -122,6 +123,16 @@ public abstract class AbstractTestItem {
     assertTrue(getTestItem().isReachable(getTestItem().getMaxRange()));
     assertFalse(getTestItem().isReachable(getTestItem().getMinRange()-1));
     assertTrue(getTestItem().isReachable(getTestItem().getMinRange()));
+  }
+
+  @Test
+  public void attackNullItemTest(){
+    IUnit unit = getTestUnit();
+    IEquipableItem item = getTestItem();
+    item.useOn(unit);
+    double expected = unit.getCurrentHitPoints();
+    double current = Math.max(unit.getMaxHitPoints() - getTestItem().getPower(), 0);
+    assertEquals(expected,current);
   }
 
 }

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import model.items.IEquipableItem;
 import model.items.healing.Staff;
+import model.items.nullitem.NullItem;
 import model.items.spellbooks.Darkness;
 import model.items.spellbooks.Light;
 import model.items.spellbooks.Spirit;
@@ -74,6 +75,8 @@ public abstract class AbstractUnit implements IUnit {
     this.inCombat = false;
     this.owner = owner;
     this.isDeadPCS = new PropertyChangeSupport(this);
+    this.equippedItem = new NullItem();
+    this.equippedItem.setOwner(this);
   }
 
   @Override
@@ -144,7 +147,7 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void moveTo(final Location targetLocation) {
     if (getLocation().distanceTo(targetLocation) <= getMovement()
-        && targetLocation.getUnit() == null) {
+        && targetLocation.isEmpty()) {
       getLocation().setUnit(null);
       setLocation(targetLocation);
       setUnitMovedInTurn();
@@ -181,7 +184,7 @@ public abstract class AbstractUnit implements IUnit {
       receptor.addItem(item);
       item.setOwner(receptor);
       if(equippedItem == item){
-        equippedItem = null;
+        equippedItem = new NullItem();
       }
     }
   }
@@ -229,12 +232,12 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public boolean hasEquippedItem(){
-      return getEquippedItem() != null;
+    return getEquippedItem() != null;
   }
 
   @Override
   public boolean canUseItemOn(IUnit target){
-      if(hasEquippedItem() && isAlive() && target.isAlive()){
+      if(isAlive() && target.isAlive()){
         Location l1 = getLocation();
         Location l2 = target.getLocation();
         int distance = (int) l1.distanceTo(l2);
@@ -301,6 +304,11 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void equipSword(Sword sword) {
     // Does nothing (implemented in the respective class)
+  }
+
+  @Override
+  public void equipNullItem(NullItem nullItem){
+    setEquippedItem(nullItem);
   }
 
   @Override
