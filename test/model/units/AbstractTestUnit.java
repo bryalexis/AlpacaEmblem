@@ -387,4 +387,13 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
   }
 
+  @Test
+  public void dieTest(){
+    IUnit unit = getTestUnit();
+    Location loc = unit.getLocation();
+    assertEquals(unit, loc.getUnit());
+    unit.die();
+    assertNull(loc.getUnit());
+  }
+
 }

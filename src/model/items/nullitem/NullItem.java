@@ -10,6 +10,13 @@ import model.items.weapons.Spear;
 import model.items.weapons.Sword;
 import model.units.IUnit;
 
+/**
+ * This class represents a Null Unit.
+ *
+ * @author Bryan Ortiz P
+ * @since 2.5
+ * @version 2.5
+ */
 public class NullItem extends AbstractItem {
 
   /**

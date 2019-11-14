@@ -1,6 +1,5 @@
 package model.items;
 
-import jdk.jfr.Percentage;
 import model.units.IUnit;
 
 /**

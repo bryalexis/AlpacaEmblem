@@ -43,19 +43,6 @@ public class Cleric extends AbstractUnit {
     }
   }
 
-  /**
-   * Clerics heal other units
-   * @param target to be healed
-   */
-  @Override
-  public void useItemOn(IUnit target){
-    startCombatWith(target);
-    if(canUseItemOn(target)) {
-      getEquippedItem().useOn(target);
-    }
-    endCombatWith(target);
-  }
-
   @Override
   public void counterAttack(IUnit aggressor) {
     // Cleric can't attack

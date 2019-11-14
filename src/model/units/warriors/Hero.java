@@ -48,23 +48,6 @@ public class Hero extends AbstractUnit {
   }
 
   @Override
-  public void useItemOn(IUnit target) {
-    if(canUseItemOn(target)){
-      startCombatWith(target);
-      getEquippedItem().useOn(target);
-      target.counterAttack(this);
-    }
-  }
-
-  @Override
-  public void counterAttack(IUnit aggressor) {
-    if(canUseItemOn(aggressor)){
-      getEquippedItem().useOn(aggressor);
-    }
-    endCombatWith(aggressor);
-  }
-
-  @Override
   public void addHeroDeadListener(PropertyChangeListener heroDiePCL){
     getIsDeadPCS().addPropertyChangeListener(heroDiePCL);
   }

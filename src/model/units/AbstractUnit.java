@@ -340,4 +340,22 @@ public abstract class AbstractUnit implements IUnit {
   public void addHeroDeadListener(PropertyChangeListener heroDiePCL){
     // It does nothing in a generic unit
   }
+
+  @Override
+  public void useItemOn(IUnit target) {
+    if(canUseItemOn(target)){
+      startCombatWith(target);
+      getEquippedItem().useOn(target);
+      target.counterAttack(this);
+    }
+  }
+
+  @Override
+  public void counterAttack(IUnit aggressor) {
+    if(canUseItemOn(aggressor)){
+      getEquippedItem().useOn(aggressor);
+    }
+    endCombatWith(aggressor);
+  }
+
 }
