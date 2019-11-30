@@ -10,26 +10,26 @@ import model.units.IUnit;
  * @since 2.1
  * @version 2.3
  */
-public abstract class AbstractUnitsFactory implements IUnitsFactory{
-  protected final int genericHP = 100;
-  protected final int genericMovement = 3;
-  protected final int tankHP = 200;
-  protected final int tankMovement = 1;
-  protected final int fastHP = 70;
-  protected final int fastMovement = 5;
+public abstract class AbstractUnitsFactory implements IUnitsFactory {
 
   @Override
   public IUnit createGenericUnit() {
+    int genericHP = 100;
+    int genericMovement = 3;
     return createUnit(genericHP, genericMovement, new InvalidLocation(), null);
   }
 
   @Override
   public IUnit createTankUnit() {
+    int tankHP = 200;
+    int tankMovement = 1;
     return createUnit(tankHP, tankMovement, new InvalidLocation(), null);
   }
 
   @Override
   public IUnit createFastUnit() {
+    int fastHP = 70;
+    int fastMovement = 5;
     return createUnit(fastHP, fastMovement, new InvalidLocation(), null);
   }
 }

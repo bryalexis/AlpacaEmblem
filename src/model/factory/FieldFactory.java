@@ -17,7 +17,7 @@ public class FieldFactory {
   public Field createMap(long seed, int mapSize, boolean connectAll){
     Field field = new Field();
     field.setSeed(seed);
-    Location locations[] = new Location[mapSize*mapSize];
+    Location[] locations = new Location[mapSize*mapSize];
     for(int i=0;i<mapSize;i++){
       for(int j=0; j<mapSize;j++) {
         locations[j+mapSize*i] = new Location(i,j);

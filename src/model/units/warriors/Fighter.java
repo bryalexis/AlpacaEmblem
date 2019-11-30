@@ -1,18 +1,10 @@
 package model.units.warriors;
 
-import model.items.healing.Staff;
-import model.items.spellbooks.Darkness;
-import model.items.spellbooks.Light;
-import model.items.spellbooks.Spirit;
 import model.items.weapons.Axe;
 import model.items.IEquipableItem;
-import model.items.weapons.Bow;
-import model.items.weapons.Spear;
-import model.items.weapons.Sword;
 import model.map.Location;
 import model.tactician.Tactician;
 import model.units.AbstractUnit;
-import model.units.IUnit;
 
 /**
  * This class represents a fighter type unit.

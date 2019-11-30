@@ -36,7 +36,7 @@ public abstract class AbstractItemFactoryTest {
   @BeforeEach
   public void setUp() {
     axeF = new AxeFactory();
-    //bowF = new BowFactory();
+    //bowF = new BowFactory(); has its own test
     darknessF = new DarknessFactory();
     lightF = new LightFactory();
     spearF = new SpearFactory();

@@ -10,32 +10,31 @@ import model.items.IEquipableItem;
  * @version 2.5
  */
 public abstract class AbstractItemsFactory implements IItemsFactory {
-  // Generic
-  protected final int genericPower = 30;
-  protected final int genericMinRange = 1;
-  protected final int genericMaxRange = 5;
-  // Powerful
-  protected final int powerfulPower = 50;
-  protected final int powerfulMinRange = 1;
-  protected final int powerfulMaxRange = 3;
-  // Long Distance
-  protected final int longDistancePower = 10;
-  protected final int longDistanceMinRange = 3;
-  protected final int longDistanceMaxRange = 10;
-
 
   @Override
   public IEquipableItem createGenericItem(String name) {
-    return create(name,genericPower,genericMinRange,genericMaxRange);
+    // Generic
+    int genericPower = 30;
+    int genericMinRange = 1;
+    int genericMaxRange = 5;
+    return create(name, genericPower, genericMinRange, genericMaxRange);
   }
 
   @Override
   public IEquipableItem createPowerfulItem(String name) {
-    return create(name,powerfulPower,powerfulMinRange,powerfulMaxRange);
+    // Powerful
+    int powerfulPower = 50;
+    int powerfulMinRange = 1;
+    int powerfulMaxRange = 3;
+    return create(name, powerfulPower, powerfulMinRange, powerfulMaxRange);
   }
 
   @Override
   public IEquipableItem createLongDistanceItem(String name) {
-    return create(name,longDistancePower,longDistanceMinRange,longDistanceMaxRange);
+    // Long Distance
+    int longDistancePower = 10;
+    int longDistanceMinRange = 3;
+    int longDistanceMaxRange = 10;
+    return create(name, longDistancePower, longDistanceMinRange, longDistanceMaxRange);
   }
 }
