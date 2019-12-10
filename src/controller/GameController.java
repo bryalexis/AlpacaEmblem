@@ -155,10 +155,15 @@ public class GameController {
   }
 
   /**
-   * Deletes a tactician from the game
+   * Deletes a tactician from the game and all its units.
    * @param tactician deleted
    */
   public void deleteTactician(Tactician tactician){
+    // Deletes the units from the map
+    for(IUnit unit: tactician.getUnits()){
+      unit.getLocation().setUnit(null);
+    }
+    // Deletes de Tactician
     tacticians.remove(tactician);
     numberOfPlayers--;
   }

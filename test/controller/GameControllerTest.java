@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.naming.CompositeName;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -768,6 +770,23 @@ class GameControllerTest {
     assertEquals(unitAttacked.getMaxHitPoints(), unitAttacked.getCurrentHitPoints());
   }
 
+  /**
+   * Test when a tactician is deleted.
+   */
+  @Test
+  void deleteTacticianTest(){
+    Tactician toDelete = controller.getTurnOwner();
+    controller.setSwordMasterFactory();
+    controller.addGenericUnit(0,0);
+    controller.setHeroFactory();
+    controller.addTankUnit(0,1);
+    controller.deleteTactician(toDelete);
 
+    Field map = controller.getGameMap();
+    assertNull(map.getCell(0,0).getUnit());
+    assertNull(map.getCell(0,1).getUnit());
+    assertEquals(3,controller.getTacticians().size());
+
+  }
 
 }
