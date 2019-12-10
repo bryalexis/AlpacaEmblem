@@ -379,12 +379,13 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   @Test
   public void clericAttackTest(){
-    Cleric cleric = new Cleric(50, 2, field.getCell(0, 0),null);
+    Cleric cleric = new Cleric(50, 2, field.getCell(0, 1),null);
     cleric.addItem(staff);
     cleric.equipStaff(staff);
     IUnit unit = getEquippedTestUnit();
     cleric.useItemOn(unit);
     assertEquals(unit.getMaxHitPoints(), unit.getCurrentHitPoints());
+    assertEquals(cleric.getMaxHitPoints(),cleric.getCurrentHitPoints());
   }
 
   @Test

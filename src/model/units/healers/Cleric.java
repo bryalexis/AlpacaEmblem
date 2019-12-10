@@ -49,4 +49,12 @@ public class Cleric extends AbstractUnit {
     endCombatWith(aggressor);
   }
 
+  @Override
+  public void useItemOn(IUnit target) {
+    if(canUseItemOn(target)){
+      startCombatWith(target);
+      getEquippedItem().useOn(target);
+    }
+  }
+
 }
