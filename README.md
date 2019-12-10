@@ -237,7 +237,7 @@ A nivel implementación, toda clase fábrica de unidades que implemente la inter
 - `createTankUnit`: crea una unidad tanque, con 200 de HP y 1 de movimiento.
 - `createFastUnit`: crea una unidad de largo desplazamiento, con 70 de HP y 5 de movimiento.
 
-La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí. Una unit con parámetros ya fijados (generic, tank y fast) se crea en una invalid Location, para luego poder ser fijadas dentro del mapa del juego por un tactician o de forma manual interactuando con el modelo.
+La idea detrás de esto es crear unidades por default que estén relativamente balanceadas entre sí. Una unit con parámetros ya fijos (generic, tank y fast) se crea en una invalid Location, con un *Tactician* `owner` nulo. Luego, son asignadas a un jugador por medio del *Controller* y ubicadas en un punto del mapa.
 
 ### 4.2 Items Factory
 Al igual que para las unidades, se desarrolla una interfaz común para todas las fábricas de items, llamada `IItemsFactory`, la exige la implementación de los métodos:
